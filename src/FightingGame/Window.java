@@ -1,5 +1,6 @@
 package FightingGame;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 
@@ -8,6 +9,7 @@ public class Window {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		JFrame window = new JFrame();
+	
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(true);
 		window.setTitle("Game 2D");

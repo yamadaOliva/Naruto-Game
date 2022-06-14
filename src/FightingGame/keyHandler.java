@@ -3,8 +3,11 @@ package FightingGame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.xml.stream.events.StartDocument;
+
 public class keyHandler implements KeyListener {
-	public boolean upStatus, downStatus, rightStatus, leftStatus;
+	public boolean upStatus = false, downStatus, rightStatus, leftStatus, falling;
+	private final long JumpingTime = 100000;
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
@@ -17,6 +20,7 @@ public class keyHandler implements KeyListener {
 		int code = e.getKeyCode();
 		if(code==KeyEvent.VK_W) {
 			upStatus = true;
+			new Thread(new thread()).start();
 		}
 		if(code==KeyEvent.VK_S) {
 			downStatus = true;
@@ -33,11 +37,11 @@ public class keyHandler implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int code = e.getKeyCode();
-		if(code==KeyEvent.VK_W) {
-			upStatus = false;
-		}
 		if(code==KeyEvent.VK_S) {
 			downStatus = false;
+		}
+		if(code==KeyEvent.VK_W) {
+			upStatus = false;
 		}
 		if(code==KeyEvent.VK_A) {
 			leftStatus = false;
@@ -46,6 +50,22 @@ public class keyHandler implements KeyListener {
 			rightStatus = false;
 		}
 	
+	}
+	public class thread implements Runnable{
+
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(JumpingTime);
+				upStatus = false;
+			} catch (Exception e) {
+				e.printStackTrace();
+				new Thread(this).start();
+				System.exit(0);
+			}
+			
+		}
+		
 	}
 
 }

@@ -69,14 +69,13 @@ public class Player extends entity {
 	}
 	public void update() {
 		if(keyH.upStatus) {
-			y-=100;
+			y-=4;
 			this.director = "up";
-			if(y<200) y=200;
 		}
 		if(keyH.downStatus) {
 			y+=speed;
 			this.director = "down";
-			if(y>500) y = 500;
+			if(y>550) y = 550;
 		}
 		if(keyH.rightStatus) {
 			x+=speed;
@@ -88,18 +87,21 @@ public class Player extends entity {
 			this.director = "left";
 			if(x<0) x = 0;
 		}
+		if(!keyH.upStatus) {
+			y+=5;
+			if(y>550) y = 550;
+		}
 	}
 	
 	public void update1() {
 		if(keyH1.upStatus) {
-			y-=speed;
+			y-=4;
 			this.director = "up";
-			if(y<200) y=200;
 		}
 		if(keyH1.downStatus) {
 			y+=speed;
 			this.director = "down";
-			if(y>500) y = 500;
+			if(y>550) y = 550;
 		}
 		if(keyH1.rightStatus) {
 			x+=speed;
@@ -110,6 +112,10 @@ public class Player extends entity {
 			x-=speed;
 			this.director = "left";
 			if(x<0) x = 0;
+		}
+		if(!keyH1.upStatus) {
+			y+=1;
+			if(y>550) y = 550;
 		}
 	}
 	

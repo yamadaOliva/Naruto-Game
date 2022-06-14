@@ -1,34 +1,44 @@
 package FightingGame;
 
-
-
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Entity.Player;
 import Entity.*;
 public class GamePanel extends JPanel implements Runnable {
+	Image bg ;
 	public static final int originalTitleSize =16;
 	public static final int scale = 3;
 	public static final double FPS = 60;
 	//set window scale
 	public static final int titleSize = originalTitleSize*scale;
-	public final int maxScreenCol = 20;
-	public final int maxScreenRow =15;
-	final int screenWidth = titleSize * maxScreenCol;// 960px
-	final int screenHeight = titleSize * maxScreenRow;// 720px
+	public final int maxScreenCol = 27;
+	public final int maxScreenRow =16;
+	final int screenWidth = 1278;// 960px
+	final int screenHeight = 720;// 720px
 	keyHandler keyH=new keyHandler();
 	keyHandler1 keyH1=new keyHandler1();
-	Player player1 = new Player(this,keyH,100,500);
-	Player player2 = new Player(this,keyH1,700,500,1);
+	Player player1 = new Player(this,keyH,200,550);
+	Player player2 = new Player(this,keyH1,screenWidth-200,550,1);
 	Thread gameThread;
 	
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
+		ImageIcon j = new ImageIcon("C:\\Users\\Admin\\git\\repository\\ProjectOOP-FT\\png\\png\\bg_Game.png");
+		bg = j.getImage();
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
@@ -50,7 +60,6 @@ public class GamePanel extends JPanel implements Runnable {
 		long currentTime;
 		long timer = 0;
 		while(gameThread!=null) {
-			System.out.println("("+ player1.getY() + "," + player1.getX() + ")");
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime)/ drawInterval;
 			lastTime = currentTime;
@@ -67,7 +76,7 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+		g.drawImage(bg, 0, 0, null);
 		Graphics2D g2 = (Graphics2D)g;
 		player1.draw(g2,Color.white);
 		player2.draw(g2,Color.blue);
