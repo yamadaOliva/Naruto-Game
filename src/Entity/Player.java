@@ -3,13 +3,19 @@ package Entity;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import FightingGame.*;
 
 public class Player extends entity {
 	private int x,y;
 	private String director;
-	private BufferedImage up1, down1, jump1, def1;
+	private BufferedImage up1, down1, jump1, def1, skill;
 	private static final int speed = 4;
+	private int hp = 500;
+	public boolean skillStatus = false;
 	keyHandler keyH;
 	keyHandler1 keyH1;
 	GamePanel gp;
@@ -18,13 +24,28 @@ public class Player extends entity {
 		this.y =y;
 		this.gp =gp;
 		this.keyH = keyH;
+		getPlayerImage();
 	}
-	public Player(GamePanel gp,keyHandler1 keyH1,int x,int y,int i) {
+	public Player(GamePanel gp,keyHandler1 keyH1,int x,int y,int i,int hp) {
 		this.x = x;
 		this.y =y;
 		this.gp =gp;
 		this.keyH1 = keyH1;
 	}
+	public int getHp() {
+		return hp;
+	}
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+	public void getPlayerImage() {
+		try {
+			up1 = ImageIO.read(getClass().getResource("/character/charUp.png"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public int getX() {
 		return x;
 	}
@@ -69,7 +90,8 @@ public class Player extends entity {
 	}
 	public void update() {
 		if(keyH.upStatus) {
-			y-=4;
+			if(y<300) keyH.upStatus = false;
+			else  y-=4;
 			this.director = "up";
 		}
 		if(keyH.downStatus) {
@@ -80,7 +102,7 @@ public class Player extends entity {
 		if(keyH.rightStatus) {
 			x+=speed;
 			this.director = "right";
-			if(x>960-GamePanel.titleSize) x = 960-GamePanel.titleSize;
+			if(x>1278-GamePanel.titleSize) x = 1278-GamePanel.titleSize;
 		}
 		if(keyH.leftStatus) {
 			x-=speed;
@@ -90,6 +112,9 @@ public class Player extends entity {
 		if(!keyH.upStatus) {
 			y+=5;
 			if(y>550) y = 550;
+		}
+		if(keyH.skill) {
+			skillStatus = true;
 		}
 	}
 	
@@ -106,7 +131,7 @@ public class Player extends entity {
 		if(keyH1.rightStatus) {
 			x+=speed;
 			this.director = "right";
-			if(x>960-GamePanel.titleSize) x = 960-GamePanel.titleSize;
+			if(x>960-GamePanel.titleSize) x = 1278-GamePanel.titleSize;
 		}
 		if(keyH1.leftStatus) {
 			x-=speed;
@@ -119,7 +144,10 @@ public class Player extends entity {
 		}
 	}
 	
-	
+	public void draw1(Graphics2D g2) {
+		BufferedImage img = up1;
+		g2.drawImage(img,x,y,GamePanel.titleSize, GamePanel.titleSize*2,null);
+	}
 	
 	public void draw(Graphics2D g2,Color e) {
 		g2.setColor(e);
