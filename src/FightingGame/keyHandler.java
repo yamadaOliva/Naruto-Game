@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 import javax.xml.stream.events.StartDocument;
 
 public class keyHandler implements KeyListener {
-	public boolean upStatus = false, downStatus, rightStatus, leftStatus, falling, skill;
+	public boolean upStatus = false, downStatus, rightStatus, leftStatus, falling, skill, kick;
 	private final long JumpingTime = 100000;
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -34,6 +34,9 @@ public class keyHandler implements KeyListener {
 		if(code == KeyEvent.VK_J) {
 			skill = true;
 		}
+		if(code == KeyEvent.VK_K) {
+			kick = true;
+		}
 	}
 
 	@Override
@@ -54,6 +57,9 @@ public class keyHandler implements KeyListener {
 		}
 		if(code == KeyEvent.VK_J) {
 			skill = false;
+		}
+		if(code == KeyEvent.VK_K) {
+			kick = false;
 		}
 	
 	}

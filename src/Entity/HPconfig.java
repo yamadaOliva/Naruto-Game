@@ -1,4 +1,4 @@
-package FightingGame;
+package Entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -13,16 +13,18 @@ public class HPconfig {
 		this.hp1= x;
 		this.hp2 = y;
 	}
-	void draw(Graphics2D g2) {
+	public void draw(Graphics2D g2) {
 		g2.setColor(Color.red);
 		g2.fillRect(10, 20, 500, 20);
 	}
-	void draw1(Graphics2D g2) {
+	public void draw1(Graphics2D g2) {
 		g2.setColor(Color.red);
+		if(hp2<0) hp2=0;
 		g2.fillRect(1278-510+(500-hp2), 20, hp2, 20);
 	}
-	void whiteHpdraw1(Graphics2D g2) {
+	public void whiteHpdraw1(Graphics2D g2) {
 		g2.setColor(Color.white);
+		if(hp2<0) hp2=0;
 		g2.fillRect(1278-510, 20, 500-hp2, 20);
 	}
 	public int getHp1() {

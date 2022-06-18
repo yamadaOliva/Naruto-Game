@@ -1,5 +1,5 @@
 package FightingGame;
-
+import Entity.HPconfig;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -9,21 +9,21 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import Entity.Player;
+import java.math.*;
 import Entity.*;
 public class GamePanel extends JPanel implements Runnable {
 	Image bg ;
 	public static final int originalTitleSize =16;
 	public static final int scale = 3;
 	public static final double FPS = 60;
+	private boolean moving = false;
+	private boolean kick = false;
 	//set window scale
 	public static final int titleSize = originalTitleSize*scale;
 	public final int maxScreenCol = 27;
@@ -35,7 +35,6 @@ public class GamePanel extends JPanel implements Runnable {
 	Player player1 = new Player(this,keyH,200,550);
 	Player player2 = new Player(this,keyH1,screenWidth-200,550,1,500);
 	Thread gameThread;
-	Skills skill1 = new Skills();
 	HPconfig hp = new HPconfig();
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -62,37 +61,59 @@ public class GamePanel extends JPanel implements Runnable {
 		long currentTime;
 		long timer = 0;
 		while(gameThread!=null) {
+			if(moving) player1.skillStatus = false;
+			if(kick) player1.kickStatus = false;
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime)/ drawInterval;
 			lastTime = currentTime;
 			if(delta>=1) {
+				// skill
 			if(player1.skillStatus) {
-				skill1.setX(player1.getX()+10);
-				skill1.setY(player1.getY()-10);
-				skill1.status = true;
+				player1.skill1.setX(player1.getX()+10);
+				player1.skill1.setY(player1.getY()-10);
+				player1.skill1.status = true;
+				moving = true;
 			}
 			player1.skillStatus = false;
 			
-			if(skill1.getX()==player2.getX()) {
-				skill1.coming = true;
-				player2.setHp(player2.getHp()-skill1.getDame());	
+			if(player1.skill1.getX()<player2.getX()+10&&player1.skill1.getX()>player2.getX()-4) {
+				player1.skill1.coming = true;
+				player2.setHp(player2.getHp()-player1.skill1.getDame());	
 				hp.setHp2(player2.getHp());
 				System.out.println(player2.getHp());
-				skill1 = null;
-				skill1 = new Skills();
+				player1.skill1 = null;
+				player1.skill1 = new Skills();
+				moving = false;
 				}
-			if(skill1.status&&!skill1.coming) {
-				skill1.update();
+			if(player1.skill1.status&&!player1.skill1.coming) {
+				player1.skill1.update();
 			}
-			if(player2.getHp()==0) {
-				JOptionPane.showMessageDialog(null, "Player1 Win");
-				gameThread = null;
+			
+			// kick
+			if(player1.kickStatus) {
+				kick = true;
+				player1.kick.setX(player1.getX()+30);
+				player1.kick.setY(player1.getY()+50);
 			}
+			if(player1.kickCount>30) {
+				kick = false;
+				player1.kickCount = 0;
+			}
+			if(Math.abs(player1.getX()-player2.getX())<100&&player1.kickCount==15) {
+				player2.setHp(player2.getHp()-player1.kick.getDame());
+				hp.setHp2(player2.getHp());
+				System.out.println(player2.getHp());
+			}
+			
 			player1.update();
 			player2.update1();
 			repaint();
-			
+			if(player2.getHp()<=0) {
+				JOptionPane.showMessageDialog(null, "Player1 Win");
+				gameThread = null;
+			}
 			delta--;
+			player1.kickCount++;
 			}
 			
 		}
@@ -102,11 +123,12 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		g.drawImage(bg, 0, 0, null);
 		Graphics2D g2 = (Graphics2D)g;
-		if(skill1.status&&!skill1.coming) skill1.draw(g2,Color.black);
-		if(skill1.coming) {
-			skill1.draw(g2, Color.blue);
-			skill1.coming = false;
+		if(player1.skill1.status&&!player1.skill1.coming) player1.skill1.draw(g2);
+		if(player1.skill1.coming) {
+			player1.skill1.draw(g2, Color.blue);
+			player1.skill1.coming = false;
 		}
+		if(kick) player1.kick.draw(g2, Color.red);
 		hp.draw(g2);
 		hp.draw1(g2);
 		hp.whiteHpdraw1(g2);

@@ -12,9 +12,11 @@ public class Skills implements Action {
 	private int x;
 	private int y;
 	private int dame = 50;
-	private int speed=4;
+	private int speed=6;
+	public final long comingTime = 3000;
 	public boolean status;
 	public boolean coming=false;
+	public boolean moving=false;
 	private BufferedImage skillImage;
 	public int getX() {
 		return x;
@@ -23,7 +25,11 @@ public class Skills implements Action {
 		return y;
 	}
 	public Skills() {
-		
+		try {
+			skillImage = ImageIO.read(getClass().getResource("/skills/skillSprite.png"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	public int getDame() {
 		return dame;
@@ -41,6 +47,7 @@ public class Skills implements Action {
 		this.x = x;
 		this.y = y;
 		status = true;
+		
 	}
 	public Skills(String urlSkill,int x, int y,int dame) {
 		this.x = x;
@@ -55,7 +62,7 @@ public class Skills implements Action {
 
 	@Override
 	public void update() {
-		if(x<1200) x+=speed;
+		if(x<1300) x+=speed;
 		else status = false;
 	}
 
@@ -72,6 +79,9 @@ public class Skills implements Action {
 		// TODO Auto-generated method stub
 		g2.setColor(cl);
 		g2.fillRect(x, y, GamePanel.titleSize, GamePanel.titleSize);
+	}
+	public void draw(Graphics2D g2) {
+		g2.drawImage(skillImage, x, y, GamePanel.titleSize, GamePanel.titleSize, null);
 	}
 
 }

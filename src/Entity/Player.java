@@ -12,10 +12,14 @@ import FightingGame.*;
 public class Player extends entity {
 	private int x,y;
 	private String director;
-	private BufferedImage up1, down1, jump1, def1, skill;
+	private BufferedImage up1, down1, jump1, def1, skill, kick1;
 	private static final int speed = 4;
 	private int hp = 500;
 	public boolean skillStatus = false;
+	public boolean kickStatus = false;
+	public Skills skill1 = new Skills();
+	public Kick kick = new Kick();
+	public int kickCount = 0;
 	keyHandler keyH;
 	keyHandler1 keyH1;
 	GamePanel gp;
@@ -25,6 +29,7 @@ public class Player extends entity {
 		this.gp =gp;
 		this.keyH = keyH;
 		getPlayerImage();
+		this.director = "up";
 	}
 	public Player(GamePanel gp,keyHandler1 keyH1,int x,int y,int i,int hp) {
 		this.x = x;
@@ -40,10 +45,11 @@ public class Player extends entity {
 	}
 	public void getPlayerImage() {
 		try {
-			up1 = ImageIO.read(getClass().getResource("/character/charUp.png"));
+			up1 = ImageIO.read(getClass().getResource("/character/char.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		getKickImage();
 	}
 	
 	public int getX() {
@@ -116,6 +122,10 @@ public class Player extends entity {
 		if(keyH.skill) {
 			skillStatus = true;
 		}
+		if(keyH.kick) {
+			kickStatus = true;
+			this.director = "kick1";
+		}
 	}
 	
 	public void update1() {
@@ -146,6 +156,20 @@ public class Player extends entity {
 	
 	public void draw1(Graphics2D g2) {
 		BufferedImage img = up1;
+		switch (director) {
+		case "up": {
+			img = up1;
+			break;
+		}
+		case "kick1":{
+			if(kickCount<=10) img = kick1;
+			else img = up1;
+			break;
+		}
+		default:
+			
+		}
+		
 		g2.drawImage(img,x,y,GamePanel.titleSize, GamePanel.titleSize*2,null);
 	}
 	
@@ -153,5 +177,11 @@ public class Player extends entity {
 		g2.setColor(e);
 		g2.fillRect(x, y, GamePanel.titleSize, GamePanel.titleSize*2);
 	}
-	
+	private void getKickImage() {
+		try {
+			kick1 = ImageIO.read(getClass().getResource("/kick/kick1.png"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
