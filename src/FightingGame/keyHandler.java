@@ -3,17 +3,27 @@ package FightingGame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
 import javax.xml.stream.events.StartDocument;
 
 public class keyHandler implements KeyListener {
 	public boolean upStatus = false, downStatus, rightStatus, leftStatus, falling, skill, kick;
+	private int upKey, downKey, rightkey, leftKey;
 	private final long JumpingTime = 100000;
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	public keyHandler() {
+		
+	}
+	public keyHandler(int up, int down, int right, int left) {
+		this.upKey = up;
+		this.downKey = down;
+		this.rightkey = right;
+		this.leftKey = left;
+	}
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub

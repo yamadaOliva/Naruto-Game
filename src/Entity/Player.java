@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 import FightingGame.*;
 
 public class Player extends entity {
+	public final int heightDraw = GamePanel.titleSize*4;
+	public final int widthDraw = GamePanel.titleSize*2;
 	private int x,y;
 	private String director;
 	private BufferedImage up1, down1, jump1, def1, skill, kick1;
@@ -162,7 +164,7 @@ public class Player extends entity {
 			break;
 		}
 		case "kick1":{
-			if(kickCount<=10) img = kick1;
+			if(kickCount<=10&&kickCount>=1) img = kick1;
 			else img = up1;
 			break;
 		}
@@ -170,7 +172,7 @@ public class Player extends entity {
 			
 		}
 		
-		g2.drawImage(img,x,y,GamePanel.titleSize, GamePanel.titleSize*2,null);
+		g2.drawImage(img,x,y,GamePanel.titleSize*2, GamePanel.titleSize*4,null);
 	}
 	
 	public void draw(Graphics2D g2,Color e) {

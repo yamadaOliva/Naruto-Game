@@ -17,6 +17,7 @@ public class Skills implements Action {
 	public boolean status;
 	public boolean coming=false;
 	public boolean moving=false;
+	private int MAX_RANGE = 1250;
 	private BufferedImage skillImage;
 	public int getX() {
 		return x;
@@ -49,9 +50,10 @@ public class Skills implements Action {
 		status = true;
 		
 	}
-	public Skills(String urlSkill,int x, int y,int dame) {
+	public Skills(String urlSkill,int x, int y,int dame,int max_range) {
 		this.x = x;
 		this.y = y;
+		MAX_RANGE = max_range;
 		this.dame= dame;
 		try {
 			skillImage = ImageIO.read(getClass().getResource(urlSkill));
@@ -62,7 +64,7 @@ public class Skills implements Action {
 
 	@Override
 	public void update() {
-		if(x<1300) x+=speed;
+		if(x<MAX_RANGE) x+=speed;
 		else status = false;
 	}
 

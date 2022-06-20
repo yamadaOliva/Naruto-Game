@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public static final int scale = 3;
 	public static final double FPS = 60;
 	private boolean moving = false;
-	private boolean kick = false;
+	private boolean kickStatus = false;
 	//set window scale
 	public static final int titleSize = originalTitleSize*scale;
 	public final int maxScreenCol = 27;
@@ -62,58 +62,18 @@ public class GamePanel extends JPanel implements Runnable {
 		long timer = 0;
 		while(gameThread!=null) {
 			if(moving) player1.skillStatus = false;
-			if(kick) player1.kickStatus = false;
+			if(kickStatus) player1.kickStatus = false;
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime)/ drawInterval;
 			lastTime = currentTime;
 			if(delta>=1) {
 				// skill
-			if(player1.skillStatus) {
-				player1.skill1.setX(player1.getX()+10);
-				player1.skill1.setY(player1.getY()-10);
-				player1.skill1.status = true;
-				moving = true;
-			}
-			player1.skillStatus = false;
-			
-			if(player1.skill1.getX()<player2.getX()+10&&player1.skill1.getX()>player2.getX()-4) {
-				player1.skill1.coming = true;
-				player2.setHp(player2.getHp()-player1.skill1.getDame());	
-				hp.setHp2(player2.getHp());
-				System.out.println(player2.getHp());
-				player1.skill1 = null;
-				player1.skill1 = new Skills();
-				moving = false;
-				}
-			if(player1.skill1.status&&!player1.skill1.coming) {
-				player1.skill1.update();
-			}
-			
+			checkSkill(player1, player2);
 			// kick
-			if(player1.kickStatus) {
-				kick = true;
-				player1.kick.setX(player1.getX()+30);
-				player1.kick.setY(player1.getY()+50);
-			}
-			if(player1.kickCount>30) {
-				kick = false;
-				player1.kickCount = 0;
-			}
-			if(Math.abs(player1.getX()-player2.getX())<100&&player1.kickCount==15) {
-				player2.setHp(player2.getHp()-player1.kick.getDame());
-				hp.setHp2(player2.getHp());
-				System.out.println(player2.getHp());
-			}
-			
-			player1.update();
-			player2.update1();
-			repaint();
-			if(player2.getHp()<=0) {
-				JOptionPane.showMessageDialog(null, "Player1 Win");
-				gameThread = null;
-			}
+			checkKick();
+		
 			delta--;
-			player1.kickCount++;
+			if(kickStatus) player1.kickCount++;
 			}
 			
 		}
@@ -128,7 +88,6 @@ public class GamePanel extends JPanel implements Runnable {
 			player1.skill1.draw(g2, Color.blue);
 			player1.skill1.coming = false;
 		}
-		if(kick) player1.kick.draw(g2, Color.red);
 		hp.draw(g2);
 		hp.draw1(g2);
 		hp.whiteHpdraw1(g2);
@@ -136,5 +95,58 @@ public class GamePanel extends JPanel implements Runnable {
 		player2.draw(g2,Color.yellow);
 		g2.dispose();
 	}
-
+	// check skill
+	private void checkSkill(Player player1, Player player2) {
+		if(player1.skill1 == null) player1.skill1 = new Skills();
+		if(player1.skillStatus) {
+			player1.skill1.setX(player1.getX()+10);
+			player1.skill1.setY(player1.getY()-10);
+			player1.skill1.status = true;
+			moving = true;
+		}
+		player1.skillStatus = false;
+		if((player1.skill1.getX()<player2.getX()+10&&player1.skill1.getX()>player2.getX()-4)&&(player1.skill1.getY()<player2.getY()&&player1.skill1.getY()>player2.getY()-70)) {
+			player1.skill1.coming = true;
+			player2.setHp(player2.getHp()-player1.skill1.getDame());	
+			hp.setHp2(player2.getHp());
+			player2.setX(player2.getX()+2);
+			System.out.println(player2.getHp());
+			player1.skill1 = null;
+			player1.skill1 = new Skills();
+			moving = false;
+			}
+		if(player1.skill1.getX()>1200) {
+			moving = false;
+			player1.skill1 = null;
+			player1.skill1 = new Skills();
+		}
+		if(player1.skill1.status&&!player1.skill1.coming) {
+			player1.skill1.update();
+		}
+	}
+	//check kick
+	private void checkKick() {
+		if(player1.kickStatus) {
+			kickStatus = true;
+			player1.kick.setX(player1.getX()+30);
+			player1.kick.setY(player1.getY()+50);
+		}
+		if(player1.kickCount>30) {
+			kickStatus = false;
+			player1.kickCount = 0;
+		}
+		if(Math.abs(player1.getX()-player2.getX())<70&&player1.kickCount==15) {
+			player2.setHp(player2.getHp()-player1.kick.getDame());
+			hp.setHp2(player2.getHp());
+			System.out.println(player2.getHp());
+		}
+		
+		player1.update();
+		player2.update1();
+		repaint();
+		if(player2.getHp()<=0) {
+			JOptionPane.showMessageDialog(null, "Player1 Win");
+			gameThread = null;
+		}
+	}
 }
