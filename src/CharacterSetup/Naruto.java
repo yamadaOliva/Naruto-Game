@@ -67,4 +67,14 @@ public class Naruto extends character {
 			e.printStackTrace();
 		}
 	}
+	public  BufferedImage getImgStand(int i){
+		return this.stand[i];
+	}
+	public  BufferedImage getImgDef(int i) {
+		return this.defIMG[i];
+	}
+	public BufferedImage getImgWalking(int i) {
+		return this.walkIMG[i];
+	}
 }
+	

@@ -10,6 +10,7 @@ public class character {
 	public BufferedImage[] defIMG = new BufferedImage[2];
 	public BufferedImage[] moveRight = new BufferedImage[10];
 	public BufferedImage[] moveLeft = new BufferedImage[10];
+	public BufferedImage[] walkIMG = new BufferedImage[20];
 	public int getHP() {
 		return HP;
 	}
@@ -28,6 +29,15 @@ public class character {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+	public  BufferedImage getImgStand(int i){
+		return this.stand[i];
+	}
 	
+	public  BufferedImage getImgDef(int i) {
+		return this.defIMG[i];
+	}
+	public BufferedImage getImgWalking(int i) {
+		return this.walkIMG[i];
+	}
 	
 }

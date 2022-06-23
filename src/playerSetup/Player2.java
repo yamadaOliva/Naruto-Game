@@ -20,7 +20,6 @@ import FightingGame.keyHandler;
 
 public class Player2 extends Player {
 	public keyHandler keyH1 = new keyHandler();
-	private int optionChoose;
 	public int frameCountStand;
 	public int frameCountDef;
 	public int frameCountWalk;
@@ -33,7 +32,7 @@ public class Player2 extends Player {
 	private BufferedImage[] stand, def, moveRight, moveLeft, skill1, skill2, ulti, kick, punch;
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
 	character char2;
-
+	character optionChoose[];
 	public Player2(GamePanel gp, keyHandler keyH, int x, int y) {
 		super(gp, keyH, x, y);
 		this.gp = gp;
@@ -51,7 +50,6 @@ public class Player2 extends Player {
 		switch (choose) {
 			case 0: {
 				char2 = new Naruto();
-				optionChoose = 0;
 				break;
 			}
 			case 1: {
@@ -136,13 +134,13 @@ public class Player2 extends Player {
 					tmp = 0;
 				// System.out.println(char2.getClass().getName());
 				if (this.frameCountStand >= 0 && this.frameCountStand < 15)
-					img = ((Naruto) char2).stand[0 * 2 + tmp];
+					img = char2.getImgStand(0 * 2 + tmp);
 				if (this.frameCountStand >= 15 && this.frameCountStand < 30)
-					img = ((Naruto) char2).stand[1 * 2 + tmp];
+					img = char2.getImgStand(1 * 2 + tmp);
 				if (this.frameCountStand >= 30 && this.frameCountStand < 45)
-					img = ((Naruto) char2).stand[2 * 2 + tmp];
+					img = char2.getImgStand(2 * 2 + tmp);
 				if (this.frameCountStand >= 45 && this.frameCountStand < 60)
-					img = ((Naruto) char2).stand[3 * 2 + tmp];
+					img = char2.getImgStand(3 * 2 + tmp);
 				if (this.frameCountStand >= 60) {
 					this.frameCountStand = 0;
 				}
@@ -154,7 +152,7 @@ public class Player2 extends Player {
 					tmp = 1;
 				} else
 					tmp = 0;
-				img = ((Naruto) char2).defIMG[0 * 2 + tmp];
+				img = char2.getImgDef(0 * 2 + tmp);
 				break;
 			}
 
@@ -162,17 +160,17 @@ public class Player2 extends Player {
 				checkLeft = 1;
 				tmp = 0;
 				if (this.frameCountWalk >= 0 && this.frameCountWalk < 10)
-					img = ((Naruto) char2).walkIMG[0 * 2 + tmp];
+					img = char2.getImgWalking(0 * 2 + tmp);
 				else if (this.frameCountWalk >= 10 && this.frameCountWalk < 20)
-					img = ((Naruto) char2).walkIMG[1 * 2 + tmp];
+					img = char2.getImgWalking(1 * 2 + tmp);
 				else if (this.frameCountWalk >= 20 && this.frameCountWalk < 30)
-					img = ((Naruto) char2).walkIMG[2 * 2 + tmp];
+					img =char2.getImgWalking(2 * 2 + tmp);
 				else if (this.frameCountWalk >= 30 && this.frameCountWalk < 40)
-					img = ((Naruto) char2).walkIMG[3 * 2 + tmp];
+					img = char2.getImgWalking(3 * 2 + tmp);
 				else if (this.frameCountWalk >= 40 && this.frameCountWalk < 50)
-					img = ((Naruto) char2).walkIMG[4 * 2 + tmp];
+					img = char2.getImgWalking(4 * 2 + tmp);
 				else if (this.frameCountWalk >= 50 && this.frameCountWalk < 60)
-					img = ((Naruto) char2).walkIMG[5 * 2 + tmp];
+					img = char2.getImgWalking(5 * 2 + tmp);
 				else if (this.frameCountWalk >= 60)
 					this.frameCountWalk = 0;
 
@@ -182,17 +180,17 @@ public class Player2 extends Player {
 				checkLeft = 0;
 				tmp = 1;
 				if (this.frameCountWalk >= 0 && this.frameCountWalk < 10)
-					img = ((Naruto) char2).walkIMG[0 * 2 + tmp];
+					img = char2.getImgWalking(0 * 2 + tmp);
 				else if (this.frameCountWalk >= 10 && this.frameCountWalk < 20)
-					img = ((Naruto) char2).walkIMG[1 * 2 + tmp];
+					img = char2.getImgWalking(1 * 2 + tmp);
 				else if (this.frameCountWalk >= 20 && this.frameCountWalk < 30)
-					img = ((Naruto) char2).walkIMG[2 * 2 + tmp];
+					img = char2.getImgWalking(2 * 2 + tmp);
 				else if (this.frameCountWalk >= 30 && this.frameCountWalk < 40)
-					img = ((Naruto) char2).walkIMG[3 * 2 + tmp];
+					img = char2.getImgWalking(3 * 2 + tmp);
 				else if (this.frameCountWalk >= 40 && this.frameCountWalk < 50)
-					img = ((Naruto) char2).walkIMG[4 * 2 + tmp];
+					img = char2.getImgWalking(4 * 2 + tmp);
 				else if (this.frameCountWalk >= 50 && this.frameCountWalk < 60)
-					img = ((Naruto) char2).walkIMG[5 * 2 + tmp];
+					img = char2.getImgWalking(5 * 2 + tmp);
 				else if (this.frameCountWalk >= 60)
 					this.frameCountWalk = 0;
 				break;
@@ -204,10 +202,5 @@ public class Player2 extends Player {
 		g2.drawImage(img, x, y, GamePanel.titleSize, GamePanel.titleSize * 2, null);
 	}
 
-	private void convertToParent(character o) {
-		this.stand[0] = o.stand[0];
-		this.stand[1] = o.stand[1];
-		this.stand[2] = o.stand[2];
-		this.stand[3] = o.stand[3];
-	}
+	
 }
