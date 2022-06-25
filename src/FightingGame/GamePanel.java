@@ -80,9 +80,9 @@ public class GamePanel extends JPanel implements Runnable {
 				// skill
 				// checkSkill(player1, player2);
 				// kick
-				checkKick();
 				player1.update();
 				player2.update();
+				checkKick();
 				repaint();
 				delta--;
 				if (kickStatus)
@@ -158,6 +158,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if (Math.abs(player1.getX() - player2.getX()) < 70 && player1.kickCount == 15) {
 			player2.setHp(player2.getHp() - player1.kick.getDame());
 			hp.setHp2(player2.getHp());
+			hp.setPower2(hp.getPower2() + 5);
 			System.out.println(player2.getHp());
 		}
 
