@@ -6,6 +6,7 @@ import playerSetup.Player2;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -35,12 +36,18 @@ public class GamePanel extends JPanel implements Runnable {
 	private int totalFame = minuteGame*60*60;
 	private boolean moving = false;
 	private boolean kickStatus = false;
+	//SOund
+	static Sound sound = new Sound();
+	//setup status of game
+	public static int statusGame=0;
 	// set window scale
 	public static final int titleSize = originalTitleSize * scale;
 	public final int maxScreenCol = 27;
 	public final int maxScreenRow = 16;
 	final int screenWidth = 1278;// 960px
 	final int screenHeight = 720;// 720px
+	//how to choose option
+	public static int statusChoose =0;
 	keyHandler keyH = new keyHandler(KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_D, KeyEvent.VK_A, 'k');
 	keyHandler keyH1 = new keyHandler(KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT,
 			KeyEvent.VK_L);
@@ -59,7 +66,6 @@ public class GamePanel extends JPanel implements Runnable {
 		this.addKeyListener(keyH1);
 		this.setFocusable(true);
 	}
-
 	public void startGame() {
 		gameThread = new Thread(this);
 		gameThread.start();
@@ -67,13 +73,16 @@ public class GamePanel extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
+		playMusic(1);
 		keyH.setPunchKickKey(KeyEvent.VK_J, KeyEvent.VK_K);
 		double drawInterval = 1000000000 / FPS;
 		double delta = 0;
 		long lastTime = System.nanoTime();
 		long currentTime;
 		long timer = 0;
+		
 		while (gameThread != null) {
+			
 			if (moving)
 				player1.skillStatus = false;
 			if (kickStatus)
@@ -99,12 +108,18 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 
 		}
+		
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(bg, 0, 0, null);
 		Graphics2D g2 = (Graphics2D) g;
+		if(statusGame==0) {
+			menuDraw(g2);
+		}
+		
+		if(statusGame==1) {
+		g.drawImage(bg, 0, 0, null);
 		if (player1.skill1.status && !player1.skill1.coming)
 			player1.skill1.draw(g2);
 		if (player1.skill1.coming) {
@@ -120,6 +135,34 @@ public class GamePanel extends JPanel implements Runnable {
 		player1.draw1(g2);
 		player2.draw1(g2);
 		g2.dispose();
+		}
+	}
+	//draw menu
+	private void menuDraw(Graphics2D g2) {
+		String title = "GAME PRO VIP DANH NHAU DUNG DUNG";
+		g2.setColor(new Color(74, 116, 53));
+		g2.fillRect(0, 0, 1278, 720);
+		//Shadow
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,40));
+		g2.setColor(Color.gray);
+		g2.drawString(title, 273, 123);
+		//title Game
+		g2.setColor(Color.white);
+		g2.drawString(title, 270, 120);
+		//Detail
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,36));
+		if(statusChoose == 0) {
+			g2.drawString("=>", 300, 250);
+		}
+		g2.drawString("START GAME ", 400, 250);
+		if(statusChoose == 1) {
+			g2.drawString("=>", 300, 350);
+		}
+		g2.drawString("SETTINGS ", 400, 350);
+		if(statusChoose == 2) {
+			g2.drawString("=>", 300, 450);
+		}
+		g2.drawString("QUIT ", 400, 450);
 	}
 
 	// check skill
@@ -176,5 +219,16 @@ public class GamePanel extends JPanel implements Runnable {
 			JOptionPane.showMessageDialog(null, "Player1 Win");
 			gameThread = null;
 		}
+	}
+	// get sound
+	public static void playMusic(int i ) {
+		sound.setFile(i);
+		sound.play();
+		sound.loop();
+	}
+	
+	public void playMusicNoLoop(int i ) {
+		sound.setFile(i);
+		sound.play();
 	}
 }

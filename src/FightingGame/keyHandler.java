@@ -40,6 +40,28 @@ public class keyHandler implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int code = e.getKeyCode();
+		if(GamePanel.statusGame==0) {
+			if(code == KeyEvent.VK_DOWN) {
+				GamePanel.statusChoose --;
+				if(GamePanel.statusChoose==-1) GamePanel.statusChoose = 2;
+			}
+			if(code == KeyEvent.VK_UP) {
+				GamePanel.statusChoose ++;
+				if(GamePanel.statusChoose==3) GamePanel.statusChoose = 0;
+			}
+			if(code == KeyEvent.VK_ENTER) {
+				if(GamePanel.statusChoose==0) {
+					GamePanel.sound.stop();
+					GamePanel.statusGame = 1;
+					GamePanel.playMusic(0);
+				}
+				if(GamePanel.statusChoose==2) {
+					System.exit(0);
+				}
+			}
+		}
+		if(GamePanel.statusGame==1) {
+		
 		standStatus = false;
 		if(code==upKey) {
 			upStatus = true;
@@ -69,6 +91,7 @@ public class keyHandler implements KeyListener {
 		if(code == punchKey)
 		{
 			punch = true;
+		}
 		}
 	}
 

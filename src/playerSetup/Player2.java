@@ -129,7 +129,7 @@ public class Player2 extends Player {
 	public void draw1(Graphics2D g2) {
 		BufferedImage img = null;
 		// this.director = "stand";
-		System.out.println(this.director);
+		//System.out.println(this.director);
 		int tmp;
 		switch (this.director) {
 

@@ -23,6 +23,7 @@ public class Window {
 		gamePN.startGame();
 		gamePN.run();
 		
+		
 	}
 
 }
