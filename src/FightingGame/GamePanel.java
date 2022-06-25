@@ -28,6 +28,11 @@ public class GamePanel extends JPanel implements Runnable {
 	public static final int originalTitleSize = 16;
 	public static final int scale = 3;
 	public static final double FPS = 60;
+	int countTest = 0;
+	private final int minuteGame = 3;
+	private int minute;
+	private int second;
+	private int totalFame = minuteGame*60*60;
 	private boolean moving = false;
 	private boolean kickStatus = false;
 	// set window scale
@@ -77,14 +82,16 @@ public class GamePanel extends JPanel implements Runnable {
 			delta += (currentTime - lastTime) / drawInterval;
 			lastTime = currentTime;
 			if (delta >= 1) {
+				player1.update();
+				player2.update();
 				// skill
 				// checkSkill(player1, player2);
 				// kick
-				player1.update();
-				player2.update();
 				checkKick();
 				repaint();
 				delta--;
+				totalFame--;
+				countTest++;
 				if (kickStatus)
 					player1.kickCount++;
 				player2.frameCountStand++;
@@ -96,7 +103,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
 		g.drawImage(bg, 0, 0, null);
 		Graphics2D g2 = (Graphics2D) g;
 		if (player1.skill1.status && !player1.skill1.coming)
@@ -105,7 +111,11 @@ public class GamePanel extends JPanel implements Runnable {
 			player1.skill1.draw(g2, Color.blue);
 			player1.skill1.coming = false;
 		}
-		hp.draw(g2);
+		
+		minute = totalFame/3600;
+		second = (totalFame/60)%60;
+		System.out.println(totalFame+" - "+second+" - " + countTest);
+		hp.draw(g2,second,minute);
 		hp.draw1(g2);
 		player1.draw1(g2);
 		player2.draw1(g2);
@@ -158,7 +168,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if (Math.abs(player1.getX() - player2.getX()) < 70 && player1.kickCount == 15) {
 			player2.setHp(player2.getHp() - player1.kick.getDame());
 			hp.setHp2(player2.getHp());
-			hp.setPower2(hp.getPower2() + 5);
+			hp.setPower2(hp.getPower2()+5);
 			System.out.println(player2.getHp());
 		}
 
