@@ -36,19 +36,40 @@ public class Player2 extends Player {
 	private int hoatAnhTiepDat = 0; // 1 la hien thi tiep hoat anh tiep dat, 0 la ket thuc
 	private int countTiepDat = 0; // dem so lan tiep dat
 
-	public Player2(GamePanel gp, keyHandler keyH, int x, int y) {
+	public Player2(GamePanel gp, keyHandler keyH, int x, int y) { // thieu bien choose de chon nhan vat
 		super(gp, keyH, x, y);
 		this.gp = gp;
 		this.keyH1 = keyH;
 		this.y = y;
 		this.x = x;
-		Naruto naruto = new Naruto();
 		setupCharacter(0);
 		this.director = "stand";
 		this.frameCountStand = 0;
 		this.frameCountDef = 0;
 	}
+	
+	public int getX() {
+		return x;
+	}
 
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+	public String getDirector() {
+		return director;
+	}
+
+	public void setDirector(String director) {
+		this.director = director;
+	}
 	private void setupCharacter(int choose) {
 		switch (choose) {
 			case 0: {
