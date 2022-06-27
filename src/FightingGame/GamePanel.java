@@ -79,7 +79,6 @@ public class GamePanel extends JPanel implements Runnable {
 		long lastTime = System.nanoTime();
 		long currentTime;
 		long timer = 0;
-		
 		while (gameThread != null) {
 			
 			if (moving)
@@ -92,19 +91,10 @@ public class GamePanel extends JPanel implements Runnable {
 			if (delta >= 1) {
 				player1.update();
 				player2.update();
-				// skill
-				// checkSkill(player1, player2);
-				// kick		
-				repaint();
-				delta--;
-				if(statusGame==1) {
-				if(totalFame>0) {
-					totalFame--;
-				}
-				}
-				countTest++;
 				setupStatus();
 				checkKick();
+				repaint();
+				delta--;
 			}
 			
 		}
@@ -253,6 +243,13 @@ public class GamePanel extends JPanel implements Runnable {
 		player1.frameCountPunch++;
 		player1.frameCountStand++;
 		player1.frameCountWalk++;
+		if(statusGame==1) {
+			if(totalFame>0) {
+				totalFame--;
+			}
+			}
+		countTest++;
+		player1.setEnemiesPos(player2.getX());
 	}
 	
 	// get sound

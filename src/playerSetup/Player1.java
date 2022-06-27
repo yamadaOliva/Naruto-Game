@@ -32,11 +32,18 @@ public class Player1 extends Player {
 	private boolean upStatus = false;
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
 	character char2;
+	public void setEnemiesPos(int enemiesPos) {
+		this.enemiesPos = enemiesPos;
+	}
+
 	character optionChoose[];
 	private int isFalling = 0;// Tuc la dang roi,1 co, 0 la khong
 	private int hoatAnhTiepDat = 0; // 1 la hien thi tiep hoat anh tiep dat, 0 la ket thuc
 	private int countTiepDat = 0; // dem so lan tiep dat
+	//
 	int fixbug;
+	// tuong tac
+	private int enemiesPos;
 	public Player1(GamePanel gp, keyHandler keyH, int x, int y) { // thieu bien choose de chon nhan vat
 		super(gp, keyH, x, y);
 		this.gp = gp;
@@ -115,7 +122,10 @@ public class Player1 extends Player {
 				onTop = true;
 			}
 		}
-
+		if(this.director.equals("def")&&keyH1.kick) {
+			this.x = enemiesPos+50;
+			this.director = "stand";
+		}
 		if (keyH1.downStatus) {
 			this.director = "def";
 		}
