@@ -6,6 +6,7 @@ public class character {
 	private int HP;
 	private int defe;
 	private int speed;
+	private boolean blocked;
 	public BufferedImage[] stand = new BufferedImage[10];
 	public BufferedImage[] defIMG = new BufferedImage[2];
 	public BufferedImage[] moveRight = new BufferedImage[10];

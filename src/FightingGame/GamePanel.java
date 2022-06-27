@@ -73,6 +73,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
+		
 		playMusic(1);
 		keyH.setPunchKickKey(KeyEvent.VK_J, KeyEvent.VK_K);
 		double drawInterval = 1000000000 / FPS;
@@ -95,8 +96,7 @@ public class GamePanel extends JPanel implements Runnable {
 				player2.update();
 				// skill
 				// checkSkill(player1, player2);
-				// kick
-				
+				// kick		
 				repaint();
 				delta--;
 				if(totalFame>0) {
@@ -155,17 +155,29 @@ public class GamePanel extends JPanel implements Runnable {
 		//Detail
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD,36));
 		if(statusChoose == 0) {
+			g2.setColor(Color.black);
 			g2.drawString("=>", 300, 250);
+			g2.drawString("START GAME ", 400, 250);
+		}else {
+			g2.setColor(Color.white);
+			g2.drawString("START GAME ", 400, 250);
 		}
-		g2.drawString("START GAME ", 400, 250);
 		if(statusChoose == 1) {
+			g2.setColor(Color.black);
 			g2.drawString("=>", 300, 350);
+			g2.drawString("SETTINGS ", 400, 350);
+		}else {
+			g2.setColor(Color.white);
+			g2.drawString("SETTINGS ", 400, 350);
 		}
-		g2.drawString("SETTINGS ", 400, 350);
 		if(statusChoose == 2) {
+			g2.setColor(Color.black);
 			g2.drawString("=>", 300, 450);
+			g2.drawString("QUIT ", 400, 450);
+		}else {
+			g2.setColor(Color.white);
+			g2.drawString("QUIT ", 400, 450);
 		}
-		g2.drawString("QUIT ", 400, 450);
 	}
 
 	// check skill

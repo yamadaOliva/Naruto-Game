@@ -185,6 +185,7 @@ public class Player2 extends Player {
 			}
 
 			case "right":
+				checkLeft = 1;
 				if (this.checkLeft == 0) {
 					tmp = 0;
 				} else
@@ -230,6 +231,7 @@ public class Player2 extends Player {
 				break;
 
 			case "left":
+				checkLeft = 0;
 				if (this.checkLeft == 0) {
 					tmp = 1;
 				} else
