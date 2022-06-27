@@ -13,7 +13,8 @@ public class character {
 	public BufferedImage[] moveLeft = new BufferedImage[10];
 	public BufferedImage[] walkIMG = new BufferedImage[20];
 	public BufferedImage[] jumpIMG = new BufferedImage[20];
-
+	public BufferedImage[] comboIMGRight = new BufferedImage[20];
+	public BufferedImage[] comboIMGLeft = new BufferedImage[20];
 	public int getHP() {
 		return HP;
 	}
@@ -53,5 +54,7 @@ public class character {
 	public BufferedImage getImgJump(int i) {
 		return this.jumpIMG[i];
 	}
-
+	public BufferedImage getImgComboRight(int i) {
+		return this.comboIMGRight[i];
+	}
 }

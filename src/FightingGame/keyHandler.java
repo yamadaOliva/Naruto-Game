@@ -53,7 +53,7 @@ public class keyHandler implements KeyListener {
 				if(GamePanel.statusChoose==0) {
 					GamePanel.sound.stop();
 					GamePanel.statusGame = 1;
-					GamePanel.playMusic(0);
+					//GamePanel.playMusic(0);
 				}
 				if(GamePanel.statusChoose==2) {
 					System.exit(0);
@@ -72,8 +72,10 @@ public class keyHandler implements KeyListener {
 		}
 		if(code==leftKey) {
 			leftStatus = true;
+			rightStatus = false;
 		}
 		if(code==rightkey) {
+			leftStatus = false;
 			rightStatus = true;
 		}
 		if(code == skill1Key) {
@@ -91,6 +93,10 @@ public class keyHandler implements KeyListener {
 		if(code == punchKey)
 		{
 			punch = true;
+			downStatus = false;
+			upStatus = false;
+			rightStatus = false;
+			leftStatus = false;
 		}
 		}
 	}

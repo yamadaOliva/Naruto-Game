@@ -23,6 +23,7 @@ public class Player2 extends Player {
 	public int frameCountStand;
 	public int frameCountDef;
 	public int frameCountWalk;
+	public int frameCountPunch;
 	private int x, y;
 	private String director;
 	public GamePanel gp;
@@ -46,6 +47,7 @@ public class Player2 extends Player {
 		this.director = "stand";
 		this.frameCountStand = 0;
 		this.frameCountDef = 0;
+		this.frameCountPunch = 0;
 	}
 	
 	public int getX() {
@@ -138,6 +140,9 @@ public class Player2 extends Player {
 		if (keyH1.standStatus) {
 			this.director = "stand";
 		}
+		if(keyH1.punch) {
+			this.director = "punch";
+		}
 
 	}
 
@@ -185,7 +190,7 @@ public class Player2 extends Player {
 			}
 
 			case "right":
-				checkLeft = 1;
+				checkLeft = 0;
 				if (this.checkLeft == 0) {
 					tmp = 0;
 				} else
@@ -227,7 +232,7 @@ public class Player2 extends Player {
 					else if (this.frameCountWalk >= 60)
 						this.frameCountWalk = 0;
 				}
-
+				checkLeft = 1;
 				break;
 
 			case "left":
@@ -300,10 +305,52 @@ public class Player2 extends Player {
 					this.director = "stand";
 				}
 				break;
+			case "punch":{
+				if (this.frameCountPunch >= 0 && this.frameCountPunch < 12) img = char2.getImgComboRight(1);
+				if (this.frameCountPunch >= 12 && this.frameCountPunch < 24) img = char2.getImgComboRight(2);
+				if (this.frameCountPunch >= 24 && this.frameCountPunch < 36) img = char2.getImgComboRight(3);
+				if (this.frameCountPunch >= 36 && this.frameCountPunch < 48) img = char2.getImgComboRight(4);
+				if (this.frameCountPunch >= 48 && this.frameCountPunch < 60) img = char2.getImgComboRight(5);
+				if (this.frameCountPunch >= 60 && this.frameCountPunch < 72) img = char2.getImgComboRight(6);
+				if (this.frameCountPunch >= 72 && this.frameCountPunch < 84) img = char2.getImgComboRight(7);
+				if (this.frameCountPunch >= 84 && this.frameCountPunch < 96) img = char2.getImgComboRight(8);
+				if (this.frameCountPunch >= 96 && this.frameCountPunch < 108) img = char2.getImgComboRight(9);
+				if (this.frameCountPunch >= 108 && this.frameCountPunch < 120) img = char2.getImgComboRight(10);
+				if (this.frameCountPunch >= 120 && this.frameCountPunch < 132) img = char2.getImgComboRight(11);
+				if (this.frameCountPunch >= 132 && this.frameCountPunch < 144) img = char2.getImgComboRight(12);
+				if (this.frameCountPunch >= 144 && this.frameCountPunch < 156) img = char2.getImgComboRight(13);
+				if (this.frameCountPunch >= 156 && this.frameCountPunch < 168) img = char2.getImgComboRight(14);
+				if(this.frameCountPunch==168) this.frameCountPunch=0;
+			}
+				
 
 		}
 
 		g2.drawImage(img, x, y, GamePanel.titleSize, GamePanel.titleSize * 2, null);
+	}
+
+	public int getFrameCountStand() {
+		return frameCountStand;
+	}
+
+	public void setFrameCountStand(int frameCountStand) {
+		this.frameCountStand = frameCountStand;
+	}
+
+	public int getFrameCountDef() {
+		return frameCountDef;
+	}
+
+	public void setFrameCountDef(int frameCountDef) {
+		this.frameCountDef = frameCountDef;
+	}
+
+	public int getFrameCountWalk() {
+		return frameCountWalk;
+	}
+
+	public void setFrameCountWalk(int frameCountWalk) {
+		this.frameCountWalk = frameCountWalk;
 	}
 
 }

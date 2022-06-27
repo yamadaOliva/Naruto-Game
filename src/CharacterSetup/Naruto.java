@@ -14,6 +14,8 @@ public class Naruto extends character {
 	public BufferedImage[] moveLeft = new BufferedImage[10];
 	public BufferedImage[] walkIMG = new BufferedImage[20];
 	public BufferedImage[] jumpIMG = new BufferedImage[20];
+	public BufferedImage[] comboIMGRight = new BufferedImage[20];
+	public BufferedImage[] comboIMGLeft = new BufferedImage[20];
 	private String characterName = "Naruto";
 	public Naruto() {
 		this.setSpeed(3);
@@ -21,6 +23,7 @@ public class Naruto extends character {
 		getDefIMG();
 		getWalkIMG();
 		getJumpIMG();
+		getComboIMGRight();
 	}
 
 	private void getStandIMG() {
@@ -38,6 +41,29 @@ public class Naruto extends character {
 		}
 	}
 
+	private void getComboIMGRight() {
+		try {
+			this.comboIMGRight[0]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_1.png"));
+			this.comboIMGRight[1]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_2.png"));
+			this.comboIMGRight[2]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_3.png"));
+			this.comboIMGRight[3]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_4.png"));
+			this.comboIMGRight[4]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_5.png"));
+			this.comboIMGRight[5]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_6.png"));
+			this.comboIMGRight[6]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_7.png"));
+			this.comboIMGRight[7]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_8.png"));
+			this.comboIMGRight[8]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_9.png"));
+			this.comboIMGRight[9]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_10.png"));
+			this.comboIMGRight[10]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_11.png"));
+			this.comboIMGRight[11]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_12.png"));
+			this.comboIMGRight[12]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_13.png"));
+			this.comboIMGRight[13]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_14.png"));
+			for(int i = 0;i<14;++i) {
+				System.out.println(this.comboIMGRight[i]);
+			}
+			}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	private void getDefIMG() {
 		try {
 			this.defIMG[0] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/block1.png"));
@@ -107,5 +133,8 @@ public class Naruto extends character {
 
 	public BufferedImage getImgJump(int i) {
 		return this.jumpIMG[i];
+	}
+	public BufferedImage getImgComboRight(int i) {
+		return this.comboIMGRight[i];
 	}
 }

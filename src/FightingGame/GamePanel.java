@@ -1,11 +1,11 @@
 package FightingGame;
 
 import Entity.HPconfig;
+import playerSetup.Player1;
 import playerSetup.Player2;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -17,8 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.math.*;
@@ -51,7 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
 	keyHandler keyH = new keyHandler(KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_D, KeyEvent.VK_A, 'k');
 	keyHandler keyH1 = new keyHandler(KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT,
 			KeyEvent.VK_L);
-	Player player1 = new Player(this, keyH, 200, 550);
+	Player1 player1 = new Player1(this, keyH, 200, 550);
 	Player2 player2 = new Player2(this, keyH1, screenWidth - 200, 550);
 	Thread gameThread;
 	HPconfig hp = new HPconfig();
@@ -99,17 +97,16 @@ public class GamePanel extends JPanel implements Runnable {
 				// kick		
 				repaint();
 				delta--;
+				if(statusGame==1) {
 				if(totalFame>0) {
 					totalFame--;
 				}
+				}
 				countTest++;
-				if (kickStatus)
-					player1.kickCount++;
-				player2.frameCountStand++;
-				player2.frameCountWalk++;
+				setupStatus();
 				checkKick();
 			}
-
+			
 		}
 		
 	}
@@ -224,16 +221,13 @@ public class GamePanel extends JPanel implements Runnable {
 			player1.kickCount = 0;
 		}
 		if (Math.abs(player1.getX() - player2.getX()) < 70 && player1.kickCount == 15) {
-			System.out.println("alo alo");
+			
 			player2.setHp(player2.getHp() - player1.kick.getDame());
 			player2.setX(player2.getX()+10);
 			player2.setDirector("left");
 			hp.setHp2(player2.getHp());
 			hp.setPower2(hp.getPower2()+5);
-			System.out.println(player2.getHp());
-		}else {
-			System.out.println(player1.getX() - player2.getX());
-			System.out.println( player1.kickCount == 15);
+			
 		}
 
 		if (player2.getHp() <= 0) {
@@ -251,6 +245,16 @@ public class GamePanel extends JPanel implements Runnable {
 			
 		}
 	}
+	// thiet lap cac trang thai
+	private void setupStatus() {
+		if (kickStatus) player1.kickCount++;
+		player2.frameCountStand++;
+		player2.frameCountWalk++;
+		player1.frameCountPunch++;
+		player1.frameCountStand++;
+		player1.frameCountWalk++;
+	}
+	
 	// get sound
 	public static void playMusic(int i ) {
 		sound.setFile(i);
