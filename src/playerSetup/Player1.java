@@ -28,14 +28,15 @@ public class Player1 extends Player {
 	private String director;
 	public GamePanel gp;
 	private int choose;
+	//player's status
 	private boolean onTop = false;
 	private boolean upStatus = false;
+	public boolean blocked = false;
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
 	character char2;
 	public void setEnemiesPos(int enemiesPos) {
 		this.enemiesPos = enemiesPos;
 	}
-
 	character optionChoose[];
 	private int isFalling = 0;// Tuc la dang roi,1 co, 0 la khong
 	private int hoatAnhTiepDat = 0; // 1 la hien thi tiep hoat anh tiep dat, 0 la ket thuc
@@ -109,7 +110,7 @@ public class Player1 extends Player {
 				keyH1.upStatus = false;
 				onTop = true;
 			} else {
-				y -= 3;
+				 y -= 3;
 			}
 			// this.director = "up";
 		}
@@ -126,17 +127,17 @@ public class Player1 extends Player {
 			this.x = enemiesPos+50;
 			this.director = "stand";
 		}
-		if (keyH1.downStatus) {
+		if (keyH1.downStatus&&!upStatus&&isFalling==0) {
 			this.director = "def";
 		}
 		if (keyH1.rightStatus) {
-			x += speed;
+			if(!blocked) x += speed;
 			this.director = "right";
 			if (x > 1278 - GamePanel.titleSize)
 				x = 1278 - GamePanel.titleSize;
 		}
 		if (keyH1.leftStatus) {
-			x -= speed;
+			 x -= speed;
 			this.director = "left";
 			if (x < 0)
 				x = 0;
@@ -316,69 +317,35 @@ public class Player1 extends Player {
 				}
 				break;
 			case "punch":{
+				if(checkLeft == 1) {
+				if (this.frameCountPunch >= 0 && this.frameCountPunch < 12)  img = char2.getImgComboRight(0);
+				if (this.frameCountPunch >= 12 && this.frameCountPunch < 24) img = char2.getImgComboRight(1);
+					
+				if (this.frameCountPunch >= 24 && this.frameCountPunch < 36) img = char2.getImgComboRight(2);
 				
-				if (this.frameCountPunch >= 0 && this.frameCountPunch < 12) {
-					img = char2.getImgComboRight(0);
-					fixbug = 0;
-				}
-				if (this.frameCountPunch >= 12 && this.frameCountPunch < 24) {
-					img = char2.getImgComboRight(1);
-					fixbug = 1;
-				}
-				if (this.frameCountPunch >= 24 && this.frameCountPunch < 36) {
-					img = char2.getImgComboRight(2);
-					fixbug = 2;
-				}
-				if (this.frameCountPunch >= 36 && this.frameCountPunch < 48) {
-					img = char2.getImgComboRight(3);
-					fixbug = 3;
-				}
-				if (this.frameCountPunch >= 48 && this.frameCountPunch < 60) {
-					img = char2.getImgComboRight(4);
-					fixbug = 4;
-				}
-				if (this.frameCountPunch >= 60 && this.frameCountPunch < 72) {
-					img = char2.getImgComboRight(5);
-					fixbug = 5;
-				}
+				if (this.frameCountPunch >= 36 && this.frameCountPunch < 48) img = char2.getImgComboRight(3);
+					
+				if (this.frameCountPunch >= 48 && this.frameCountPunch < 60) img = char2.getImgComboRight(4);
+					
+				if (this.frameCountPunch >= 60 && this.frameCountPunch < 72) img = char2.getImgComboRight(5);
+					
 				if (this.frameCountPunch >= 72 && this.frameCountPunch < 84) {
-					img = char2.getImgComboRight(6);
-					fixbug = 6;
+					img = char2.getImgComboRight(6);	
 					x+=6;
 				}
-				if (this.frameCountPunch >= 84 && this.frameCountPunch < 96) {
-					img = char2.getImgComboRight(7);
-					fixbug = 7;
-				}
-				if (this.frameCountPunch >= 96 && this.frameCountPunch < 108) {
-					img = char2.getImgComboRight(8);
-					fixbug = 8;
-				}
-				if (this.frameCountPunch >= 108 && this.frameCountPunch < 120) {
-					img = char2.getImgComboRight(9);
-					fixbug = 9;
-				}
-				if (this.frameCountPunch >= 120 && this.frameCountPunch < 132) {
-					img = char2.getImgComboRight(10);
-					fixbug  =10;
-				}
-				if (this.frameCountPunch >= 132 && this.frameCountPunch < 144) {
-					img = char2.getImgComboRight(11);
-					fixbug = 11;
-				}
-				if (this.frameCountPunch >= 144 && this.frameCountPunch < 156) {
-					img = char2.getImgComboRight(12);
-					fixbug = 12;
-				}
-				if (this.frameCountPunch >= 156 && this.frameCountPunch < 168) {
-					img = char2.getImgComboRight(13);
-					fixbug = 13;
-				}
-				System.out.println(this.frameCountPunch + " " + fixbug);
+				if (this.frameCountPunch >= 84 && this.frameCountPunch < 96) img = char2.getImgComboRight(7);
+				if (this.frameCountPunch >= 96 && this.frameCountPunch < 108)img = char2.getImgComboRight(8);
+				if (this.frameCountPunch >= 108 && this.frameCountPunch < 120) img = char2.getImgComboRight(9);
+				if (this.frameCountPunch >= 120 && this.frameCountPunch < 132) img = char2.getImgComboRight(10);
+				if (this.frameCountPunch >= 132 && this.frameCountPunch < 144) img = char2.getImgComboRight(11);
+				if (this.frameCountPunch >= 144 && this.frameCountPunch < 156) img = char2.getImgComboRight(12);
+				if (this.frameCountPunch >= 156 && this.frameCountPunch < 168) img = char2.getImgComboRight(13);
+				
 				if(this.frameCountPunch>=168) {
 					this.frameCountPunch=0;
 					this.director ="stand";
 					
+				}
 				}
 				break;
 			}
@@ -386,5 +353,5 @@ public class Player1 extends Player {
 
 		g2.drawImage(img, x, y, GamePanel.titleSize, GamePanel.titleSize * 2, null);
 	}
-
+	
 }

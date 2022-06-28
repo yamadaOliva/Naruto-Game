@@ -28,8 +28,11 @@ public class Player2 extends Player {
 	private String director;
 	public GamePanel gp;
 	private int choose;
+	//status
 	private boolean onTop = false;
 	private boolean upStatus = false;
+	public boolean blocked = false;
+	//
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
 	character char2;
 	character optionChoose[];
@@ -125,7 +128,7 @@ public class Player2 extends Player {
 				x = 1278 - GamePanel.titleSize;
 		}
 		if (keyH1.leftStatus) {
-			x -= speed;
+			if(!blocked) x -= speed;
 			this.director = "left";
 			if (x < 0)
 				x = 0;

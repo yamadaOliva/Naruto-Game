@@ -20,6 +20,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.math.*;
+import java.net.URL;
+
 import Entity.*;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -34,6 +36,8 @@ public class GamePanel extends JPanel implements Runnable {
 	private int totalFame = minuteGame*60*60;
 	private boolean moving = false;
 	private boolean kickStatus = false;
+	//UI
+	Image icon;
 	//SOund
 	static Sound sound = new Sound();
 	//setup status of game
@@ -53,11 +57,14 @@ public class GamePanel extends JPanel implements Runnable {
 	Player2 player2 = new Player2(this, keyH1, screenWidth - 200, 550);
 	Thread gameThread;
 	HPconfig hp = new HPconfig();
+	private int distance2player;
 
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 		ImageIcon j = new ImageIcon("C:\\Users\\Admin\\Desktop\\ProjectOOP\\png\\png\\bg_Game.png");
 		bg = j.getImage();
+		ImageIcon u = new ImageIcon("C:\\Users\\Admin\\Desktop\\ProjectOOP\\png\\png\\bgMenu.gif");
+		icon = u.getImage();
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
@@ -80,7 +87,7 @@ public class GamePanel extends JPanel implements Runnable {
 		long currentTime;
 		long timer = 0;
 		while (gameThread != null) {
-			
+			distance2player = Math.abs(player1.getX()-player2.getX());
 			if (moving)
 				player1.skillStatus = false;
 			if (kickStatus)
@@ -131,7 +138,7 @@ public class GamePanel extends JPanel implements Runnable {
 	private void menuDraw(Graphics2D g2) {
 		String title = "GAME PRO VIP DANH NHAU DUNG DUNG";
 		g2.setColor(new Color(74, 116, 53));
-		g2.fillRect(0, 0, 1278, 720);
+		g2.drawImage(icon, 0, 0,1278,720,null);
 		//Shadow
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD,40));
 		g2.setColor(Color.gray);
@@ -227,6 +234,10 @@ public class GamePanel extends JPanel implements Runnable {
 			System.exit(0);
 		}
 	}
+	// check punch
+	private void checkPunch(Player p1,Player p2) {
+	
+	}
 	// check win if timeup
 	private void checkWinTimeUp() {
 		if(player1.getHp()>player2.getHp()) {
@@ -250,6 +261,13 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		countTest++;
 		player1.setEnemiesPos(player2.getX());
+		if(Math.abs(player1.getX()-player2.getX())<=(titleSize-10)) {
+			player1.blocked = true;
+			player2.blocked = true;
+		}else {
+			player1.blocked = false;
+			player2.blocked = false;
+		}
 	}
 	
 	// get sound

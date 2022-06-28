@@ -14,6 +14,7 @@ public class Player extends entity {
 	public final int widthDraw = GamePanel.titleSize*2;
 	private boolean onTop = false;
 	private boolean upStatus = false;
+	private boolean blocked;
 	private int power = 200;
 	public int getPower() {
 		return power;
