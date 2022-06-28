@@ -7,6 +7,8 @@ public class character {
 	private int defe;
 	private int speed;
 	private boolean blocked;
+	private int punchdame;
+	
 	public BufferedImage[] stand = new BufferedImage[10];
 	public BufferedImage[] defIMG = new BufferedImage[2];
 	public BufferedImage[] moveRight = new BufferedImage[10];
@@ -19,8 +21,18 @@ public class character {
 		return HP;
 	}
 
+	
+
 	public void setHP(int hP) {
 		HP = hP;
+	}
+
+	public int getPunchdame() {
+		return punchdame;
+	}
+
+	public void setPunchdame(int punchdame) {
+		this.punchdame = punchdame;
 	}
 
 	public int getDefe() {

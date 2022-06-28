@@ -15,6 +15,10 @@ public class Player extends entity {
 	private boolean onTop = false;
 	private boolean upStatus = false;
 	private boolean blocked;
+	public int frameCountStand;
+	public int frameCountDef;
+	public int frameCountWalk;
+	public int frameCountPunch=0;
 	private int power = 200;
 	public int getPower() {
 		return power;
@@ -102,6 +106,37 @@ public class Player extends entity {
 	}
 	public void setDef1(BufferedImage def1) {
 		this.def1 = def1;
+	}
+	public int getFrameCountStand() {
+		return frameCountStand;
+	}
+
+	public void setFrameCountStand(int frameCountStand) {
+		this.frameCountStand = frameCountStand;
+	}
+
+	public int getFrameCountDef() {
+		return frameCountDef;
+	}
+
+	public void setFrameCountDef(int frameCountDef) {
+		this.frameCountDef = frameCountDef;
+	}
+
+	public int getFrameCountWalk() {
+		return frameCountWalk;
+	}
+
+	public void setFrameCountWalk(int frameCountWalk) {
+		this.frameCountWalk = frameCountWalk;
+	}
+
+	public int getFrameCountPunch() {
+		return frameCountPunch;
+	}
+
+	public void setFrameCountPunch(int frameCountPunch) {
+		this.frameCountPunch = frameCountPunch;
 	}
 	public void update() {
 		if(onTop) keyH.upStatus = false;

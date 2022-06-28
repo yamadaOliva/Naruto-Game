@@ -42,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
 	static Sound sound = new Sound();
 	//setup status of game
 	public static int statusGame=0;
+	public static boolean mukouMigi;
 	// set window scale
 	public static final int titleSize = originalTitleSize * scale;
 	public final int maxScreenCol = 27;
@@ -98,6 +99,7 @@ public class GamePanel extends JPanel implements Runnable {
 			if (delta >= 1) {
 				player1.update();
 				player2.update();
+				checkPunch(player1, player2);
 				setupStatus();
 				checkKick();
 				repaint();
@@ -222,8 +224,7 @@ public class GamePanel extends JPanel implements Runnable {
 			player2.setHp(player2.getHp() - player1.kick.getDame());
 			player2.setX(player2.getX()+10);
 			player2.setDirector("left");
-			hp.setHp2(player2.getHp());
-			hp.setPower2(hp.getPower2()+5);
+			setconfig();
 			
 		}
 
@@ -235,8 +236,35 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 	// check punch
-	private void checkPunch(Player p1,Player p2) {
-	
+	private void checkPunch(Player attack,Player attacked) {
+		if(((attacked.getX()-attack.getX())<(titleSize))&&checkY()) {
+			System.out.println(((attack.getX()-attacked.getX())<(titleSize)));
+			if(attack.getFrameCountPunch()==6) {
+				attacked.setHp(attacked.getHp()-10);
+				setconfig();
+			}
+			if(attack.getFrameCountPunch()==30) {
+				attacked.setHp(attacked.getHp()-10);
+				setconfig();
+			}
+			if(attack.getFrameCountPunch()==56) {
+				attacked.setHp(attacked.getHp()-10);
+				setconfig();
+			}
+			if(attack.getFrameCountPunch()==80) {
+				attacked.setHp(attacked.getHp()-10);
+				setconfig();
+			}
+			if(attack.getFrameCountPunch()==122) {
+				attacked.setHp(attacked.getHp()-10);
+				setconfig();
+			}
+			if(attack.getFrameCountPunch()==160) {
+				attacked.setHp(attacked.getHp()-10);
+				setconfig();
+			}
+			
+		}
 	}
 	// check win if timeup
 	private void checkWinTimeUp() {
@@ -261,15 +289,46 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		countTest++;
 		player1.setEnemiesPos(player2.getX());
-		if(Math.abs(player1.getX()-player2.getX())<=(titleSize-10)) {
-			player1.blocked = true;
-			player2.blocked = true;
+		if(player1.getX()<player2.getX()) mukouMigi = true;
+		else mukouMigi = false;
+		if(mukouMigi) {
+			if(((player2.getX()-player1.getX())<(titleSize))&&checkY()) {
+				player1.blockedRight = true;
+				player1.blockedLeft = false;
+				player2.blockedLeft = true;
+				player2.blockedRight = false;
+			}else {
+				player1.blockedRight = false;
+				player2.blockedLeft = false;
+			}
 		}else {
-			player1.blocked = false;
-			player2.blocked = false;
+			if(((player1.getX()-player2.getX())<(titleSize))&&checkY()) {
+				player2.blockedRight = true;
+				player2.blockedLeft = false;
+				player1.blockedLeft = true;
+				player1.blockedRight = false;
+			}else {
+				player2.blockedRight = false;
+				player1.blockedLeft = false;
+			}
 		}
+		if(player2.getX() <= player1.getX()+24&&player2.getX()>=player1.getX()&& checkY()) player2.setX(player2.getX()+3);
+		if(player1.getX() <= player2.getX()+24&&player1.getX()>=player2.getX()&& checkY()) player1.setX(player1.getX()-3);
 	}
-	
+	private boolean checkY() {
+		if((player1.getY()<=player2.getY()+24)&&(player1.getY()>=player2.getY())) {
+			return true;
+		}
+		if((player2.getY()<=player1.getY()+24)&&(player2.getY()>=player1.getY())) {
+			return true;
+		}
+		return false;
+	}
+	//set config
+	private void setconfig() {
+		hp.setHp2(player2.getHp());
+		hp.setPower2(hp.getPower2()+5);
+	}
 	// get sound
 	public static void playMusic(int i ) {
 		sound.setFile(i);

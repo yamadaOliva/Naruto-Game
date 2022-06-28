@@ -31,6 +31,8 @@ public class Player2 extends Player {
 	//status
 	private boolean onTop = false;
 	private boolean upStatus = false;
+	public boolean blockedLeft = false;
+	public boolean blockedRight = false;
 	public boolean blocked = false;
 	//
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
@@ -52,7 +54,7 @@ public class Player2 extends Player {
 		this.frameCountDef = 0;
 		this.frameCountPunch = 0;
 	}
-	
+	//setter & getter
 	public int getX() {
 		return x;
 	}
@@ -75,6 +77,38 @@ public class Player2 extends Player {
 	public void setDirector(String director) {
 		this.director = director;
 	}
+	public int getFrameCountStand() {
+		return frameCountStand;
+	}
+
+	public void setFrameCountStand(int frameCountStand) {
+		this.frameCountStand = frameCountStand;
+	}
+
+	public int getFrameCountDef() {
+		return frameCountDef;
+	}
+
+	public void setFrameCountDef(int frameCountDef) {
+		this.frameCountDef = frameCountDef;
+	}
+
+	public int getFrameCountWalk() {
+		return frameCountWalk;
+	}
+
+	public void setFrameCountWalk(int frameCountWalk) {
+		this.frameCountWalk = frameCountWalk;
+	}
+
+	public int getFrameCountPunch() {
+		return frameCountPunch;
+	}
+
+	public void setFrameCountPunch(int frameCountPunch) {
+		this.frameCountPunch = frameCountPunch;
+	}
+	//
 	private void setupCharacter(int choose) {
 		switch (choose) {
 			case 0: {
@@ -122,17 +156,18 @@ public class Player2 extends Player {
 			this.director = "def";
 		}
 		if (keyH1.rightStatus) {
-			x += speed;
+			if(!blockedRight) x += speed;
 			this.director = "right";
 			if (x > 1278 - GamePanel.titleSize)
 				x = 1278 - GamePanel.titleSize;
 		}
 		if (keyH1.leftStatus) {
-			if(!blocked) x -= speed;
+			if(!blockedLeft) x -= speed;
 			this.director = "left";
 			if (x < 0)
 				x = 0;
 		}
+		
 		if (!keyH1.upStatus) {
 			y += 3;
 			if (y >= 550) {
@@ -332,28 +367,6 @@ public class Player2 extends Player {
 		g2.drawImage(img, x, y, GamePanel.titleSize, GamePanel.titleSize * 2, null);
 	}
 
-	public int getFrameCountStand() {
-		return frameCountStand;
-	}
-
-	public void setFrameCountStand(int frameCountStand) {
-		this.frameCountStand = frameCountStand;
-	}
-
-	public int getFrameCountDef() {
-		return frameCountDef;
-	}
-
-	public void setFrameCountDef(int frameCountDef) {
-		this.frameCountDef = frameCountDef;
-	}
-
-	public int getFrameCountWalk() {
-		return frameCountWalk;
-	}
-
-	public void setFrameCountWalk(int frameCountWalk) {
-		this.frameCountWalk = frameCountWalk;
-	}
+	
 
 }

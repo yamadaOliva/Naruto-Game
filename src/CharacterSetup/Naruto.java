@@ -19,6 +19,7 @@ public class Naruto extends character {
 	private String characterName = "Naruto";
 	public Naruto() {
 		this.setSpeed(3);
+		this.setPunchdame(5);
 		getStandIMG();
 		getDefIMG();
 		getWalkIMG();
@@ -57,9 +58,7 @@ public class Naruto extends character {
 			this.comboIMGRight[11]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_12.png"));
 			this.comboIMGRight[12]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_13.png"));
 			this.comboIMGRight[13]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_14.png"));
-			for(int i = 0;i<14;++i) {
-				System.out.println(this.comboIMGRight[i]);
-			}
+
 			}catch (Exception e) {
 			e.printStackTrace();
 		}
