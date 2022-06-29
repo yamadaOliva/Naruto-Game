@@ -16,6 +16,7 @@ public class Naruto extends character {
 	public BufferedImage[] jumpIMG = new BufferedImage[20];
 	public BufferedImage[] comboIMGRight = new BufferedImage[20];
 	public BufferedImage[] comboIMGLeft = new BufferedImage[20];
+	public BufferedImage[] teleposIMG = new BufferedImage[10];
 	private String characterName = "Naruto";
 	public Naruto() {
 		this.setSpeed(3);
@@ -25,8 +26,10 @@ public class Naruto extends character {
 		getWalkIMG();
 		getJumpIMG();
 		getComboIMGRight();
+		getComboIMGLeft();
+		getTeleposIMG();
 	}
-
+	
 	private void getStandIMG() {
 		try {
 			this.stand[0] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/stand1.png"));
@@ -59,6 +62,42 @@ public class Naruto extends character {
 			this.comboIMGRight[12]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_13.png"));
 			this.comboIMGRight[13]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combo_14.png"));
 
+			}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	private void getTeleposIMG() {
+		try {
+			this.teleposIMG[0] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/telepos_1.png"));
+			this.teleposIMG[1] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/telepos_2.png"));
+			this.teleposIMG[2] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/telepos_3.png"));
+			this.teleposIMG[3] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/telepos_4.png"));
+			this.teleposIMG[4] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/telepos_5.png"));
+			this.teleposIMG[5] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/telepos_6.png"));
+			this.teleposIMG[6] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/telepos_7.png"));
+			this.teleposIMG[7] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/telepos_8.png"));
+			this.teleposIMG[8] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/telepos_9.png"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	private void getComboIMGLeft() {
+		try {
+			this.comboIMGLeft[0]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_1 (1).png"));
+			this.comboIMGLeft[1]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_2 (1).png"));
+			this.comboIMGLeft[2]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_3 (1).png"));
+			this.comboIMGLeft[3]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_4 (1).png"));
+			this.comboIMGLeft[4]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_5 (1).png"));
+			this.comboIMGLeft[5]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_6 (1).png"));
+			this.comboIMGLeft[6]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_7 (1).png"));
+			this.comboIMGLeft[7]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_8 (1).png"));
+			this.comboIMGLeft[8]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_9 (1).png"));
+			this.comboIMGLeft[9]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_10 (1).png"));
+			this.comboIMGLeft[10]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_11 (1).png"));
+			this.comboIMGLeft[11]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_12 (1).png"));
+			this.comboIMGLeft[12]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_13 (1).png"));
+			this.comboIMGLeft[13]= ImageIO.read(getClass().getResource("/character/" + characterName  +"/combof_14 (1).png"));
+			
 			}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -135,5 +174,11 @@ public class Naruto extends character {
 	}
 	public BufferedImage getImgComboRight(int i) {
 		return this.comboIMGRight[i];
+	}
+	public BufferedImage getImgComboLeft(int i) {
+		return this.comboIMGLeft[i];
+	}
+	public BufferedImage getImgTelepos(int i) {
+		return this.teleposIMG[i];
 	}
 }

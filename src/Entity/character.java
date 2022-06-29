@@ -17,6 +17,7 @@ public class character {
 	public BufferedImage[] jumpIMG = new BufferedImage[20];
 	public BufferedImage[] comboIMGRight = new BufferedImage[20];
 	public BufferedImage[] comboIMGLeft = new BufferedImage[20];
+	public BufferedImage[] teleposIMG = new BufferedImage[10];
 	public int getHP() {
 		return HP;
 	}
@@ -69,4 +70,11 @@ public class character {
 	public BufferedImage getImgComboRight(int i) {
 		return this.comboIMGRight[i];
 	}
+	public BufferedImage getImgComboLeft(int i) {
+		return this.comboIMGLeft[i];
+	}
+	public BufferedImage getImgTelepos(int i) {
+		return this.teleposIMG[i];
+	}
+	
 }

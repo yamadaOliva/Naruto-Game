@@ -20,10 +20,12 @@ import FightingGame.keyHandler;
 
 public class Player1 extends Player {
 	public keyHandler keyH1 = new keyHandler();
+	//count frame
 	public int frameCountStand;
 	public int frameCountDef;
 	public int frameCountWalk;
 	public int frameCountPunch=0;
+	public int frameCountTele = 0;
 	private int x, y;
 	private String director;
 	public GamePanel gp;
@@ -158,8 +160,9 @@ public class Player1 extends Player {
 			}
 		}
 		if(this.director.equals("def")&&keyH1.kick) {
-			this.x = enemiesPos+50;
-			this.director = "stand";
+			System.out.println("thread 1");
+			this.director = "right";
+			System.out.println(this.director);
 		}
 		if (keyH1.downStatus&&!upStatus&&isFalling==0) {
 			this.director = "def";
@@ -189,6 +192,9 @@ public class Player1 extends Player {
 		}
 		if(keyH1.punch) {
 			this.director ="punch";
+		}
+		if(keyH1.kick) {
+			this.director = "tele";
 		}
 	}
 
@@ -381,8 +387,57 @@ public class Player1 extends Player {
 					this.director ="stand";
 					
 				}
+				}else{
+					System.out.println(frameCountPunch);
+					if (this.frameCountPunch >= 0 && this.frameCountPunch < 12)  img = char2.getImgComboLeft(0);
+					if (this.frameCountPunch >= 12 && this.frameCountPunch < 24) img = char2.getImgComboLeft(1);
+						
+					if (this.frameCountPunch >= 24 && this.frameCountPunch < 36) img = char2.getImgComboLeft(2);
+					
+					if (this.frameCountPunch >= 36 && this.frameCountPunch < 48) img = char2.getImgComboLeft(3);
+						
+					if (this.frameCountPunch >= 48 && this.frameCountPunch < 60) img = char2.getImgComboLeft(4);
+						
+					if (this.frameCountPunch >= 60 && this.frameCountPunch < 72) img = char2.getImgComboLeft(5);
+						
+					if (this.frameCountPunch >= 72 && this.frameCountPunch < 84) {
+						img = char2.getImgComboRight(6);	
+						x-=6;
+					}
+					if (this.frameCountPunch >= 84 && this.frameCountPunch < 96) img = char2.getImgComboLeft(7);
+					if (this.frameCountPunch >= 96 && this.frameCountPunch < 108)img = char2.getImgComboLeft(8);
+					if (this.frameCountPunch >= 108 && this.frameCountPunch < 120) img = char2.getImgComboLeft(9);
+					if (this.frameCountPunch >= 120 && this.frameCountPunch < 132) img = char2.getImgComboLeft(10);
+					if (this.frameCountPunch >= 132 && this.frameCountPunch < 144) img = char2.getImgComboLeft(11);
+					if (this.frameCountPunch >= 144 && this.frameCountPunch < 156) img = char2.getImgComboLeft(12);
+					if (this.frameCountPunch >= 156 && this.frameCountPunch < 168) img = char2.getImgComboLeft(13);
+					if(this.frameCountPunch>=168) {
+						this.frameCountPunch=0;
+						this.director ="stand";
+						
+					}
+					System.out.println(img);
 				}
 				break;
+			}
+			case "tele":{
+				System.out.println("ok");
+				if(this.frameCountTele>=0&&frameCountTele<10) img= char2.getImgTelepos(0);
+				if(this.frameCountTele>=10&&frameCountTele<20) img= char2.getImgTelepos(1);
+				if(this.frameCountTele>=20&&frameCountTele<30) img= char2.getImgTelepos(2);
+				if(this.frameCountTele>=30&&frameCountTele<35) img= char2.getImgTelepos(3);
+				if(this.frameCountTele>=35&&frameCountTele<38) {
+					this.x = enemiesPos +50;
+					img= char2.getImgTelepos(4);
+				}
+				if(this.frameCountTele>=38&&frameCountTele<41) img= char2.getImgTelepos(3);
+				if(this.frameCountTele>=41&&frameCountTele<51) img= char2.getImgTelepos(3);
+				if(this.frameCountTele>=51&&frameCountTele<61) img= char2.getImgTelepos(3);
+				if(this.frameCountTele>=61&&frameCountTele<71) img= char2.getImgTelepos(3);
+				if(this.frameCountTele>=71) {
+					frameCountTele =0;
+					this.director = "stand";
+				}
 			}
 		}
 

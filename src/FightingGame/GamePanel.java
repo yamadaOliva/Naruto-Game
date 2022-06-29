@@ -238,7 +238,6 @@ public class GamePanel extends JPanel implements Runnable {
 	// check punch
 	private void checkPunch(Player attack,Player attacked) {
 		if(((attacked.getX()-attack.getX())<(titleSize))&&checkY()) {
-			System.out.println(((attack.getX()-attacked.getX())<(titleSize)));
 			if(attack.getFrameCountPunch()==6) {
 				attacked.setHp(attacked.getHp()-10);
 				setconfig();
@@ -277,11 +276,14 @@ public class GamePanel extends JPanel implements Runnable {
 	// thiet lap cac trang thai
 	private void setupStatus() {
 		if (kickStatus) player1.kickCount++;
+		//player2
 		player2.frameCountStand++;
 		player2.frameCountWalk++;
+		//player1
 		player1.frameCountPunch++;
 		player1.frameCountStand++;
 		player1.frameCountWalk++;
+		player1.frameCountTele++;
 		if(statusGame==1) {
 			if(totalFame>0) {
 				totalFame--;
