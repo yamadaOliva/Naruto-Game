@@ -1,6 +1,7 @@
 package FightingGame;
 
 import Entity.HPconfig;
+import SkillSetup.Suriken;
 import playerSetup.Player1;
 import playerSetup.Player2;
 
@@ -82,21 +83,18 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		playMusic(1);
 		keyH.setPunchKickKey(KeyEvent.VK_J, KeyEvent.VK_K);
+		keyH.setKillKey(KeyEvent.VK_L, 'i', 'o');
 		double drawInterval = 1000000000 / FPS;
 		double delta = 0;
 		long lastTime = System.nanoTime();
 		long currentTime;
 		long timer = 0;
 		while (gameThread != null) {
-			distance2player = Math.abs(player1.getX()-player2.getX());
-			if (moving)
-				player1.skillStatus = false;
-			if (kickStatus)
-				player1.kickStatus = false;
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime) / drawInterval;
 			lastTime = currentTime;
 			if (delta >= 1) {
+				TestSkill();
 				player1.update();
 				player2.update();
 				checkPunch(player1, player2);
@@ -130,6 +128,7 @@ public class GamePanel extends JPanel implements Runnable {
 		second = (totalFame/60)%60;
 		hp.draw(g2,second,minute);
 		hp.draw1(g2);
+		if(player1.skill.coming) player1.skill.draw(g2);
 		player1.draw1(g2);
 		player2.draw1(g2);
 		//win
@@ -175,7 +174,17 @@ public class GamePanel extends JPanel implements Runnable {
 			g2.drawString("QUIT ", 400, 450);
 		}
 	}
-
+	//test skill
+	private void TestSkill() {
+		if (player1.skill == null) {
+			 player1.skill = new Suriken(player1.getX(),player1.getY());
+		}
+		if (player1.skill.coming) player1.skill.update();
+		if(player1.skill.getX()>=1200) {
+			player1.skill = null;
+			player1.skill = new Suriken(player1.getX(),player1.getY());
+		}
+	}
 	// check skill
 	private void checkSkill(Player player1, Player player2) {
 		if (player1.skill1 == null)
@@ -314,6 +323,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if(player1.getDirector().equals("stand"))player1.frameCountStand++;
 		if(player1.getDirector().equals("left")||player1.getDirector().equals("right"))player1.frameCountWalk++;
 		if(player1.getDirector().equals("tele"))player1.frameCountTele++;
+		if(player1.getDirector().equals("skill1")) player1.frameCountSuriken++;
 		if(statusGame==1) {
 			if(totalFame>0) {
 				totalFame--;

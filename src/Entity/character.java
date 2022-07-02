@@ -18,6 +18,7 @@ public class character {
 	public BufferedImage[] comboIMGRight = new BufferedImage[20];
 	public BufferedImage[] comboIMGLeft = new BufferedImage[20];
 	public BufferedImage[] teleposIMG = new BufferedImage[10];
+	public BufferedImage[] surikenIMG = new BufferedImage[5];
 	public int getHP() {
 		return HP;
 	}
@@ -76,8 +77,8 @@ public class character {
 	public BufferedImage getImgTelepos(int i) {
 		return this.teleposIMG[i];
 	}
-	public void blockedCase(int dame) {
-		
+	public BufferedImage getIMGSuriken(int i) {
+		return this.getIMGSuriken(i);
 	}
 	
 }

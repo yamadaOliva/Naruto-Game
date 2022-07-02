@@ -19,6 +19,7 @@ public class Skills implements Action {
 	public boolean moving=false;
 	private int MAX_RANGE = 1250;
 	private BufferedImage skillImage;
+	private BufferedImage[] SkillsImg = new BufferedImage[5];
 	public int getX() {
 		return x;
 	}
@@ -84,6 +85,9 @@ public class Skills implements Action {
 	}
 	public void draw(Graphics2D g2) {
 		g2.drawImage(skillImage, x, y, GamePanel.titleSize, GamePanel.titleSize, null);
+	}
+	public BufferedImage getSkillsImg(int i) {
+		return SkillsImg[i];
 	}
 
 }

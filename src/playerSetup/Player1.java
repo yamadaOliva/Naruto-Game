@@ -14,9 +14,11 @@ import javax.swing.plaf.synth.SynthOptionPaneUI;
 import CharacterSetup.Kakashi;
 import CharacterSetup.Naruto;
 import Entity.Player;
+import Entity.Skills;
 import Entity.character;
 import FightingGame.GamePanel;
 import FightingGame.keyHandler;
+import SkillSetup.Suriken;
 
 public class Player1 extends Player {
 	public keyHandler keyH1 = new keyHandler();
@@ -26,6 +28,7 @@ public class Player1 extends Player {
 	public int frameCountWalk;
 	public int frameCountPunch=0;
 	public int frameCountTele = 0;
+	public int frameCountSuriken = 0;
 	private int x, y;
 	private String director;
 	public GamePanel gp;
@@ -48,6 +51,8 @@ public class Player1 extends Player {
 	//
 	int fixbug;
 	// tuong tac
+	//Skills
+	public Suriken skill;
 	private int enemiesPos;
 	public Player1(GamePanel gp, keyHandler keyH, int x, int y) { // thieu bien choose de chon nhan vat
 		super(gp, keyH, x, y);
@@ -191,6 +196,15 @@ public class Player1 extends Player {
 		}
 		if(keyH1.kick) {
 			this.director = "tele";
+		}
+		if(keyH1.skill1&&!skill.coming) {
+			this.director="skill1";
+			skill = new Suriken(x, y);
+			skill.coming = true;
+			 double randomDouble = Math.random();
+	         randomDouble = randomDouble * 4 ;
+	        int randomInt = (int) randomDouble;
+	        skill.setImgPos(randomInt);
 		}
 	}
 
@@ -424,13 +438,25 @@ public class Player1 extends Player {
 					img= char2.getImgTelepos(4);
 				}
 				if(this.frameCountTele>=38&&frameCountTele<41) img= char2.getImgTelepos(3);
-				if(this.frameCountTele>=41&&frameCountTele<51) img= char2.getImgTelepos(3);
-				if(this.frameCountTele>=51&&frameCountTele<61) img= char2.getImgTelepos(3);
-				if(this.frameCountTele>=61&&frameCountTele<71) img= char2.getImgTelepos(3);
-				if(this.frameCountTele>=71) {
+				if(this.frameCountTele>=41&&frameCountTele<51) img= char2.getImgTelepos(4);
+				if(this.frameCountTele>=51&&frameCountTele<61) img= char2.getImgTelepos(5);
+				if(this.frameCountTele>=61&&frameCountTele<71) img= char2.getImgTelepos(6);
+				if(this.frameCountTele>=71&&frameCountTele<81) img= char2.getImgTelepos(7);
+				if(this.frameCountTele>=81) {
 					frameCountTele =0;
 					this.director = "stand";
 				}
+				break;
+			}
+			case "skill1" :{
+				if(frameCountSuriken>=0&&frameCountSuriken<10) img = char2.getIMGSuriken(0);
+				if(frameCountSuriken>=10&&frameCountSuriken<20) img = char2.getIMGSuriken(1);
+				if(frameCountSuriken>=20&&frameCountSuriken<30) img = char2.getIMGSuriken(2);
+				if(frameCountSuriken>=30) {
+					frameCountSuriken =0;
+					this.director = "stand";
+				}
+				
 			}
 		}
 

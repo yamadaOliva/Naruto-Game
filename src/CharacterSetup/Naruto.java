@@ -17,6 +17,7 @@ public class Naruto extends character {
 	public BufferedImage[] comboIMGRight = new BufferedImage[20];
 	public BufferedImage[] comboIMGLeft = new BufferedImage[20];
 	public BufferedImage[] teleposIMG = new BufferedImage[10];
+	public BufferedImage[] surikenIMG = new BufferedImage[5];
 	private String characterName = "Naruto";
 	public Naruto() {
 		this.setSpeed(3);
@@ -28,8 +29,17 @@ public class Naruto extends character {
 		getComboIMGRight();
 		getComboIMGLeft();
 		getTeleposIMG();
+		getSurikenIMG();
 	}
-	
+	public void getSurikenIMG() {
+		try {
+			this.surikenIMG[0] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/suriken_1.png"));
+			this.surikenIMG[1] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/suriken_2.png"));
+			this.surikenIMG[2] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/suriken_3.png"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	private void getStandIMG() {
 		try {
 			this.stand[0] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/stand1.png"));
@@ -180,5 +190,8 @@ public class Naruto extends character {
 	}
 	public BufferedImage getImgTelepos(int i) {
 		return this.teleposIMG[i];
+	}
+	public BufferedImage getIMGSuriken(int i) {
+		return this.surikenIMG[i];
 	}
 }
