@@ -367,6 +367,9 @@ public class Player2 extends Player {
 		g2.drawImage(img, x, y, GamePanel.titleSize, GamePanel.titleSize * 2, null);
 	}
 
-	
+	public void blockedCase(int space) {
+		if(GamePanel.mukouMigi) x+=space;
+		else x-=6;
+	}
 
 }

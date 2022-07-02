@@ -219,4 +219,8 @@ public class Player extends entity {
 			e.printStackTrace();
 		}
 	}
+	public void blockedCase(int dame) {
+		
+	}
+	
 }

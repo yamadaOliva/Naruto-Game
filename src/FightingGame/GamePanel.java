@@ -237,6 +237,7 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	// check punch
 	private void checkPunch(Player attack,Player attacked) {
+		if(mukouMigi) {
 		if(((attacked.getX()-attack.getX())<(titleSize))&&checkY()) {
 			if(attack.getFrameCountPunch()==6) {
 				attacked.setHp(attacked.getHp()-10);
@@ -263,6 +264,35 @@ public class GamePanel extends JPanel implements Runnable {
 				setconfig();
 			}
 			
+		}}else {
+			if(((attack.getX()-attacked.getX())<(titleSize))&&checkY()) {
+				if(attack.getFrameCountPunch()==6) {
+					attacked.setHp(attacked.getHp()-10);
+					setconfig();
+				}
+				if(attack.getFrameCountPunch()==30) {
+					attacked.setHp(attacked.getHp()-10);
+					setconfig();
+				}
+				if(attack.getFrameCountPunch()==56) {
+					attacked.setHp(attacked.getHp()-10);
+					setconfig();
+				}
+				if(attack.getFrameCountPunch()==80) {
+					attacked.setHp(attacked.getHp()-10);
+					attacked.blockedCase(10);
+					setconfig();
+				}
+				if(attack.getFrameCountPunch()==122) {
+					attacked.setHp(attacked.getHp()-10);
+					setconfig();
+				}
+				if(attack.getFrameCountPunch()==160) {
+					attacked.setHp(attacked.getHp()-10);
+					setconfig();
+				}
+				
+			}
 		}
 	}
 	// check win if timeup
@@ -280,10 +310,10 @@ public class GamePanel extends JPanel implements Runnable {
 		player2.frameCountStand++;
 		player2.frameCountWalk++;
 		//player1
-		player1.frameCountPunch++;
-		player1.frameCountStand++;
-		player1.frameCountWalk++;
-		player1.frameCountTele++;
+		if(player1.getDirector().equals("punch"))player1.frameCountPunch++;
+		if(player1.getDirector().equals("stand"))player1.frameCountStand++;
+		if(player1.getDirector().equals("left")||player1.getDirector().equals("right"))player1.frameCountWalk++;
+		if(player1.getDirector().equals("tele"))player1.frameCountTele++;
 		if(statusGame==1) {
 			if(totalFame>0) {
 				totalFame--;
@@ -314,8 +344,13 @@ public class GamePanel extends JPanel implements Runnable {
 				player1.blockedLeft = false;
 			}
 		}
-		if(player2.getX() <= player1.getX()+24&&player2.getX()>=player1.getX()&& checkY()) player2.setX(player2.getX()+3);
-		if(player1.getX() <= player2.getX()+24&&player1.getX()>=player2.getX()&& checkY()) player1.setX(player1.getX()-3);
+		
+		if(player2.getX() <= player1.getX()+24&&player2.getX()>=player1.getX()&& checkY()) {
+			player2.blockedCase(6);
+			player1.blockedCase(6);
+		}
+		if(player1.getX() <= player2.getX()+24&&player1.getX()>=player2.getX()&& checkY()) player1.blockedCase(6);
+		
 	}
 	private boolean checkY() {
 		if((player1.getY()<=player2.getY()+24)&&(player1.getY()>=player2.getY())) {

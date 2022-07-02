@@ -76,5 +76,8 @@ public class character {
 	public BufferedImage getImgTelepos(int i) {
 		return this.teleposIMG[i];
 	}
+	public void blockedCase(int dame) {
+		
+	}
 	
 }

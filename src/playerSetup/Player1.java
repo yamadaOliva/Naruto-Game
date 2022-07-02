@@ -157,12 +157,8 @@ public class Player1 extends Player {
 			if (y <= 300) {
 				upStatus = false;
 				onTop = true;
+				keyH1.kick = false;
 			}
-		}
-		if(this.director.equals("def")&&keyH1.kick) {
-			System.out.println("thread 1");
-			this.director = "right";
-			System.out.println(this.director);
 		}
 		if (keyH1.downStatus&&!upStatus&&isFalling==0) {
 			this.director = "def";
@@ -388,7 +384,6 @@ public class Player1 extends Player {
 					
 				}
 				}else{
-					System.out.println(frameCountPunch);
 					if (this.frameCountPunch >= 0 && this.frameCountPunch < 12)  img = char2.getImgComboLeft(0);
 					if (this.frameCountPunch >= 12 && this.frameCountPunch < 24) img = char2.getImgComboLeft(1);
 						
@@ -416,12 +411,10 @@ public class Player1 extends Player {
 						this.director ="stand";
 						
 					}
-					System.out.println(img);
 				}
 				break;
 			}
 			case "tele":{
-				System.out.println("ok");
 				if(this.frameCountTele>=0&&frameCountTele<10) img= char2.getImgTelepos(0);
 				if(this.frameCountTele>=10&&frameCountTele<20) img= char2.getImgTelepos(1);
 				if(this.frameCountTele>=20&&frameCountTele<30) img= char2.getImgTelepos(2);
@@ -443,5 +436,8 @@ public class Player1 extends Player {
 
 		g2.drawImage(img, x, y, GamePanel.titleSize, GamePanel.titleSize * 2, null);
 	}
-	
+	public void blockedCase(int space) {
+		if(GamePanel.mukouMigi) x-=space;
+		else x+=6;
+	}
 }
