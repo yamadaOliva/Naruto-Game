@@ -18,6 +18,7 @@ public class Naruto extends character {
 	public BufferedImage[] comboIMGLeft = new BufferedImage[20];
 	public BufferedImage[] teleposIMG = new BufferedImage[10];
 	public BufferedImage[] surikenIMG = new BufferedImage[5];
+	public BufferedImage[] beAttackedIMG = new BufferedImage[15];
 	private String characterName = "Naruto";
 	public Naruto() {
 		this.setSpeed(3);
@@ -30,6 +31,7 @@ public class Naruto extends character {
 		getComboIMGLeft();
 		getTeleposIMG();
 		getSurikenIMG();
+		getBeAttackedIMG();
 	}
 	public void getSurikenIMG() {
 		try {
@@ -166,7 +168,16 @@ public class Naruto extends character {
 			// TODO: handle exception
 		}
 	}
-
+	private void getBeAttackedIMG() {
+		try {
+			for(int i =1;i<=14;++i) {
+				this.beAttackedIMG[i-1] = ImageIO.read(getClass().getResource("/character/" + characterName  +"/beattacked_"+Integer.toString(i)+".png")); 
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public BufferedImage getImgStand(int i) {
 		return this.stand[i];
 	}
@@ -193,5 +204,8 @@ public class Naruto extends character {
 	}
 	public BufferedImage getIMGSuriken(int i) {
 		return this.surikenIMG[i];
+	}
+	public BufferedImage getIMGBeAttaced(int i) {
+		return this.beAttackedIMG[i];
 	}
 }

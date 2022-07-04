@@ -24,6 +24,7 @@ public class Player2 extends Player {
 	public int frameCountDef;
 	public int frameCountWalk;
 	public int frameCountPunch;
+	public int frameCountBeAttacked = 0;
 	private int x, y;
 	private String director;
 	public GamePanel gp;
@@ -34,6 +35,7 @@ public class Player2 extends Player {
 	public boolean blockedLeft = false;
 	public boolean blockedRight = false;
 	public boolean blocked = false;
+	public boolean  beAttacked = false;
 	//
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
 	character char2;
@@ -41,6 +43,7 @@ public class Player2 extends Player {
 	private int isFalling = 0;// Tuc la dang roi,1 co, 0 la khong
 	private int hoatAnhTiepDat = 0; // 1 la hien thi tiep hoat anh tiep dat, 0 la ket thuc
 	private int countTiepDat = 0; // dem so lan tiep dat
+	
 
 	public Player2(GamePanel gp, keyHandler keyH, int x, int y) { // thieu bien choose de chon nhan vat
 		super(gp, keyH, x, y);
@@ -134,6 +137,7 @@ public class Player2 extends Player {
 
 		if (keyH1.upStatus) {
 			upStatus = true;
+			beAttacked = false;
 			if (y <= 300) {
 				keyH1.upStatus = false;
 				onTop = true;
@@ -154,14 +158,17 @@ public class Player2 extends Player {
 
 		if (keyH1.downStatus) {
 			this.director = "def";
+			beAttacked = false;
 		}
 		if (keyH1.rightStatus) {
+			beAttacked = false;
 			if(!blockedRight) x += speed;
 			this.director = "right";
 			if (x > 1278 - GamePanel.titleSize)
 				x = 1278 - GamePanel.titleSize;
 		}
 		if (keyH1.leftStatus) {
+			beAttacked = false;
 			if(!blockedLeft) x -= speed;
 			this.director = "left";
 			if (x < 0)
@@ -181,7 +188,10 @@ public class Player2 extends Player {
 		if(keyH1.punch) {
 			this.director = "punch";
 		}
-
+		if(beAttacked) {
+			this.director = "beAttacked";
+		}
+		
 	}
 
 	@Override
@@ -361,10 +371,21 @@ public class Player2 extends Player {
 				if(this.frameCountPunch==168) this.frameCountPunch=0;
 			}
 				
-
+			case "beAttacked": {
+				if(frameCountBeAttacked>=0&&frameCountBeAttacked<20) img = char2.getIMGBeAttaced(0);
+				if(frameCountBeAttacked>=20&&frameCountBeAttacked<40) img = char2.getIMGBeAttaced(1);
+				if(frameCountBeAttacked>=40&&frameCountBeAttacked<60) img = char2.getIMGBeAttaced(2);
+				if(frameCountBeAttacked>=60) {
+					frameCountBeAttacked = 0;
+					this.setHp(this.getHp()-10);
+					System.out.println(this.getHp());
+					this.beAttacked = false;
+					this.director = "stand";
+				}
+			}
 		}
 
-		g2.drawImage(img, x, y, GamePanel.titleSize, GamePanel.titleSize * 2, null);
+		g2.drawImage(img, x, y, null);
 	}
 
 	public void blockedCase(int space) {

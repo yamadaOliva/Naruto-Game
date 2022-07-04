@@ -1,6 +1,7 @@
 package Entity;
 
 import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 
 public class character {
 	private int HP;
@@ -19,6 +20,7 @@ public class character {
 	public BufferedImage[] comboIMGLeft = new BufferedImage[20];
 	public BufferedImage[] teleposIMG = new BufferedImage[10];
 	public BufferedImage[] surikenIMG = new BufferedImage[5];
+	public BufferedImage[] beAttackedIMG = new BufferedImage[15];
 	public int getHP() {
 		return HP;
 	}
@@ -78,7 +80,10 @@ public class character {
 		return this.teleposIMG[i];
 	}
 	public BufferedImage getIMGSuriken(int i) {
-		return this.getIMGSuriken(i);
+		return this. surikenIMG[i];
+	}
+	public BufferedImage getIMGBeAttaced(int i) {
+		return this.beAttackedIMG[i];
 	}
 	
 }

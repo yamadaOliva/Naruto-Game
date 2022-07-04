@@ -128,6 +128,7 @@ public class GamePanel extends JPanel implements Runnable {
 		second = (totalFame/60)%60;
 		hp.draw(g2,second,minute);
 		hp.draw1(g2);
+		if(player1.skill == null) player1.skill = new Suriken();
 		if(player1.skill.coming) player1.skill.draw(g2);
 		player1.draw1(g2);
 		player2.draw1(g2);
@@ -180,8 +181,12 @@ public class GamePanel extends JPanel implements Runnable {
 			 player1.skill = new Suriken(player1.getX(),player1.getY());
 		}
 		if (player1.skill.coming) player1.skill.update();
+		if(player1.skill.getX() >= player2.getX()+20) {
+			player2.beAttacked = true;
+			setconfig();
+			player1.skill = new Suriken(player1.getX(),player1.getY());
+		}
 		if(player1.skill.getX()>=1200) {
-			player1.skill = null;
 			player1.skill = new Suriken(player1.getX(),player1.getY());
 		}
 	}
@@ -318,6 +323,7 @@ public class GamePanel extends JPanel implements Runnable {
 		//player2
 		player2.frameCountStand++;
 		player2.frameCountWalk++;
+		if(player2.getDirector().equals("beAttacked")) player2.frameCountBeAttacked++;
 		//player1
 		if(player1.getDirector().equals("punch"))player1.frameCountPunch++;
 		if(player1.getDirector().equals("stand"))player1.frameCountStand++;

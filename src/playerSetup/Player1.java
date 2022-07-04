@@ -29,6 +29,7 @@ public class Player1 extends Player {
 	public int frameCountPunch=0;
 	public int frameCountTele = 0;
 	public int frameCountSuriken = 0;
+	public int frameCountBeAttacked = 0;
 	private int x, y;
 	private String director;
 	public GamePanel gp;
@@ -39,6 +40,7 @@ public class Player1 extends Player {
 	public boolean blockedLeft = false;
 	public boolean blockedRight = false;
 	public boolean blocked = false;
+	private boolean surikenStatus = false;
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
 	character char2;
 	public void setEnemiesPos(int enemiesPos) {
@@ -52,7 +54,7 @@ public class Player1 extends Player {
 	int fixbug;
 	// tuong tac
 	//Skills
-	public Suriken skill;
+	public Skills skill;
 	private int enemiesPos;
 	public Player1(GamePanel gp, keyHandler keyH, int x, int y) { // thieu bien choose de chon nhan vat
 		super(gp, keyH, x, y);
@@ -198,14 +200,15 @@ public class Player1 extends Player {
 			this.director = "tele";
 		}
 		if(keyH1.skill1&&!skill.coming) {
-			this.director="skill1";
+			surikenStatus = true;
 			skill = new Suriken(x, y);
 			skill.coming = true;
 			 double randomDouble = Math.random();
 	         randomDouble = randomDouble * 4 ;
 	        int randomInt = (int) randomDouble;
-	        skill.setImgPos(randomInt);
+	        ((Suriken)skill).setImgPos(randomInt);
 		}
+		if(surikenStatus) this.director = "skill1";
 	}
 
 	@Override
@@ -454,13 +457,25 @@ public class Player1 extends Player {
 				if(frameCountSuriken>=20&&frameCountSuriken<30) img = char2.getIMGSuriken(2);
 				if(frameCountSuriken>=30) {
 					frameCountSuriken =0;
+					surikenStatus = false;
+					this.director = "stand";
+				
+				}
+				break;
+			}
+			case "beAttacked": {
+				if(frameCountBeAttacked>=0&&frameCountBeAttacked<10) img = char2.getIMGBeAttaced(0);
+				if(frameCountBeAttacked>=10&&frameCountBeAttacked<20) img = char2.getIMGBeAttaced(1);
+				if(frameCountBeAttacked>=20&&frameCountBeAttacked<30) img = char2.getIMGBeAttaced(2);
+				if(frameCountBeAttacked>=30) {
+					frameCountBeAttacked = 0;
 					this.director = "stand";
 				}
-				
+				break;
 			}
 		}
 
-		g2.drawImage(img, x, y, GamePanel.titleSize, GamePanel.titleSize * 2, null);
+		g2.drawImage(img, x, y, null);
 	}
 	public void blockedCase(int space) {
 		if(GamePanel.mukouMigi) x-=space;
