@@ -58,7 +58,7 @@ public class Player extends entity {
 	}
 	public void getPlayerImage() {
 		try {
-			up1 = ImageIO.read(getClass().getResource("/character/char.png"));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

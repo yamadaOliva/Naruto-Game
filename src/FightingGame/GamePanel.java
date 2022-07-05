@@ -26,7 +26,7 @@ import java.net.URL;
 import Entity.*;
 
 public class GamePanel extends JPanel implements Runnable {
-	Image bg;
+	BufferedImage bg;
 	public static final int originalTitleSize = 16;
 	public static final int scale = 3;
 	public static final double FPS = 60;
@@ -37,8 +37,9 @@ public class GamePanel extends JPanel implements Runnable {
 	private int totalFame = minuteGame*60*60;
 	private boolean moving = false;
 	private boolean kickStatus = false;
+	private DrawWindow dwd = new DrawWindow();
 	//UI
-	Image icon;
+	
 	//SOund
 	static Sound sound = new Sound();
 	//setup status of game
@@ -63,10 +64,13 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-		ImageIcon j = new ImageIcon("C:\\Users\\Admin\\Desktop\\ProjectOOP\\png\\png\\bg_Game.png");
-		bg = j.getImage();
-		ImageIcon u = new ImageIcon("C:\\Users\\Admin\\Desktop\\ProjectOOP\\png\\png\\bgMenu.gif");
-		icon = u.getImage();
+		
+		try {
+			bg = ImageIO.read(getClass().getResource("/png/bg_Game.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
@@ -112,11 +116,13 @@ public class GamePanel extends JPanel implements Runnable {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		if(statusGame==0) {
-			menuDraw(g2);
+			dwd.menuDraw(g2);
 		}
-		
 		if(statusGame==1) {
-		g.drawImage(bg, 0, 0, null);
+			
+		}
+		if(statusGame==1) {
+		g2.drawImage(bg, 0, 0, null);
 		if (player1.skill1.status && !player1.skill1.coming)
 			player1.skill1.draw(g2);
 		if (player1.skill1.coming) {
@@ -137,44 +143,8 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 	//draw menu
-	private void menuDraw(Graphics2D g2) {
-		String title = "GAME PRO VIP DANH NHAU DUNG DUNG";
-		g2.setColor(new Color(74, 116, 53));
-		g2.drawImage(icon, 0, 0,1278,720,null);
-		//Shadow
-		g2.setFont(g2.getFont().deriveFont(Font.BOLD,40));
-		g2.setColor(Color.gray);
-		g2.drawString(title, 273, 123);
-		//title Game
-		g2.setColor(Color.white);
-		g2.drawString(title, 270, 120);
-		//Detail
-		g2.setFont(g2.getFont().deriveFont(Font.BOLD,36));
-		if(statusChoose == 0) {
-			g2.setColor(Color.black);
-			g2.drawString("=>", 300, 250);
-			g2.drawString("START GAME ", 400, 250);
-		}else {
-			g2.setColor(Color.white);
-			g2.drawString("START GAME ", 400, 250);
-		}
-		if(statusChoose == 1) {
-			g2.setColor(Color.black);
-			g2.drawString("=>", 300, 350);
-			g2.drawString("SETTINGS ", 400, 350);
-		}else {
-			g2.setColor(Color.white);
-			g2.drawString("SETTINGS ", 400, 350);
-		}
-		if(statusChoose == 2) {
-			g2.setColor(Color.black);
-			g2.drawString("=>", 300, 450);
-			g2.drawString("QUIT ", 400, 450);
-		}else {
-			g2.setColor(Color.white);
-			g2.drawString("QUIT ", 400, 450);
-		}
-	}
+	
+	
 	//test skill
 	private void TestSkill() {
 		
@@ -326,6 +296,7 @@ public class GamePanel extends JPanel implements Runnable {
 		player2.frameCountWalk++;
 		if(player2.getDirector().equals("beAttacked")) player2.frameCountBeAttacked++;
 		//player1
+		if(player1.getChar2().getCdFlash()>0) player1.getChar2().setcdFlash();
 		if(player1.getChar2().getCdSkill1()>0) player1.getChar2().setCDTime1();
 		if(player1.getDirector().equals("punch"))player1.frameCountPunch++;
 		if(player1.getDirector().equals("stand"))player1.frameCountStand++;

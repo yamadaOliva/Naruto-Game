@@ -196,12 +196,13 @@ public class Player1 extends Player {
 		if(keyH1.punch) {
 			this.director ="punch";
 		}
-		if(keyH1.kick) {
+		if(keyH1.kick&&char2.getCdFlash()<=0) {
 			this.director = "tele";
+			char2.setCdFlash(char2.getCdFlashTime());
 		}
 		if(keyH1.skill1&&char2.getCdSkill1()<= 0) {
 			surikenStatus = true;
-			char2.setCdSkill1(600);
+			char2.setCdSkill1(char2.getCdSkill1Time());
 			skill = new Suriken(x, y+10);
 			skill.coming = true;
 			 double randomDouble = Math.random();

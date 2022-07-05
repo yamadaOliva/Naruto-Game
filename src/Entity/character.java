@@ -9,6 +9,15 @@ public class character {
 	private int speed;
 	private boolean blocked;
 	private int punchdame;
+	private final int  cdSkill1Time = 600;
+	private final int  cdFlashTime = 600;
+	public int getCdSkill1Time() {
+		return cdSkill1Time;
+	}
+	
+	public int getCdFlashTime() {
+		return cdFlashTime;
+	}
 	
 	public BufferedImage[] stand = new BufferedImage[10];
 	public BufferedImage[] defIMG = new BufferedImage[2];
@@ -25,11 +34,19 @@ public class character {
 	public int getCdSkill1() {
 		return cdSkill1;
 	}
-
-
-
+	private int cdFlash = 0;
+	
+	public int getCdFlash() {
+		return cdFlash;
+	}
+	public void setCdFlash(int cdFlash) {
+		this.cdFlash = cdFlash;
+	}
 	public void setCdSkill1(int cdSkill1) {
 		this.cdSkill1 = cdSkill1;
+	}
+	public void setcdFlash() {
+		this.cdFlash--;
 	}
 	public void setCDTime1() {
 		this.cdSkill1--; // dem thoi gian su dung cua skill1
