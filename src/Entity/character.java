@@ -21,6 +21,20 @@ public class character {
 	public BufferedImage[] teleposIMG = new BufferedImage[10];
 	public BufferedImage[] surikenIMG = new BufferedImage[5];
 	public BufferedImage[] beAttackedIMG = new BufferedImage[15];
+	private int cdSkill1 = 0;
+	public int getCdSkill1() {
+		return cdSkill1;
+	}
+
+
+
+	public void setCdSkill1(int cdSkill1) {
+		this.cdSkill1 = cdSkill1;
+	}
+	public void setCDTime1() {
+		this.cdSkill1--; // dem thoi gian su dung cua skill1
+	}
+
 	public int getHP() {
 		return HP;
 	}

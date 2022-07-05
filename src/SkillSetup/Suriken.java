@@ -14,6 +14,7 @@ public class Suriken extends Skills{
 	private int x,y;
 	private int speed = 8;
 	private int imgPos = 0;
+	
 	public boolean comingStatus = false;
 	public Suriken(int x,int y) {
 		getKunaiImg();

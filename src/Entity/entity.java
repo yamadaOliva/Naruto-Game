@@ -48,5 +48,7 @@ public abstract class entity {
 	public void setDef1(BufferedImage def1) {
 		this.def1 = def1;
 	}
-	
+	public void update() {
+		
+	}
 }

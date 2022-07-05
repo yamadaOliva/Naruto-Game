@@ -377,7 +377,6 @@ public class Player2 extends Player {
 				if(frameCountBeAttacked>=40&&frameCountBeAttacked<60) img = char2.getIMGBeAttaced(2);
 				if(frameCountBeAttacked>=60) {
 					frameCountBeAttacked = 0;
-					this.setHp(this.getHp()-10);
 					System.out.println(this.getHp());
 					this.beAttacked = false;
 					this.director = "stand";
@@ -392,5 +391,8 @@ public class Player2 extends Player {
 		if(GamePanel.mukouMigi) x+=space;
 		else x-=6;
 	}
-
+	public void setBeAttackedStatus(int dame) {
+		this.beAttacked = true;
+		this.setHp(this.getHp()-dame);
+	}
 }

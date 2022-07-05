@@ -177,17 +177,18 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	//test skill
 	private void TestSkill() {
+		
 		if (player1.skill == null) {
-			 player1.skill = new Suriken(player1.getX(),player1.getY());
+			 player1.skill = new Suriken(0,0);
 		}
 		if (player1.skill.coming) player1.skill.update();
-		if(player1.skill.getX() >= player2.getX()+20) {
-			player2.beAttacked = true;
+		if(player1.skill.getX() >= player2.getX()&&player1.skill.getX() <= player2.getX()+20&&checkYcollision(player1.skill.getY(),player2.getY())) {
+			player2.setBeAttackedStatus(player1.skill.getDame());
 			setconfig();
-			player1.skill = new Suriken(player1.getX(),player1.getY());
+			player1.skill = new Suriken(0,0);
 		}
 		if(player1.skill.getX()>=1200) {
-			player1.skill = new Suriken(player1.getX(),player1.getY());
+			player1.skill = new Suriken(0,0);
 		}
 	}
 	// check skill
@@ -325,6 +326,7 @@ public class GamePanel extends JPanel implements Runnable {
 		player2.frameCountWalk++;
 		if(player2.getDirector().equals("beAttacked")) player2.frameCountBeAttacked++;
 		//player1
+		if(player1.getChar2().getCdSkill1()>0) player1.getChar2().setCDTime1();
 		if(player1.getDirector().equals("punch"))player1.frameCountPunch++;
 		if(player1.getDirector().equals("stand"))player1.frameCountStand++;
 		if(player1.getDirector().equals("left")||player1.getDirector().equals("right"))player1.frameCountWalk++;
@@ -375,6 +377,10 @@ public class GamePanel extends JPanel implements Runnable {
 		if((player2.getY()<=player1.getY()+24)&&(player2.getY()>=player1.getY())) {
 			return true;
 		}
+		return false;
+	}
+	private boolean checkYcollision(int y1,int y2){
+		if(y1<=y2+48||y1>y2) return true;
 		return false;
 	}
 	//set config

@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 import FightingGame.GamePanel;
 
-public class Skills implements Action {
+public class Skills extends entity implements Action {
 	private int x;
 	private int y;
 	private int dame = 50;
@@ -18,6 +18,13 @@ public class Skills implements Action {
 	public boolean coming=false;
 	public boolean moving=false;
 	private int MAX_RANGE = 1250;
+	private int cd;
+	public int getCd() {
+		return cd;
+	}
+	public void setCd(int cd) {
+		this.cd = cd;
+	}
 	private BufferedImage skillImage;
 	private BufferedImage[] SkillsImg = new BufferedImage[5];
 	public int getX() {
@@ -89,5 +96,7 @@ public class Skills implements Action {
 	public BufferedImage getSkillsImg(int i) {
 		return SkillsImg[i];
 	}
-
+	public void skillCD() {
+		this.cd--;
+	}
 }

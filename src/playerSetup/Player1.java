@@ -42,7 +42,7 @@ public class Player1 extends Player {
 	public boolean blocked = false;
 	private boolean surikenStatus = false;
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
-	character char2;
+	 private character char2;
 	public void setEnemiesPos(int enemiesPos) {
 		this.enemiesPos = enemiesPos;
 	}
@@ -199,9 +199,10 @@ public class Player1 extends Player {
 		if(keyH1.kick) {
 			this.director = "tele";
 		}
-		if(keyH1.skill1&&!skill.coming) {
+		if(keyH1.skill1&&char2.getCdSkill1()<= 0) {
 			surikenStatus = true;
-			skill = new Suriken(x, y);
+			char2.setCdSkill1(600);
+			skill = new Suriken(x, y+10);
 			skill.coming = true;
 			 double randomDouble = Math.random();
 	         randomDouble = randomDouble * 4 ;
@@ -480,5 +481,11 @@ public class Player1 extends Player {
 	public void blockedCase(int space) {
 		if(GamePanel.mukouMigi) x-=space;
 		else x+=6;
+	}
+	public character getChar2() {
+		return char2;
+	}
+	public void setChar2(character char2) {
+		this.char2 = char2;
 	}
 }
