@@ -45,6 +45,8 @@ public class GamePanel extends JPanel implements Runnable {
 	//setup status of game
 	public static int statusGame=0;
 	public static boolean mukouMigi;
+	public static int choosingOne = 0;
+	public static int choosingTwo = 3;
 	// set window scale
 	public static final int titleSize = originalTitleSize * scale;
 	public final int maxScreenCol = 27;
@@ -60,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
 	Player2 player2 = new Player2(this, keyH1, screenWidth - 200, 550);
 	Thread gameThread;
 	HPconfig hp = new HPconfig();
+
 	private int distance2player;
 
 	public GamePanel() {
@@ -119,9 +122,9 @@ public class GamePanel extends JPanel implements Runnable {
 			dwd.menuDraw(g2);
 		}
 		if(statusGame==1) {
-			
+			dwd.slectChampDraw(g2);
 		}
-		if(statusGame==1) {
+		if(statusGame==2) {
 		g2.drawImage(bg, 0, 0, null);
 		if (player1.skill1.status && !player1.skill1.coming)
 			player1.skill1.draw(g2);
@@ -300,7 +303,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if(player1.getChar2().getCdSkill1()>0) player1.getChar2().setCDTime1();
 		if(player1.getDirector().equals("punch"))player1.frameCountPunch++;
 		if(player1.getDirector().equals("stand"))player1.frameCountStand++;
-		if(player1.getDirector().equals("left")||player1.getDirector().equals("right"))player1.frameCountWalk++;
+		player1.frameCountWalk++;
 		if(player1.getDirector().equals("tele"))player1.frameCountTele++;
 		if(player1.getDirector().equals("skill1")) player1.frameCountSuriken++;
 		if(statusGame==1) {
@@ -308,7 +311,6 @@ public class GamePanel extends JPanel implements Runnable {
 				totalFame--;
 			}
 			}
-		countTest++;
 		player1.setEnemiesPos(player2.getX());
 		if(player1.getX()<player2.getX()) mukouMigi = true;
 		else mukouMigi = false;
@@ -351,7 +353,7 @@ public class GamePanel extends JPanel implements Runnable {
 		return false;
 	}
 	private boolean checkYcollision(int y1,int y2){
-		if(y1<=y2+48||y1>y2) return true;
+		if(y1<=y2+48&&y1>y2) return true;
 		return false;
 	}
 	//set config

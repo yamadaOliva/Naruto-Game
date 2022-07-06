@@ -59,8 +59,36 @@ public class keyHandler implements KeyListener {
 					System.exit(0);
 				}
 			}
+			System.out.println(GamePanel.statusChoose);
 		}
-		if(GamePanel.statusGame==1) {
+		//
+		if(GamePanel.statusGame == 1) {
+			if(code == KeyEvent.VK_D ) {
+				DrawWindow.right1 = true;
+			}
+			if(code == KeyEvent.VK_A ) {
+				DrawWindow.left1 = true;
+			}
+			if(code == KeyEvent.VK_RIGHT ) {
+				DrawWindow.right2 = true;
+			}
+			if(code == KeyEvent.VK_LEFT ) {
+				DrawWindow.left2 = true;
+			}
+			if(code == KeyEvent.VK_J) {
+				DrawWindow.choosingStatus1 = true;
+			}
+			if(code == KeyEvent.VK_U) {
+				DrawWindow.choosingStatus2 = true;
+			}
+			System.out.println(DrawWindow.choosingStatus2 + " " + DrawWindow.choosingStatus1);
+			if(DrawWindow.choosingStatus2&&DrawWindow.choosingStatus1) {
+				GamePanel.statusGame = 2;
+			}
+		}
+		//
+		
+		if(GamePanel.statusGame==2) {
 		
 		standStatus = false;
 		if(code==upKey) {
