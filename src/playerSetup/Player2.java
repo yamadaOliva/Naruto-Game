@@ -11,8 +11,9 @@ import java.util.Collections;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.synth.SynthOptionPaneUI;
 
-import CharacterSetup.Kakashi;
 import CharacterSetup.Naruto;
+import CharacterSetup.Sakura;
+import CharacterSetup.Sasuke;
 import Entity.Player;
 import Entity.character;
 import FightingGame.GamePanel;
@@ -29,13 +30,13 @@ public class Player2 extends Player {
 	private String director;
 	public GamePanel gp;
 	private int choose;
-	//status
+	// status
 	private boolean onTop = false;
 	private boolean upStatus = false;
 	public boolean blockedLeft = false;
 	public boolean blockedRight = false;
 	public boolean blocked = false;
-	public boolean  beAttacked = false;
+	public boolean beAttacked = false;
 	//
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
 	character char2;
@@ -43,7 +44,6 @@ public class Player2 extends Player {
 	private int isFalling = 0;// Tuc la dang roi,1 co, 0 la khong
 	private int hoatAnhTiepDat = 0; // 1 la hien thi tiep hoat anh tiep dat, 0 la ket thuc
 	private int countTiepDat = 0; // dem so lan tiep dat
-	
 
 	public Player2(GamePanel gp, keyHandler keyH, int x, int y) { // thieu bien choose de chon nhan vat
 		super(gp, keyH, x, y);
@@ -57,7 +57,8 @@ public class Player2 extends Player {
 		this.frameCountDef = 0;
 		this.frameCountPunch = 0;
 	}
-	//setter & getter
+
+	// setter & getter
 	public int getX() {
 		return x;
 	}
@@ -73,6 +74,7 @@ public class Player2 extends Player {
 	public void setY(int y) {
 		this.y = y;
 	}
+
 	public String getDirector() {
 		return director;
 	}
@@ -80,6 +82,7 @@ public class Player2 extends Player {
 	public void setDirector(String director) {
 		this.director = director;
 	}
+
 	public int getFrameCountStand() {
 		return frameCountStand;
 	}
@@ -111,6 +114,7 @@ public class Player2 extends Player {
 	public void setFrameCountPunch(int frameCountPunch) {
 		this.frameCountPunch = frameCountPunch;
 	}
+
 	//
 	private void setupCharacter(int choose) {
 		switch (choose) {
@@ -119,7 +123,11 @@ public class Player2 extends Player {
 				break;
 			}
 			case 1: {
-				char2 = new Kakashi();
+				char2 = new Sasuke();
+				break;
+			}
+			case 2: {
+				char2 = new Sakura();
 				break;
 			}
 			default:
@@ -162,19 +170,21 @@ public class Player2 extends Player {
 		}
 		if (keyH1.rightStatus) {
 			beAttacked = false;
-			if(!blockedRight) x += speed;
+			if (!blockedRight)
+				x += speed;
 			this.director = "right";
 			if (x > 1278 - GamePanel.titleSize)
 				x = 1278 - GamePanel.titleSize;
 		}
 		if (keyH1.leftStatus) {
 			beAttacked = false;
-			if(!blockedLeft) x -= speed;
+			if (!blockedLeft)
+				x -= speed;
 			this.director = "left";
 			if (x < 0)
 				x = 0;
 		}
-		
+
 		if (!keyH1.upStatus) {
 			y += 3;
 			if (y >= 550) {
@@ -185,13 +195,13 @@ public class Player2 extends Player {
 		if (keyH1.standStatus) {
 			this.director = "stand";
 		}
-		if(keyH1.punch) {
+		if (keyH1.punch) {
 			this.director = "punch";
 		}
-		if(beAttacked) {
+		if (beAttacked) {
 			this.director = "beAttacked";
 		}
-		
+
 	}
 
 	@Override
@@ -203,7 +213,7 @@ public class Player2 extends Player {
 	public void draw1(Graphics2D g2) {
 		BufferedImage img = null;
 		// this.director = "stand";
-		//System.out.println(this.director);
+		// System.out.println(this.director);
 		int tmp;
 		switch (this.director) {
 
@@ -353,29 +363,47 @@ public class Player2 extends Player {
 					this.director = "stand";
 				}
 				break;
-			case "punch":{
-				if (this.frameCountPunch >= 0 && this.frameCountPunch < 12) img = char2.getImgComboRight(1);
-				if (this.frameCountPunch >= 12 && this.frameCountPunch < 24) img = char2.getImgComboRight(2);
-				if (this.frameCountPunch >= 24 && this.frameCountPunch < 36) img = char2.getImgComboRight(3);
-				if (this.frameCountPunch >= 36 && this.frameCountPunch < 48) img = char2.getImgComboRight(4);
-				if (this.frameCountPunch >= 48 && this.frameCountPunch < 60) img = char2.getImgComboRight(5);
-				if (this.frameCountPunch >= 60 && this.frameCountPunch < 72) img = char2.getImgComboRight(6);
-				if (this.frameCountPunch >= 72 && this.frameCountPunch < 84) img = char2.getImgComboRight(7);
-				if (this.frameCountPunch >= 84 && this.frameCountPunch < 96) img = char2.getImgComboRight(8);
-				if (this.frameCountPunch >= 96 && this.frameCountPunch < 108) img = char2.getImgComboRight(9);
-				if (this.frameCountPunch >= 108 && this.frameCountPunch < 120) img = char2.getImgComboRight(10);
-				if (this.frameCountPunch >= 120 && this.frameCountPunch < 132) img = char2.getImgComboRight(11);
-				if (this.frameCountPunch >= 132 && this.frameCountPunch < 144) img = char2.getImgComboRight(12);
-				if (this.frameCountPunch >= 144 && this.frameCountPunch < 156) img = char2.getImgComboRight(13);
-				if (this.frameCountPunch >= 156 && this.frameCountPunch < 168) img = char2.getImgComboRight(14);
-				if(this.frameCountPunch==168) this.frameCountPunch=0;
+			case "punch": {
+				if (this.frameCountPunch >= 0 && this.frameCountPunch < 12)
+					img = char2.getImgComboRight(1);
+				if (this.frameCountPunch >= 12 && this.frameCountPunch < 24)
+					img = char2.getImgComboRight(2);
+				if (this.frameCountPunch >= 24 && this.frameCountPunch < 36)
+					img = char2.getImgComboRight(3);
+				if (this.frameCountPunch >= 36 && this.frameCountPunch < 48)
+					img = char2.getImgComboRight(4);
+				if (this.frameCountPunch >= 48 && this.frameCountPunch < 60)
+					img = char2.getImgComboRight(5);
+				if (this.frameCountPunch >= 60 && this.frameCountPunch < 72)
+					img = char2.getImgComboRight(6);
+				if (this.frameCountPunch >= 72 && this.frameCountPunch < 84)
+					img = char2.getImgComboRight(7);
+				if (this.frameCountPunch >= 84 && this.frameCountPunch < 96)
+					img = char2.getImgComboRight(8);
+				if (this.frameCountPunch >= 96 && this.frameCountPunch < 108)
+					img = char2.getImgComboRight(9);
+				if (this.frameCountPunch >= 108 && this.frameCountPunch < 120)
+					img = char2.getImgComboRight(10);
+				if (this.frameCountPunch >= 120 && this.frameCountPunch < 132)
+					img = char2.getImgComboRight(11);
+				if (this.frameCountPunch >= 132 && this.frameCountPunch < 144)
+					img = char2.getImgComboRight(12);
+				if (this.frameCountPunch >= 144 && this.frameCountPunch < 156)
+					img = char2.getImgComboRight(13);
+				if (this.frameCountPunch >= 156 && this.frameCountPunch < 168)
+					img = char2.getImgComboRight(14);
+				if (this.frameCountPunch == 168)
+					this.frameCountPunch = 0;
 			}
-				
+
 			case "beAttacked": {
-				if(frameCountBeAttacked>=0&&frameCountBeAttacked<20) img = char2.getIMGBeAttaced(0);
-				if(frameCountBeAttacked>=20&&frameCountBeAttacked<40) img = char2.getIMGBeAttaced(1);
-				if(frameCountBeAttacked>=40&&frameCountBeAttacked<60) img = char2.getIMGBeAttaced(2);
-				if(frameCountBeAttacked>=60) {
+				if (frameCountBeAttacked >= 0 && frameCountBeAttacked < 20)
+					img = char2.getIMGBeAttaced(0);
+				if (frameCountBeAttacked >= 20 && frameCountBeAttacked < 40)
+					img = char2.getIMGBeAttaced(1);
+				if (frameCountBeAttacked >= 40 && frameCountBeAttacked < 60)
+					img = char2.getIMGBeAttaced(2);
+				if (frameCountBeAttacked >= 60) {
 					frameCountBeAttacked = 0;
 					System.out.println(this.getHp());
 					this.beAttacked = false;
@@ -388,11 +416,14 @@ public class Player2 extends Player {
 	}
 
 	public void blockedCase(int space) {
-		if(GamePanel.mukouMigi) x+=space;
-		else x-=6;
+		if (GamePanel.mukouMigi)
+			x += space;
+		else
+			x -= 6;
 	}
+
 	public void setBeAttackedStatus(int dame) {
 		this.beAttacked = true;
-		this.setHp(this.getHp()-dame);
+		this.setHp(this.getHp() - dame);
 	}
 }
