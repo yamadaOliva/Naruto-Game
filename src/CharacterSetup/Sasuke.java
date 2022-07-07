@@ -21,7 +21,17 @@ public class Sasuke extends character {
     public BufferedImage[] beAttackedIMG = new BufferedImage[15];
     private String characterName = "Sasuke";
     public int countImgCombo = 24;
+    private final int cdSkill1Time = 300;
+	private final int cdFlashTime = 600;
 
+
+	public int getCdSkill1Time() {
+		return cdSkill1Time;
+	}
+
+	public int getCdFlashTime() {
+		return cdFlashTime;
+	}
     public Sasuke() {
         this.setSpeed(3);
         this.setPunchdame(5);

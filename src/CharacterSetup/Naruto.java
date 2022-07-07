@@ -14,16 +14,15 @@ public class Naruto extends character {
 	public BufferedImage[] moveLeft = new BufferedImage[10];
 	public BufferedImage[] walkIMG = new BufferedImage[20];
 	public BufferedImage[] jumpIMG = new BufferedImage[20];
-	public BufferedImage[] comboIMGRight = new BufferedImage[20];
-	public BufferedImage[] comboIMGLeft = new BufferedImage[20];
+	public BufferedImage[] comboIMGRight = new BufferedImage[25];
+	public BufferedImage[] comboIMGLeft = new BufferedImage[26];
 	public BufferedImage[] teleposIMG = new BufferedImage[10];
 	public BufferedImage[] surikenIMG = new BufferedImage[5];
 	public BufferedImage[] beAttackedIMG = new BufferedImage[15];
 	private String characterName = "Naruto";
-	private final int cdSkill1Time = 600;
+	private final int cdSkill1Time = 300;
 	private final int cdFlashTime = 600;
 
-	private int cdFlash = 0;
 
 	public int getCdSkill1Time() {
 		return cdSkill1Time;

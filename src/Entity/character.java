@@ -26,8 +26,8 @@ public class character {
 	public BufferedImage[] moveLeft = new BufferedImage[10];
 	public BufferedImage[] walkIMG = new BufferedImage[20];
 	public BufferedImage[] jumpIMG = new BufferedImage[20];
-	public BufferedImage[] comboIMGRight = new BufferedImage[20];
-	public BufferedImage[] comboIMGLeft = new BufferedImage[20];
+	public BufferedImage[] comboIMGRight = new BufferedImage[30];
+	public BufferedImage[] comboIMGLeft = new BufferedImage[30];
 	public BufferedImage[] teleposIMG = new BufferedImage[10];
 	public BufferedImage[] surikenIMG = new BufferedImage[5];
 	public BufferedImage[] beAttackedIMG = new BufferedImage[15];

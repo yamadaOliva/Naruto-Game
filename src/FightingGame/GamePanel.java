@@ -47,6 +47,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public static boolean mukouMigi;
 	public static int choosingOne = 0;
 	public static int choosingTwo = 3;
+	public static int choosingMap = 0;
+	private boolean clock = true;
 	// set window scale
 	public static final int titleSize = originalTitleSize * scale;
 	public final int maxScreenCol = 27;
@@ -58,8 +60,8 @@ public class GamePanel extends JPanel implements Runnable {
 	keyHandler keyH = new keyHandler(KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_D, KeyEvent.VK_A, 'k');
 	keyHandler keyH1 = new keyHandler(KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT,
 			KeyEvent.VK_L);
-	Player1 player1 = new Player1(this, keyH, 200, 550);
-	Player2 player2 = new Player2(this, keyH1, screenWidth - 200, 550);
+	Player1 player1 = new Player1(this, keyH, 200, 550,choosingOne);
+	Player2 player2 = new Player2(this, keyH1, screenWidth - 200, 550,choosingTwo);
 	Thread gameThread;
 	HPconfig hp = new HPconfig();
 
@@ -67,13 +69,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public GamePanel() {
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-		
-		try {
-			bg = ImageIO.read(getClass().getResource("/png/bg_Game.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 		this.setBackground(Color.black);
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
@@ -100,13 +95,22 @@ public class GamePanel extends JPanel implements Runnable {
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime) / drawInterval;
 			lastTime = currentTime;
+			if(statusGame==2&&clock) {
+				player1 = new Player1(this, keyH, 200, 550,choosingOne);
+				player2 = new Player2(this, keyH1, screenWidth - 200, 550,choosingTwo);
+				clock = false;
+			}
 			if (delta >= 1) {
+				if(statusGame==2) {
 				TestSkill();
 				player1.update();
 				player2.update();
 				checkPunch(player1, player2);
 				setupStatus();
 				checkKick();
+				if(totalFame>0) totalFame --;
+				}
+				 
 				repaint();
 				delta--;
 			}
@@ -125,7 +129,8 @@ public class GamePanel extends JPanel implements Runnable {
 			dwd.slectChampDraw(g2);
 		}
 		if(statusGame==2) {
-		g2.drawImage(bg, 0, 0, null);
+		if(choosingMap==4) g2.drawImage(dwd.mapG.mapGif, 0, 0, null);
+		else g2.drawImage(dwd.mapG.map[choosingMap], 0, 0, null);
 		if (player1.skill1.status && !player1.skill1.coming)
 			player1.skill1.draw(g2);
 		if (player1.skill1.coming) {
@@ -361,6 +366,7 @@ public class GamePanel extends JPanel implements Runnable {
 		hp.setHp2(player2.getHp());
 		hp.setPower2(hp.getPower2()+5);
 	}
+
 	// get sound
 	public static void playMusic(int i ) {
 		sound.setFile(i);

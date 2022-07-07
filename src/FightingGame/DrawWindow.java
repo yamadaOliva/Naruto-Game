@@ -5,12 +5,14 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class DrawWindow {
 	Image icon;
+	public MapG mapG= new MapG();;
 	BufferedImage[] iconSelector = new BufferedImage[4]; 
 	public static boolean right1 = false,left1 = false, right2 = false,left2 = false, choosingStatus1 = false, choosingStatus2 = false;
 	public static int selectionStatus = 0;
@@ -65,11 +67,6 @@ public class DrawWindow {
 		}
 	}
 	public void slectChampDraw(Graphics2D g2) {
-		g2.setBackground(Color.white);
-		drawChamp(0, g2, 300, 150);
-		drawChamp(1, g2, 500, 150);
-		drawChamp(2, g2, 700, 150);
-		drawChamp(3, g2, 900, 150);
 		if(right1) {
 			GamePanel.choosingOne ++;
 			if(GamePanel.choosingOne==4) GamePanel.choosingOne = 0;
@@ -82,16 +79,41 @@ public class DrawWindow {
 		}
 		if(right2) {
 			GamePanel.choosingTwo ++;
+			GamePanel.choosingMap ++;
+			if(GamePanel.choosingMap == 5) GamePanel.choosingMap = 0;
 			if(GamePanel.choosingTwo==4) GamePanel.choosingTwo = 0;
 			right2 = false;
 		}
 		if(left2) {
 			GamePanel.choosingTwo--;
+			GamePanel.choosingMap --;
+			if(GamePanel.choosingMap == -1) GamePanel.choosingMap = 4;
 			if(GamePanel.choosingTwo==-1) GamePanel.choosingTwo = 3;
 			left2 = false;
 		}
-		drawName("player1", g2, 330+200*GamePanel.choosingOne, 135, Color.red);
-		drawName("player2", g2, 330+200*GamePanel.choosingTwo, 285, Color.blue);
+		switch (selectionStatus) {
+		
+		case 0: {
+			g2.setBackground(Color.white);
+			drawChamp(0, g2, 300, 150);
+			drawChamp(2, g2, 500, 150);
+			drawChamp(1, g2, 700, 150);
+			drawChamp(3, g2, 900, 150);
+			drawName("player1", g2, 330+200*GamePanel.choosingOne, 135, Color.red);
+			drawName("player2", g2, 330+200*GamePanel.choosingTwo, 285, Color.blue);
+			break;
+		}
+		case 1:{
+			
+			g2.drawImage(mapG.map[0],200,500,100,100,null);
+			g2.drawImage(mapG.map[1],400,500,100,100,null);
+			g2.drawImage(mapG.map[2],600,500,100,100,null);
+			g2.drawImage(mapG.map[3],800,500,100,100,null);
+			g2.drawImage(mapG.mapGif,1000,500,100,100,null);
+			drawName("<.>", g2, 240+GamePanel.choosingMap*200, 635, Color.red);
+		}
+		
+		}
 	}
 	private void drawChamp(int pos,Graphics2D g2,int x,int y) {
 		g2.drawImage(iconSelector[pos],x,y,100,100,null);
@@ -101,4 +123,5 @@ public class DrawWindow {
 		g2.setColor(beautiful);
 		g2.drawString(name, x, y);
 	}
+	
 }

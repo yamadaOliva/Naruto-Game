@@ -21,7 +21,17 @@ public class Sakura extends character {
     public BufferedImage[] surikenIMG = new BufferedImage[5];
     public BufferedImage[] beAttackedIMG = new BufferedImage[15];
     private String characterName = "Sakura";
+    private final int cdSkill1Time = 300;
+	private final int cdFlashTime = 600;
 
+
+	public int getCdSkill1Time() {
+		return cdSkill1Time;
+	}
+
+	public int getCdFlashTime() {
+		return cdFlashTime;
+	}
     public Sakura() {
         this.setSpeed(3);
         this.setPunchdame(5);

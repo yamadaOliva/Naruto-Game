@@ -29,7 +29,7 @@ public class Player2 extends Player {
 	private int x, y;
 	private String director;
 	public GamePanel gp;
-	private int choose;
+	private int choose=0;
 	// status
 	private boolean onTop = false;
 	private boolean upStatus = false;
@@ -45,12 +45,13 @@ public class Player2 extends Player {
 	private int hoatAnhTiepDat = 0; // 1 la hien thi tiep hoat anh tiep dat, 0 la ket thuc
 	private int countTiepDat = 0; // dem so lan tiep dat
 
-	public Player2(GamePanel gp, keyHandler keyH, int x, int y) { // thieu bien choose de chon nhan vat
+	public Player2(GamePanel gp, keyHandler keyH, int x, int y, int choose) { // thieu bien choose de chon nhan vat
 		super(gp, keyH, x, y);
 		this.gp = gp;
 		this.keyH1 = keyH;
 		this.y = y;
 		this.x = x;
+		this.choose = choose;
 		setupCharacter(0);
 		this.director = "stand";
 		this.frameCountStand = 0;
@@ -130,8 +131,7 @@ public class Player2 extends Player {
 				char2 = new Sakura();
 				break;
 			}
-			default:
-				throw new IllegalArgumentException("Unexpected value: " + choose);
+			
 		}
 	}
 

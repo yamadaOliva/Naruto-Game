@@ -34,7 +34,7 @@ public class Player1 extends Player {
 	private int x, y;
 	private String director;
 	public GamePanel gp;
-	private int choose = 1;
+	private int choose=1;
 	// player's status
 	private boolean onTop = false;
 	private boolean upStatus = false;
@@ -60,13 +60,14 @@ public class Player1 extends Player {
 	public Skills skill;
 	private int enemiesPos;
 
-	public Player1(GamePanel gp, keyHandler keyH, int x, int y) { // thieu bien choose de chon nhan vat
+	public Player1(GamePanel gp, keyHandler keyH, int x, int y,int choose) { // thieu bien choose de chon nhan vat
 		super(gp, keyH, x, y);
 		this.gp = gp;
 		this.keyH1 = keyH;
 		this.y = y;
 		this.x = x;
-		setupCharacter(1);
+		this.choose = choose;
+		setupCharacter(choose);
 		checkLeft = 1;
 		this.director = "stand";
 		this.frameCountStand = 0;
@@ -535,7 +536,7 @@ public class Player1 extends Player {
 						img = char2.getIMGCombo(10, this.checkLeft);
 					if (this.frameCountPunch >= 132 && this.frameCountPunch < 144)
 						img = char2.getIMGCombo(11, this.checkLeft);
-					if (this.frameCountPunch >= 168) {
+					if (this.frameCountPunch >= 144) {
 						this.frameCountPunch = 0;
 						this.director = "stand";
 					}
