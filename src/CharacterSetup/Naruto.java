@@ -17,7 +17,7 @@ public class Naruto extends character {
 	public BufferedImage[] comboIMGRight = new BufferedImage[25];
 	public BufferedImage[] comboIMGLeft = new BufferedImage[26];
 	public BufferedImage[] teleposIMG = new BufferedImage[10];
-	public BufferedImage[] surikenIMG = new BufferedImage[5];
+	public BufferedImage[] surikenIMG = new BufferedImage[7];
 	public BufferedImage[] beAttackedIMG = new BufferedImage[15];
 	private String characterName = "Naruto";
 	private final int cdSkill1Time = 300;
@@ -48,9 +48,12 @@ public class Naruto extends character {
 
 	public void getSurikenIMG() {
 		try {
-			this.surikenIMG[0] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_1.png"));
-			this.surikenIMG[1] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_2.png"));
-			this.surikenIMG[2] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_3.png"));
+			this.surikenIMG[3] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_1.png"));
+			this.surikenIMG[4] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_2.png"));
+			this.surikenIMG[5] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_3.png"));
+			this.surikenIMG[0] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_4.png"));
+			this.surikenIMG[1] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_5.png"));
+			this.surikenIMG[2] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_6.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -216,11 +219,11 @@ public class Naruto extends character {
 
 	private void getBeAttackedIMG() {
 		try {
-			for (int i = 1; i <= 14; ++i) {
+			for (int i = 1; i <= 10; ++i) {
 				this.beAttackedIMG[i - 1] = ImageIO.read(getClass()
 						.getResource("/character/" + characterName + "/beattacked_" + Integer.toString(i) + ".png"));
-
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

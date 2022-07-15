@@ -41,9 +41,8 @@ public class Player2 extends Player {
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
 	character char2;
 	character optionChoose[];
+
 	private int isFalling = 0;// Tuc la dang roi,1 co, 0 la khong
-	private int hoatAnhTiepDat = 0; // 1 la hien thi tiep hoat anh tiep dat, 0 la ket thuc
-	private int countTiepDat = 0; // dem so lan tiep dat
 
 	public Player2(GamePanel gp, keyHandler keyH, int x, int y, int choose) { // thieu bien choose de chon nhan vat
 		super(gp, keyH, x, y);
@@ -52,7 +51,8 @@ public class Player2 extends Player {
 		this.y = y;
 		this.x = x;
 		this.choose = choose;
-		setupCharacter(0);
+		System.out.println(choose);
+		setupCharacter(choose);
 		this.director = "stand";
 		this.frameCountStand = 0;
 		this.frameCountDef = 0;
@@ -133,11 +133,15 @@ public class Player2 extends Player {
 			}
 			
 		}
+		
 	}
 
 	@Override
 	public void update() {
 		int speed = char2.getSpeed();
+		if (beAttacked) {
+			this.director = "beAttacked";
+		} else {
 		if (onTop) {
 			keyH1.upStatus = false;
 			this.isFalling = 1;
@@ -198,8 +202,7 @@ public class Player2 extends Player {
 		if (keyH1.punch) {
 			this.director = "punch";
 		}
-		if (beAttacked) {
-			this.director = "beAttacked";
+		
 		}
 
 	}
@@ -421,9 +424,14 @@ public class Player2 extends Player {
 		else
 			x -= 6;
 	}
-
+	public void setBeAttacked(int xSkill, int ySkill) {
+		
+	}
 	public void setBeAttackedStatus(int dame) {
 		this.beAttacked = true;
 		this.setHp(this.getHp() - dame);
+	}
+	private void checkXY() {
+		
 	}
 }

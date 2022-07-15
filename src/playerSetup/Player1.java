@@ -42,7 +42,12 @@ public class Player1 extends Player {
 	public boolean blockedRight = false;
 	public boolean blocked = false;
 	private boolean surikenStatus = false;
+	private boolean beAttacked = false;
+	private int statusMukou;
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
+	public int getCheckLeft() {
+		return checkLeft;
+	}
 	private character char2;
 
 	public void setEnemiesPos(int enemiesPos) {
@@ -51,8 +56,7 @@ public class Player1 extends Player {
 
 	character optionChoose[];
 	private int isFalling = 0;// Tuc la dang roi,1 co, 0 la khong
-	private int hoatAnhTiepDat = 0; // 1 la hien thi tiep hoat anh tiep dat, 0 la ket thuc
-	private int countTiepDat = 0; // dem so lan tiep dat
+	
 	//
 	int fixbug;
 	// tuong tac
@@ -150,52 +154,57 @@ public class Player1 extends Player {
 			default:
 				throw new IllegalArgumentException("Unexpected value: " + choose);
 		}
+		
 	}
 
 	@Override
 	public void update() {
 		int speed = char2.getSpeed();
-		if (onTop) {
-			keyH1.upStatus = false;
-			this.isFalling = 1;
-		}
-
-		if (keyH1.upStatus) {
-			upStatus = true;
-			if (y <= 300) {
+		statusMukou =  GamePanel.mukouMigi?1:0;
+		if(beAttacked) {
+			
+		} else {
+			if (onTop) {
 				keyH1.upStatus = false;
-				onTop = true;
-			} else {
+				this.isFalling = 1;
+			}
+	
+			if (keyH1.upStatus) {
+				upStatus = true;
+				if (y <= 300) {
+					keyH1.upStatus = false;
+					onTop = true;
+				} else {
+					y -= 3;
+				}
+				// this.director = "up";
+			}
+			if (upStatus) {
 				y -= 3;
+				this.director = "up";
+				keyH1.upStatus = true;
+				if (y <= 300) {
+					upStatus = false;
+					onTop = true;
+					keyH1.kick = false;
+				}
 			}
-			// this.director = "up";
-		}
-		if (upStatus) {
-			y -= 3;
-			this.director = "up";
-			keyH1.upStatus = true;
-			if (y <= 300) {
-				upStatus = false;
-				onTop = true;
-				keyH1.kick = false;
+			if (keyH1.downStatus && !upStatus && isFalling == 0) {
+				this.director = "def";
 			}
-		}
-		if (keyH1.downStatus && !upStatus && isFalling == 0) {
-			this.director = "def";
-		}
-		if (keyH1.rightStatus) {
-			if (!blockedRight)
-				x += speed;
-			this.director = "right";
-			if (x > 1278 - GamePanel.titleSize)
-				x = 1278 - GamePanel.titleSize;
-		}
-		if (keyH1.leftStatus) {
-			if (!blockedLeft)
-				x -= speed;
-			this.director = "left";
-			if (x < 0)
-				x = 0;
+			if (keyH1.rightStatus) {
+				if (!blockedRight)
+					x += speed;
+				this.director = "right";
+				if (x > 1278 - GamePanel.titleSize)
+					x = 1278 - GamePanel.titleSize;
+			}
+			if (keyH1.leftStatus) {
+				if (!blockedLeft)
+					x -= speed;
+				this.director = "left";
+				if (x < 0)
+					x = 0;
 		}
 
 		if (!keyH1.upStatus) {
@@ -227,6 +236,7 @@ public class Player1 extends Player {
 		}
 		if (surikenStatus)
 			this.director = "skill1";
+		}
 	}
 
 	@Override
@@ -237,8 +247,7 @@ public class Player1 extends Player {
 
 	public void draw1(Graphics2D g2) {
 		BufferedImage img = null;
-		// this.director = "stand";
-		// System.out.println(this.director);
+		
 		int tmp;
 		switch (this.director) {
 
@@ -248,7 +257,6 @@ public class Player1 extends Player {
 					tmp = 1;
 				} else
 					tmp = 0;
-				// System.out.println(char2.getClass().getName());
 				if (this.frameCountStand >= 0 && this.frameCountStand < 15)
 					img = char2.getImgStand(0 * 2 + tmp);
 				if (this.frameCountStand >= 15 && this.frameCountStand < 30)
@@ -390,8 +398,7 @@ public class Player1 extends Player {
 				break;
 			case "punch": {
 				if (choose == 0) {
-					// naruto
-					// System.out.println("Naruto");
+					
 					if (this.frameCountPunch >= 0 && this.frameCountPunch < 12)
 						img = char2.getIMGCombo(0, this.checkLeft);
 					if (this.frameCountPunch >= 12 && this.frameCountPunch < 24)
@@ -556,7 +563,8 @@ public class Player1 extends Player {
 				if (this.frameCountTele >= 30 && frameCountTele < 35)
 					img = char2.getImgTelepos(3);
 				if (this.frameCountTele >= 35 && frameCountTele < 38) {
-					this.x = enemiesPos + 50;
+					if(checkLeft<enemiesPos) this.x = enemiesPos + 50;
+					else this.x = enemiesPos -50;
 					img = char2.getImgTelepos(4);
 				}
 				if (this.frameCountTele >= 38 && frameCountTele < 41)
@@ -577,11 +585,11 @@ public class Player1 extends Player {
 			}
 			case "skill1": {
 				if (frameCountSuriken >= 0 && frameCountSuriken < 10)
-					img = char2.getIMGSuriken(0);
+					img = char2.getIMGSuriken(0+statusMukou*3);
 				if (frameCountSuriken >= 10 && frameCountSuriken < 20)
-					img = char2.getIMGSuriken(1);
+					img = char2.getIMGSuriken(1+statusMukou*3);
 				if (frameCountSuriken >= 20 && frameCountSuriken < 30)
-					img = char2.getIMGSuriken(2);
+					img = char2.getIMGSuriken(2+statusMukou*3);
 				if (frameCountSuriken >= 30) {
 					frameCountSuriken = 0;
 					surikenStatus = false;
@@ -622,5 +630,7 @@ public class Player1 extends Player {
 	public void setChar2(character char2) {
 		this.char2 = char2;
 	}
-
+	private void checkXY() {
+		
+	}
 }

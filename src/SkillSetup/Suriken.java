@@ -59,6 +59,8 @@ public class Suriken extends Skills{
 			SkillsImg[2] = ImageIO.read(getClass().getResource("/skills/kunai/kunai_3.png"));
 			SkillsImg[3] = ImageIO.read(getClass().getResource("/skills/kunai/kunai_4.png"));
 			SkillsImg[4] = ImageIO.read(getClass().getResource("/skills/kunai/kunai_5.png"));
+
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

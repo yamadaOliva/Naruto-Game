@@ -78,14 +78,15 @@ public class DrawWindow {
 			left1 = false;
 		}
 		if(right2) {
-			GamePanel.choosingTwo ++;
+			if(selectionStatus==0) GamePanel.choosingTwo ++;
 			GamePanel.choosingMap ++;
 			if(GamePanel.choosingMap == 5) GamePanel.choosingMap = 0;
 			if(GamePanel.choosingTwo==4) GamePanel.choosingTwo = 0;
 			right2 = false;
 		}
 		if(left2) {
-			GamePanel.choosingTwo--;
+			if(selectionStatus==0) GamePanel.choosingTwo--;
+			System.out.println("Current:" +GamePanel.choosingTwo);
 			GamePanel.choosingMap --;
 			if(GamePanel.choosingMap == -1) GamePanel.choosingMap = 4;
 			if(GamePanel.choosingTwo==-1) GamePanel.choosingTwo = 3;

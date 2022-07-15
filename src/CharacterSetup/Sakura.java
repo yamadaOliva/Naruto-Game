@@ -18,7 +18,7 @@ public class Sakura extends character {
     public BufferedImage[] comboIMGRight = new BufferedImage[50];
     public BufferedImage[] comboIMGLeft = new BufferedImage[50];
     public BufferedImage[] teleposIMG = new BufferedImage[10];
-    public BufferedImage[] surikenIMG = new BufferedImage[5];
+    public BufferedImage[] surikenIMG = new BufferedImage[7];
     public BufferedImage[] beAttackedIMG = new BufferedImage[15];
     private String characterName = "Sakura";
     private final int cdSkill1Time = 300;
@@ -48,9 +48,12 @@ public class Sakura extends character {
 
     public void getSurikenIMG() {
         try {
-            this.surikenIMG[0] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_1.png"));
-            this.surikenIMG[1] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_2.png"));
-            this.surikenIMG[2] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_3.png"));
+        	this.surikenIMG[3] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_1.png"));
+			this.surikenIMG[4] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_2.png"));
+			this.surikenIMG[5] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_3.png"));
+			this.surikenIMG[0] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_4.png"));
+			this.surikenIMG[1] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_5.png"));
+			this.surikenIMG[2] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_6.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,8 +91,7 @@ public class Sakura extends character {
                     .read(getClass().getResource("/character/" + characterName + "/combo11.png"));
             this.comboIMGRight[11] = ImageIO
                     .read(getClass().getResource("/character/" + characterName + "/combo12.png"));
-            this.comboIMGRight[12] = ImageIO
-                    .read(getClass().getResource("/character/" + characterName + "/combo13.png"));
+         
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -201,7 +203,7 @@ public class Sakura extends character {
 
     private void getBeAttackedIMG() {
         try {
-            for (int i = 1; i <= 14; ++i) {
+            for (int i = 1; i <= 10; ++i) {
                 this.beAttackedIMG[i - 1] = ImageIO.read(getClass()
                         .getResource("/character/" + characterName + "/beattacked_" + Integer.toString(i) + ".png"));
 

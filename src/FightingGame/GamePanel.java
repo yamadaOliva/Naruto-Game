@@ -102,12 +102,12 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 			if (delta >= 1) {
 				if(statusGame==2) {
-				TestSkill();
+ 
 				player1.update();
 				player2.update();
 				checkPunch(player1, player2);
 				setupStatus();
-				checkKick();
+				TestSkill();
 				if(totalFame>0) totalFame --;
 				}
 				 
@@ -157,77 +157,23 @@ public class GamePanel extends JPanel implements Runnable {
 	private void TestSkill() {
 		
 		if (player1.skill == null) {
-			 player1.skill = new Suriken(0,0);
+			 player1.skill = new Suriken();
 		}
 		if (player1.skill.coming) player1.skill.update();
 		if(player1.skill.getX() >= player2.getX()&&player1.skill.getX() <= player2.getX()+20&&checkYcollision(player1.skill.getY(),player2.getY())) {
 			player2.setBeAttackedStatus(player1.skill.getDame());
 			setconfig();
-			player1.skill = new Suriken(0,0);
+			player1.skill =new Suriken();
 		}
-		if(player1.skill.getX()>=1200) {
-			player1.skill = new Suriken(0,0);
+		if(player1.skill.getX()>=1200||player1.skill.getX()<=0) {
+			player1.skill = new Suriken();
 		}
 	}
 	// check skill
-	private void checkSkill(Player player1, Player player2) {
-		if (player1.skill1 == null)
-			player1.skill1 = new Skills();
-		if (player1.skillStatus) {
-			player1.skill1.setX(player1.getX() + 10);
-			player1.skill1.setY(player1.getY() - 10);
-			player1.skill1.status = true;
-			moving = true;
-		}
-		player1.skillStatus = false;
-		if ((player1.skill1.getX() < player2.getX() + 10 && player1.skill1.getX() > player2.getX() - 4)
-				&& (player1.skill1.getY() < player2.getY() && player1.skill1.getY() > player2.getY() - 70)) {
-			player1.skill1.coming = true;
-			player2.setHp(player2.getHp() - player1.skill1.getDame());
-			hp.setHp2(player2.getHp());
-			player2.setX(player2.getX() + 2);
-			System.out.println(player2.getHp());
-			player1.skill1 = null;
-			player1.skill1 = new Skills();
-			moving = false;
-		}
-		if (player1.skill1.getX() > 1200) {
-			moving = false;
-			player1.skill1 = null;
-			player1.skill1 = new Skills();
-		}
-		if (player1.skill1.status && !player1.skill1.coming) {
-			player1.skill1.update();
-		}
-	}
+	
 
 	// check kick
-	private void checkKick() {
-		if (player1.kickStatus) {
-			kickStatus = true;
-			player1.kick.setX(player1.getX() + 30);
-			player1.kick.setY(player1.getY() + 50);
-		}
-		if (player1.kickCount > 30) {
-			kickStatus = false;
-			player1.kickCount = 0;
-		}
-		if (Math.abs(player1.getX() - player2.getX()) < 70 && player1.kickCount == 15) {
-			
-			player2.setHp(player2.getHp() - player1.kick.getDame());
-			player2.setX(player2.getX()+10);
-			player2.setDirector("left");
-			setconfig();
-			
-		}
-
-		if (player2.getHp() <= 0) {
-			JOptionPane.showMessageDialog(null, "Player1 Win");
-			sound.stop();
-			gameThread = null;
-			System.exit(0);
-		}
-	}
+	
 	// check punch
 	private void checkPunch(Player attack,Player attacked) {
 		if(mukouMigi) {
@@ -289,13 +235,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 	// check win if timeup
-	private void checkWinTimeUp() {
-		if(player1.getHp()>player2.getHp()) {
-			JOptionPane.showMessageDialog(null, "Player1 Win");
-			gameThread = null;
-			
-		}
-	}
+	
 	// thiet lap cac trang thai
 	private void setupStatus() {
 		if (kickStatus) player1.kickCount++;

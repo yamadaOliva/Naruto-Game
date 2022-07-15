@@ -86,7 +86,7 @@ public class keyHandler implements KeyListener {
 			}
 			if(DrawWindow.selectionStatus == 1&&code == KeyEvent.VK_ENTER) {
 				GamePanel.statusGame = 2;
-				GamePanel.playMusic(0);
+				//GamePanel.playMusic(0);
 			}
 		}
 		//

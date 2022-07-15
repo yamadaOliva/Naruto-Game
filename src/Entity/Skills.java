@@ -35,7 +35,6 @@ public class Skills extends entity implements Action {
 	}
 	public Skills() {
 		try {
-			skillImage = ImageIO.read(getClass().getResource("/skills/skillSprite.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
