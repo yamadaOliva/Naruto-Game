@@ -107,12 +107,19 @@ public class GamePanel extends JPanel implements Runnable {
 				player2.update();
 				if(player1.getDirector().equals("punch")) checkPunch(player1, player2);
 				if(player1.getDirector().equals("ultimate")) checkUltimate();
+			
 				setupStatus();
 				TestSkill();
 				if(totalFame>0) totalFame --;
 				}
 				 
 				repaint();
+				if(player2.getHp()<=0||player1.getHp()<=0) {
+					if(player2.getHp()==0) JOptionPane.showMessageDialog(null, "player1 win"); 
+					else JOptionPane.showMessageDialog(null, "player2 Win");
+					gameThread = null;
+					System.exit(0);
+				}
 				delta--;
 			}
 			
@@ -147,6 +154,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if(player1.skill.coming) player1.skill.draw(g2);
 		player1.draw1(g2);
 		player2.draw1(g2);
+		
 		//win
 		g2.dispose();
 		}
@@ -171,6 +179,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 	private void checkUltimate() {
+		hp.setPower1(0);
 		int frameDamedMin = 0;
 		int frameDameMax = 0;
 		int frameGetDame = 0;
@@ -182,10 +191,17 @@ public class GamePanel extends JPanel implements Runnable {
 			frameDamedMin = 240;
 			frameDameMax = 405;
 			frameGetDame = 2;
+		} else {
+			frameDamedMin = 20;
+			frameDameMax = 300;
+			frameGetDame = 1;
 		}
 		if(player2.getX()-player1.getX()<=100&&(player1.frameCountUitlmate<=frameDameMax&&player1.frameCountUitlmate>=frameDamedMin)) {
 			player2.setSuperBeAttackedStatus(frameGetDame);
 			setconfig();
+		}
+		if(player1.frameCountUitlmate==frameDameMax) {
+			
 		}
 	}
 	// check skill

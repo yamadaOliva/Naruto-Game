@@ -48,7 +48,7 @@ public class HPconfig {
 	}
 	public void drawPower2(Graphics2D g2) {
 		g2.setColor(Color.white);
-		g2.fillRect(1278-210, 50, 200-power1, 15);
+		g2.fillRect(1278-210, 50, 200-power2, 15);
 		if(power2 >= 200) power2 = 200;
 		drawPowerGray2(g2);
 	}

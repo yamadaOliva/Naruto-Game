@@ -180,7 +180,7 @@ public class Player1 extends Player {
 		statusMukou =  GamePanel.mukouMigi?1:0;
 		if(beAttacked) {
 			
-		}else if(ultimateStatus&&HPconfig.getPower1()==200) {
+		}else if(ultimateStatus) {
 				this.director = "ultimate";
 			}else {
 				if (onTop) {
@@ -254,7 +254,7 @@ public class Player1 extends Player {
 				((Suriken) skill).setImgPos(randomInt);
 			}
 			if (surikenStatus)this.director = "skill1";
-			if (keyH1.until) {
+			if (keyH1.until&&HPconfig.getPower1()>=200) {
 				ultimateStatus = true;
 				if(choose == 2) specialCase = true;
 			}
