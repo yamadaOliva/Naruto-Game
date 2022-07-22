@@ -14,6 +14,7 @@ import javax.swing.plaf.synth.SynthOptionPaneUI;
 import CharacterSetup.Naruto;
 import CharacterSetup.Sakura;
 import CharacterSetup.Sasuke;
+import Entity.HPconfig;
 import Entity.Player;
 import Entity.Skills;
 import Entity.character;
@@ -31,6 +32,8 @@ public class Player1 extends Player {
 	public int frameCountTele = 0;
 	public int frameCountSuriken = 0;
 	public int frameCountBeAttacked = 0;
+	public int frameCountUitlmate = 0;
+	
 	private int x, y;
 	private String director;
 	public GamePanel gp;
@@ -43,7 +46,10 @@ public class Player1 extends Player {
 	public boolean blocked = false;
 	private boolean surikenStatus = false;
 	private boolean beAttacked = false;
+	private boolean ultimateStatus = false;
 	private int statusMukou;
+	private boolean specialCase = false;
+	
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
 	public int getCheckLeft() {
 		return checkLeft;
@@ -80,6 +86,17 @@ public class Player1 extends Player {
 	}
 
 	// setter & getter
+
+	public int getChoose() {
+		return choose;
+	}
+	public int getFrameCountUitlmate() {
+		return frameCountUitlmate;
+	}
+
+	public void setFrameCountUitlmate(int frameCountUitlmate) {
+		this.frameCountUitlmate = frameCountUitlmate;
+	}
 	public int getX() {
 		return x;
 	}
@@ -163,79 +180,85 @@ public class Player1 extends Player {
 		statusMukou =  GamePanel.mukouMigi?1:0;
 		if(beAttacked) {
 			
-		} else {
-			if (onTop) {
-				keyH1.upStatus = false;
-				this.isFalling = 1;
+		}else if(ultimateStatus&&HPconfig.getPower1()==200) {
+				this.director = "ultimate";
+			}else {
+				if (onTop) {
+					keyH1.upStatus = false;
+					this.isFalling = 1;
+				}
+	
+				if (keyH1.upStatus) {
+					upStatus = true;
+					if (y <= 300) {
+						keyH1.upStatus = false;
+						onTop = true;
+					} else {
+						y -= 3;
+					}
+					// this.director = "up";
+				}
+				if (upStatus) {
+					y -= 3;
+					this.director = "up";
+					keyH1.upStatus = true;
+					if (y <= 300) {
+						upStatus = false;
+						onTop = true;
+						keyH1.kick = false;
+					}
+				}
+				if (keyH1.downStatus && !upStatus && isFalling == 0) {
+					this.director = "def";
+				}
+				if (keyH1.rightStatus) {
+					if (!blockedRight)
+						x += speed;
+					this.director = "right";
+					if (x > 1278 - GamePanel.titleSize)
+						x = 1278 - GamePanel.titleSize;
+				}
+				if (keyH1.leftStatus) {
+					if (!blockedLeft)
+						x -= speed;
+					this.director = "left";
+					if (x < 0)
+						x = 0;
 			}
 	
-			if (keyH1.upStatus) {
-				upStatus = true;
-				if (y <= 300) {
-					keyH1.upStatus = false;
-					onTop = true;
-				} else {
-					y -= 3;
-				}
-				// this.director = "up";
-			}
-			if (upStatus) {
-				y -= 3;
-				this.director = "up";
-				keyH1.upStatus = true;
-				if (y <= 300) {
-					upStatus = false;
-					onTop = true;
-					keyH1.kick = false;
+			if (!keyH1.upStatus) {
+				y += 3;
+				if (y >= 550) {
+					y = 550;
+					onTop = false;
 				}
 			}
-			if (keyH1.downStatus && !upStatus && isFalling == 0) {
-				this.director = "def";
+			if (keyH1.standStatus) {
+				this.director = "stand";
 			}
-			if (keyH1.rightStatus) {
-				if (!blockedRight)
-					x += speed;
-				this.director = "right";
-				if (x > 1278 - GamePanel.titleSize)
-					x = 1278 - GamePanel.titleSize;
+			if (keyH1.punch) {
+				this.director = "punch";
 			}
-			if (keyH1.leftStatus) {
-				if (!blockedLeft)
-					x -= speed;
-				this.director = "left";
-				if (x < 0)
-					x = 0;
-		}
-
-		if (!keyH1.upStatus) {
-			y += 3;
-			if (y >= 550) {
-				y = 550;
-				onTop = false;
+			if (keyH1.kick && char2.getCdFlash() <= 0) {
+				this.director = "tele";
+				char2.setCdFlash(char2.getCdFlashTime());
 			}
-		}
-		if (keyH1.standStatus) {
-			this.director = "stand";
-		}
-		if (keyH1.punch) {
-			this.director = "punch";
-		}
-		if (keyH1.kick && char2.getCdFlash() <= 0) {
-			this.director = "tele";
-			char2.setCdFlash(char2.getCdFlashTime());
-		}
-		if (keyH1.skill1 && char2.getCdSkill1() <= 0) {
-			surikenStatus = true;
-			char2.setCdSkill1(char2.getCdSkill1Time());
-			skill = new Suriken(x, y + 10);
-			skill.coming = true;
-			double randomDouble = Math.random();
-			randomDouble = randomDouble * 4;
-			int randomInt = (int) randomDouble;
-			((Suriken) skill).setImgPos(randomInt);
-		}
-		if (surikenStatus)
-			this.director = "skill1";
+			if (keyH1.skill1 && char2.getCdSkill1() <= 0) {
+				surikenStatus = true;
+				char2.setCdSkill1(char2.getCdSkill1Time());
+				skill = new Suriken(x, y + 10);
+				skill.coming = true;
+				double randomDouble = Math.random();
+				randomDouble = randomDouble * 4;
+				int randomInt = (int) randomDouble;
+				((Suriken) skill).setImgPos(randomInt);
+			}
+			if (surikenStatus)this.director = "skill1";
+			if (keyH1.until) {
+				ultimateStatus = true;
+				if(choose == 2) specialCase = true;
+			}
+			
 		}
 	}
 
@@ -246,8 +269,8 @@ public class Player1 extends Player {
 	}
 
 	public void draw1(Graphics2D g2) {
-		BufferedImage img = null;
-		
+		BufferedImage img1 = null;	
+		BufferedImage img = null;	
 		int tmp;
 		switch (this.director) {
 
@@ -611,9 +634,117 @@ public class Player1 extends Player {
 				}
 				break;
 			}
+			case "ultimate":{
+				if(choose==0) {
+					if(frameCountUitlmate >= 0&&frameCountUitlmate<10) img = char2.getIMGUltimate(0);
+					if(frameCountUitlmate >= 15&&frameCountUitlmate<30) img = char2.getIMGUltimate(1);
+					if(frameCountUitlmate >= 30&&frameCountUitlmate<45) img = char2.getIMGUltimate(2);
+					if(frameCountUitlmate >= 45&&frameCountUitlmate<60) img = char2.getIMGUltimate(3);
+					if(frameCountUitlmate >= 60&&frameCountUitlmate<75) img = char2.getIMGUltimate(4);
+					if(frameCountUitlmate >= 75&&frameCountUitlmate<90) {
+						img = char2.getIMGUltimate(5);
+						this.x = enemiesPos-40;
+					}
+					if(frameCountUitlmate >= 90&&frameCountUitlmate<105) img = char2.getIMGUltimate(6);
+					if(frameCountUitlmate >= 105&&frameCountUitlmate<120) img = char2.getIMGUltimate(7);
+					if(frameCountUitlmate >= 120&&frameCountUitlmate<135) img = char2.getIMGUltimate(8);
+					if(frameCountUitlmate >= 135&&frameCountUitlmate<150) img = char2.getIMGUltimate(9);
+					if(frameCountUitlmate >= 150&&frameCountUitlmate<165) img = char2.getIMGUltimate(10);
+					if(frameCountUitlmate >= 165&&frameCountUitlmate<180) img = char2.getIMGUltimate(11);
+					if(frameCountUitlmate >= 180&&frameCountUitlmate<195) img = char2.getIMGUltimate(12);
+					if(frameCountUitlmate >= 195&&frameCountUitlmate<210) img = char2.getIMGUltimate(13);
+					if(frameCountUitlmate >= 210&&frameCountUitlmate<225) img = char2.getIMGUltimate(14);
+					if(frameCountUitlmate >= 225&&frameCountUitlmate<240) img = char2.getIMGUltimate(15);
+					if(frameCountUitlmate >= 240&&frameCountUitlmate<255) img = char2.getIMGUltimate(16);
+					if(frameCountUitlmate >= 255&&frameCountUitlmate<270) img = char2.getIMGUltimate(17);
+					if(frameCountUitlmate >= 270&&frameCountUitlmate<295) img = char2.getIMGUltimate(18);
+					if(frameCountUitlmate >= 295&&frameCountUitlmate<305) img = char2.getIMGUltimate(19);
+					if(frameCountUitlmate >= 305&&frameCountUitlmate<320) img = char2.getIMGUltimate(20);
+					if(frameCountUitlmate >= 320&&frameCountUitlmate<335) img = char2.getIMGUltimate(21);
+					if(frameCountUitlmate >= 335&&frameCountUitlmate<350) img = char2.getIMGUltimate(22);
+					if(frameCountUitlmate >= 350&&frameCountUitlmate<375) img = char2.getIMGUltimate(23);
+					if(frameCountUitlmate >= 375&&frameCountUitlmate<390) img = char2.getIMGUltimate(24);
+					if(frameCountUitlmate >= 390&&frameCountUitlmate<405) img = char2.getIMGUltimate(25);
+					if(frameCountUitlmate >= 405&&frameCountUitlmate<420) img = char2.getIMGUltimate(26);
+					if(frameCountUitlmate>=320&&frameCountUitlmate<420) {
+						img1 = char2.getIMGUltimate(27);
+						g2.drawImage(img1,x-100,y-50,null);
+					}
+					if(frameCountUitlmate>=420) {
+						frameCountUitlmate = 0;
+						this.director = "stand";
+						this.ultimateStatus = false;
+					}
+				}else if(choose == 1) {
+					if(frameCountUitlmate >= 0&&frameCountUitlmate<15) img = char2.getIMGUltimate(0);
+					if(frameCountUitlmate >= 15&&frameCountUitlmate<30) img = char2.getIMGUltimate(1);
+					if(frameCountUitlmate >= 30&&frameCountUitlmate<45) img = char2.getIMGUltimate(2);
+					if(frameCountUitlmate >= 45&&frameCountUitlmate<60) img = char2.getIMGUltimate(3);
+					if(frameCountUitlmate >= 60&&frameCountUitlmate<75) img = char2.getIMGUltimate(4);
+					if(frameCountUitlmate >= 75&&frameCountUitlmate<90) img = char2.getIMGUltimate(5);
+					if(frameCountUitlmate >= 90&&frameCountUitlmate<105) img = char2.getIMGUltimate(6);
+					if(frameCountUitlmate >= 105&&frameCountUitlmate<120) img = char2.getIMGUltimate(7);
+					if(frameCountUitlmate >= 120&&frameCountUitlmate<135) img = char2.getIMGUltimate(8);
+					if(frameCountUitlmate >= 135&&frameCountUitlmate<150) img = char2.getIMGUltimate(9);
+					if(frameCountUitlmate >= 150&&frameCountUitlmate<165) img = char2.getIMGUltimate(10);
+					if(frameCountUitlmate >= 165&&frameCountUitlmate<180) img = char2.getIMGUltimate(11);
+					if(frameCountUitlmate >= 180&&frameCountUitlmate<195) img = char2.getIMGUltimate(12);
+					if(frameCountUitlmate >= 195&&frameCountUitlmate<210) img = char2.getIMGUltimate(13);
+					if(frameCountUitlmate >= 210&&frameCountUitlmate<225) img = char2.getIMGUltimate(14);
+					if(frameCountUitlmate >= 225&&frameCountUitlmate<240) {
+						img = char2.getIMGUltimate(15);
+						this.x = enemiesPos-200;
+					}
+					if(frameCountUitlmate>=240&&frameCountUitlmate<405) this.x+=3;
+					if(frameCountUitlmate >= 240&&frameCountUitlmate<255) img = char2.getIMGUltimate(16);
+					if(frameCountUitlmate >= 255&&frameCountUitlmate<270) img = char2.getIMGUltimate(17);
+					if(frameCountUitlmate >= 270&&frameCountUitlmate<295) img = char2.getIMGUltimate(18);
+					if(frameCountUitlmate >= 295&&frameCountUitlmate<305) img = char2.getIMGUltimate(19);
+					if(frameCountUitlmate >= 305&&frameCountUitlmate<320) img = char2.getIMGUltimate(20);
+					if(frameCountUitlmate >= 320&&frameCountUitlmate<335) img = char2.getIMGUltimate(21);
+					if(frameCountUitlmate >= 335&&frameCountUitlmate<350) img = char2.getIMGUltimate(22);
+					if(frameCountUitlmate >= 350&&frameCountUitlmate<375) img = char2.getIMGUltimate(23);
+					if(frameCountUitlmate >= 375&&frameCountUitlmate<390) img = char2.getIMGUltimate(24);
+					if(frameCountUitlmate >= 390&&frameCountUitlmate<405) img = char2.getIMGUltimate(25);
+					if(frameCountUitlmate>=405) {
+						frameCountUitlmate = 0;
+						this.director = "stand";
+						this.ultimateStatus = false;
+					}
+				} else {
+					if(frameCountUitlmate >= 0&&frameCountUitlmate<20) {
+						img = char2.getIMGUltimate(0);
+						this.x = enemiesPos - 20;
+					}
+					if(frameCountUitlmate >= 20&&frameCountUitlmate<40) img = char2.getIMGUltimate(1);
+					if(frameCountUitlmate >= 40&&frameCountUitlmate<60) img = char2.getIMGUltimate(2);
+					if(frameCountUitlmate >= 60&&frameCountUitlmate<80) img = char2.getIMGUltimate(3);
+					if(frameCountUitlmate >= 80&&frameCountUitlmate<100) img = char2.getIMGUltimate(4);
+					if(frameCountUitlmate >= 100&&frameCountUitlmate<120) img = char2.getIMGUltimate(5);
+					if(frameCountUitlmate >= 120&&frameCountUitlmate<140) img = char2.getIMGUltimate(6);
+					if(frameCountUitlmate >= 140&&frameCountUitlmate<160) img = char2.getIMGUltimate(7);
+					if(frameCountUitlmate >= 160&&frameCountUitlmate<180) img = char2.getIMGUltimate(8);
+					if(frameCountUitlmate >= 180&&frameCountUitlmate<200) img = char2.getIMGUltimate(9);
+					if(frameCountUitlmate >= 200&&frameCountUitlmate<220) img = char2.getIMGUltimate(10);
+					if(frameCountUitlmate >= 220&&frameCountUitlmate<240) img = char2.getIMGUltimate(11);
+					if(frameCountUitlmate >= 240&&frameCountUitlmate<260) img = char2.getIMGUltimate(12);
+					if(frameCountUitlmate >= 260&&frameCountUitlmate<280) img = char2.getIMGUltimate(13);
+					if(frameCountUitlmate >= 280&&frameCountUitlmate<300) img = char2.getIMGUltimate(14);
+					if(frameCountUitlmate >= 300&&frameCountUitlmate<320) img = char2.getIMGUltimate(15);
+					if(frameCountUitlmate>=320) {
+						frameCountUitlmate = 0;
+						this.director = "stand";
+						this.ultimateStatus = false;
+						specialCase = false;
+						
+					}
+				}
+				
+			}
 		}
-
-		g2.drawImage(img, x, y, null);
+			
+		if(!specialCase) g2.drawImage(img, x, y, null);
+		else g2.drawImage(img, x, y-23, null);
 	}
 
 	public void blockedCase(int space) {

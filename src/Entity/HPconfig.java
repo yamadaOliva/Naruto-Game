@@ -7,8 +7,8 @@ import java.awt.Graphics2D;
 public class HPconfig {
 	private int hp1=500;
 	private int hp2=500;
-	private int power1 = 0;
-	private int power2 = 0;
+	private static int power1 = 0;
+	private static int power2 = 0;
 	public boolean attacked=false;
 	public HPconfig() {
 		// TODO Auto-generated constructor stub
@@ -81,16 +81,19 @@ public class HPconfig {
 	public void setHp2(int hp2) {
 		this.hp2 = hp2;
 	}
-	public int getPower1() {
+	public static int getPower1() {
 		return power1;
 	}
 	public void setPower1(int power1) {
 		this.power1 = power1;
+		if(this.power1>=200) this.power1 = 200;
 	}
-	public int getPower2() {
+	public static int getPower2() {
 		return power2;
+		
 	}
 	public void setPower2(int power2) {
 		this.power2 = power2;
+		
 	}
 }

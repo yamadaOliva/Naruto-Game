@@ -9,9 +9,9 @@ public class character {
 	private int speed;
 	private boolean blocked;
 	private int punchdame;
+	private int dameUltimate;
 	private final int cdSkill1Time = 600;
 	private final int cdFlashTime = 600;
-
 	public int getCdSkill1Time() {
 		return cdSkill1Time;
 	}
@@ -31,6 +31,7 @@ public class character {
 	public BufferedImage[] teleposIMG = new BufferedImage[10];
 	public BufferedImage[] surikenIMG = new BufferedImage[5];
 	public BufferedImage[] beAttackedIMG = new BufferedImage[15];
+	public BufferedImage[] ultimateSkill = new BufferedImage[30];
 	private int cdSkill1 = 0;
 
 	public int getCdSkill1() {
@@ -126,7 +127,9 @@ public class character {
 	public BufferedImage getIMGBeAttaced(int i) {
 		return this.beAttackedIMG[i];
 	}
-
+	public BufferedImage getIMGUltimate(int i) {
+		return this.ultimateSkill[i];
+	}
 	public BufferedImage getIMGCombo(int i, int checkLeft) {
 		if (checkLeft == 0) {
 			return this.comboIMGLeft[i];

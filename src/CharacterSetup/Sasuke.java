@@ -19,6 +19,7 @@ public class Sasuke extends character {
     public BufferedImage[] teleposIMG = new BufferedImage[10];
     public BufferedImage[] surikenIMG = new BufferedImage[7];
     public BufferedImage[] beAttackedIMG = new BufferedImage[15];
+    public BufferedImage[] ultimateSkill = new BufferedImage[30];
     private String characterName = "Sasuke";
     public int countImgCombo = 24;
     private final int cdSkill1Time = 300;
@@ -44,9 +45,18 @@ public class Sasuke extends character {
         getTeleposIMG();
         getSurikenIMG();
         getBeAttackedIMG();
+        getUltimateIMG();
     }
-
-    public void getSurikenIMG() {
+    private void getUltimateIMG() {
+    	try {
+    		for(int i = 1;i<=26;i++) {
+			this.ultimateSkill[i-1] = ImageIO.read(getClass().getResource("/character/" + characterName +"/ultimate_" + Integer.toString(i) + ".png"));
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    private void getSurikenIMG() {
         try {
         	this.surikenIMG[3] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_1.png"));
 			this.surikenIMG[4] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_2.png"));
@@ -354,7 +364,9 @@ public class Sasuke extends character {
     public BufferedImage getIMGBeAttaced(int i) {
         return this.beAttackedIMG[i];
     }
-
+    public BufferedImage getIMGUltimate(int i) {
+		return this.ultimateSkill[i];
+	}
     public BufferedImage getIMGCombo(int i, int checkLeft) {
         if (checkLeft == 0) {
             return this.comboIMGLeft[i];

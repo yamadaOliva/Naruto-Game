@@ -19,6 +19,7 @@ public class Naruto extends character {
 	public BufferedImage[] teleposIMG = new BufferedImage[10];
 	public BufferedImage[] surikenIMG = new BufferedImage[7];
 	public BufferedImage[] beAttackedIMG = new BufferedImage[15];
+	public BufferedImage[] ultimateSkill = new BufferedImage[30];
 	private String characterName = "Naruto";
 	private final int cdSkill1Time = 300;
 	private final int cdFlashTime = 600;
@@ -44,8 +45,18 @@ public class Naruto extends character {
 		getTeleposIMG();
 		getSurikenIMG();
 		getBeAttackedIMG();
+		getUltimateIMG();
+		
 	}
-
+	private void getUltimateIMG() {
+    	try {
+    		for(int i = 1;i<=28;i++) {
+			this.ultimateSkill[i-1] = ImageIO.read(getClass().getResource("/character/" + characterName +"/ultimate_" + Integer.toString(i) + ".png"));
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
 	public void getSurikenIMG() {
 		try {
 			this.surikenIMG[3] = ImageIO.read(getClass().getResource("/character/" + characterName + "/suriken_1.png"));
@@ -264,7 +275,9 @@ public class Naruto extends character {
 	public BufferedImage getIMGBeAttaced(int i) {
 		return this.beAttackedIMG[i];
 	}
-
+	public BufferedImage getIMGUltimate(int i) {
+		return this.ultimateSkill[i];
+	}
 	public BufferedImage getIMGCombo(int i, int checkLeft) {
 		if (checkLeft == 0) {
 			return this.comboIMGLeft[i];

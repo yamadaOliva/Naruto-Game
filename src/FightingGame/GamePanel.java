@@ -85,7 +85,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		playMusic(1);
 		keyH.setPunchKickKey(KeyEvent.VK_J, KeyEvent.VK_K);
-		keyH.setKillKey(KeyEvent.VK_L, 'i', 'o');
+		keyH.setKillKey(KeyEvent.VK_L, KeyEvent.VK_I, KeyEvent.VK_O);
 		double drawInterval = 1000000000 / FPS;
 		double delta = 0;
 		long lastTime = System.nanoTime();
@@ -105,7 +105,8 @@ public class GamePanel extends JPanel implements Runnable {
  
 				player1.update();
 				player2.update();
-				checkPunch(player1, player2);
+				if(player1.getDirector().equals("punch")) checkPunch(player1, player2);
+				if(player1.getDirector().equals("ultimate")) checkUltimate();
 				setupStatus();
 				TestSkill();
 				if(totalFame>0) totalFame --;
@@ -169,6 +170,24 @@ public class GamePanel extends JPanel implements Runnable {
 			player1.skill = new Suriken();
 		}
 	}
+	private void checkUltimate() {
+		int frameDamedMin = 0;
+		int frameDameMax = 0;
+		int frameGetDame = 0;
+		if(player1.getChoose()==0) {
+			frameDamedMin = 320;
+			frameDameMax = 420;
+			frameGetDame = 2;
+		} else if(player1.getChoose()==1) {
+			frameDamedMin = 240;
+			frameDameMax = 405;
+			frameGetDame = 2;
+		}
+		if(player2.getX()-player1.getX()<=100&&(player1.frameCountUitlmate<=frameDameMax&&player1.frameCountUitlmate>=frameDamedMin)) {
+			player2.setSuperBeAttackedStatus(frameGetDame);
+			setconfig();
+		}
+	}
 	// check skill
 	
 
@@ -207,27 +226,33 @@ public class GamePanel extends JPanel implements Runnable {
 			if(((attack.getX()-attacked.getX())<(titleSize))&&checkY()) {
 				if(attack.getFrameCountPunch()==6) {
 					attacked.setHp(attacked.getHp()-10);
+					
 					setconfig();
 				}
 				if(attack.getFrameCountPunch()==30) {
 					attacked.setHp(attacked.getHp()-10);
+					
 					setconfig();
 				}
 				if(attack.getFrameCountPunch()==56) {
 					attacked.setHp(attacked.getHp()-10);
+					
 					setconfig();
 				}
 				if(attack.getFrameCountPunch()==80) {
 					attacked.setHp(attacked.getHp()-10);
+					
 					attacked.blockedCase(10);
 					setconfig();
 				}
 				if(attack.getFrameCountPunch()==122) {
 					attacked.setHp(attacked.getHp()-10);
+					
 					setconfig();
 				}
 				if(attack.getFrameCountPunch()==160) {
 					attacked.setHp(attacked.getHp()-10);
+					
 					setconfig();
 				}
 				
@@ -243,6 +268,7 @@ public class GamePanel extends JPanel implements Runnable {
 		player2.frameCountStand++;
 		player2.frameCountWalk++;
 		if(player2.getDirector().equals("beAttacked")) player2.frameCountBeAttacked++;
+		if(player2.getDirector().equals("superBeAttacked")) player2.frameCountBeAttacked++;
 		//player1
 		if(player1.getChar2().getCdFlash()>0) player1.getChar2().setcdFlash();
 		if(player1.getChar2().getCdSkill1()>0) player1.getChar2().setCDTime1();
@@ -251,6 +277,9 @@ public class GamePanel extends JPanel implements Runnable {
 		player1.frameCountWalk++;
 		if(player1.getDirector().equals("tele"))player1.frameCountTele++;
 		if(player1.getDirector().equals("skill1")) player1.frameCountSuriken++;
+		if(player1.getDirector().equals("ultimate")) player1.frameCountUitlmate++;
+		if(player1.getDirector().equals("beAttacked")) player2.frameCountBeAttacked++;
+		if(player1.getDirector().equals("superBeAttacked")) player2.frameCountBeAttacked++;
 		if(statusGame==1) {
 			if(totalFame>0) {
 				totalFame--;
@@ -303,6 +332,7 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	//set config
 	private void setconfig() {
+		hp.setPower1(hp.getPower1()+50);
 		hp.setHp2(player2.getHp());
 		hp.setPower2(hp.getPower2()+5);
 	}
@@ -314,7 +344,7 @@ public class GamePanel extends JPanel implements Runnable {
 		sound.loop();
 	}
 	
-	public void playMusicNoLoop(int i ) {
+	public static void playMusicNoLoop(int i ) {
 		sound.setFile(i);
 		sound.play();
 	}

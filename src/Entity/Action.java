@@ -7,4 +7,5 @@ public interface Action {
 	 public void update ();
 	 public void coming();
 	 public	void draw(Graphics2D g,Color cl);
+	 public void draw(Graphics2D g);
 }

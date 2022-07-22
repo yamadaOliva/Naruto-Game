@@ -13,13 +13,15 @@ import javax.swing.ImageIcon;
 public class DrawWindow {
 	Image icon;
 	public MapG mapG= new MapG();;
-	BufferedImage[] iconSelector = new BufferedImage[4]; 
+	BufferedImage[] iconSelector = new BufferedImage[4];
+	BufferedImage bgDraw  ;
 	public static boolean right1 = false,left1 = false, right2 = false,left2 = false, choosingStatus1 = false, choosingStatus2 = false;
 	public static int selectionStatus = 0;
 	public DrawWindow() {
 		ImageIcon u = new ImageIcon("C:\\Users\\Admin\\Desktop\\ProjectOOP\\png\\png\\bgMenu.gif");
 		icon = u.getImage();
 		try {
+			bgDraw = ImageIO.read(getClass().getResource("/png/bgDraw.png"));
 			iconSelector[0] = ImageIO.read(getClass().getResource("/png/Naruto.png"));
 			iconSelector[1] = ImageIO.read(getClass().getResource("/png/Sakura.png"));
 			iconSelector[2] = ImageIO.read(getClass().getResource("/png/Sasuke.png"));
@@ -67,6 +69,7 @@ public class DrawWindow {
 		}
 	}
 	public void slectChampDraw(Graphics2D g2) {
+		g2.drawImage(bgDraw, 0, 0,1278,720,null);
 		if(right1) {
 			GamePanel.choosingOne ++;
 			if(GamePanel.choosingOne==4) GamePanel.choosingOne = 0;
@@ -86,7 +89,6 @@ public class DrawWindow {
 		}
 		if(left2) {
 			if(selectionStatus==0) GamePanel.choosingTwo--;
-			System.out.println("Current:" +GamePanel.choosingTwo);
 			GamePanel.choosingMap --;
 			if(GamePanel.choosingMap == -1) GamePanel.choosingMap = 4;
 			if(GamePanel.choosingTwo==-1) GamePanel.choosingTwo = 3;

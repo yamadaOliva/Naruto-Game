@@ -19,12 +19,16 @@ public class Player extends entity {
 	public int frameCountDef;
 	public int frameCountWalk;
 	public int frameCountPunch=0;
-	private int power = 200;
+	private int power = 0;
+	public int frameCountUitlmate = 0;
+	private int choose;
+	private boolean superBeAttacked = false;
 	public int getPower() {
 		return power;
 	}
 	public void setPower(int power) {
 		this.power = power;
+		
 	}
 	private int x,y;
 	private String director;
@@ -46,6 +50,9 @@ public class Player extends entity {
 		this.keyH = keyH;
 		getPlayerImage();
 		this.director = "up";
+	}
+	public int getChoose() {
+		return choose;
 	}
 	public Player(character o) {
 		
@@ -79,6 +86,13 @@ public class Player extends entity {
 	}
 	public String getDirector() {
 		return director;
+	}
+	public int getFrameCountUitlmate() {
+		return frameCountUitlmate;
+	}
+
+	public void setFrameCountUitlmate(int frameCountUitlmate) {
+		this.frameCountUitlmate = frameCountUitlmate;
 	}
 	public void setDirector(String director) {
 		this.director = director;
@@ -218,6 +232,10 @@ public class Player extends entity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	public void setSuperBeAttackedStatus(int dame) {
+		this.superBeAttacked = true;
+		this.setHp(this.getHp() - dame);
 	}
 	public void blockedCase(int dame) {
 		

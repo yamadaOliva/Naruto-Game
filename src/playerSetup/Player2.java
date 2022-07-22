@@ -30,6 +30,7 @@ public class Player2 extends Player {
 	private String director;
 	public GamePanel gp;
 	private int choose=0;
+	
 	// status
 	private boolean onTop = false;
 	private boolean upStatus = false;
@@ -37,6 +38,7 @@ public class Player2 extends Player {
 	public boolean blockedRight = false;
 	public boolean blocked = false;
 	public boolean beAttacked = false;
+	public boolean superBeAttacked = false;
 	//
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
 	character char2;
@@ -51,7 +53,7 @@ public class Player2 extends Player {
 		this.y = y;
 		this.x = x;
 		this.choose = choose;
-		System.out.println(choose);
+		
 		setupCharacter(choose);
 		this.director = "stand";
 		this.frameCountStand = 0;
@@ -139,8 +141,8 @@ public class Player2 extends Player {
 	@Override
 	public void update() {
 		int speed = char2.getSpeed();
-		if (beAttacked) {
-			this.director = "beAttacked";
+		if (beAttacked||superBeAttacked) {
+			this.director = beAttacked?"beAttacked":"superBeAttacked";
 		} else {
 		if (onTop) {
 			keyH1.upStatus = false;
@@ -216,7 +218,7 @@ public class Player2 extends Player {
 	public void draw1(Graphics2D g2) {
 		BufferedImage img = null;
 		// this.director = "stand";
-		// System.out.println(this.director);
+		
 		int tmp;
 		switch (this.director) {
 
@@ -408,8 +410,24 @@ public class Player2 extends Player {
 					img = char2.getIMGBeAttaced(2);
 				if (frameCountBeAttacked >= 60) {
 					frameCountBeAttacked = 0;
-					System.out.println(this.getHp());
 					this.beAttacked = false;
+					this.director = "stand";
+				}
+			}
+			case "superBeAttacked":{
+				if (frameCountBeAttacked >= 0 && frameCountBeAttacked < 20) img = char2.getIMGBeAttaced(0);
+				if (frameCountBeAttacked >= 20 && frameCountBeAttacked < 40) img = char2.getIMGBeAttaced(1);
+				if (frameCountBeAttacked >= 40 && frameCountBeAttacked < 60) img = char2.getIMGBeAttaced(2);
+				if (frameCountBeAttacked >= 60 && frameCountBeAttacked < 80) img = char2.getIMGBeAttaced(3);
+				if (frameCountBeAttacked >= 80 && frameCountBeAttacked < 100) img = char2.getIMGBeAttaced(4);
+				if (frameCountBeAttacked >= 100 && frameCountBeAttacked < 120) img = char2.getIMGBeAttaced(5);
+				if (frameCountBeAttacked >= 120 && frameCountBeAttacked < 140) img = char2.getIMGBeAttaced(6);
+				if (frameCountBeAttacked >= 140 && frameCountBeAttacked < 160) img = char2.getIMGBeAttaced(7);
+				if (frameCountBeAttacked >= 160 && frameCountBeAttacked < 180) img = char2.getIMGBeAttaced(8);
+				if (frameCountBeAttacked >= 180 && frameCountBeAttacked < 200) img = char2.getIMGBeAttaced(9);
+				if (frameCountBeAttacked >= 200) {
+					frameCountBeAttacked = 0;
+					this.superBeAttacked = false;
 					this.director = "stand";
 				}
 			}
@@ -424,12 +442,17 @@ public class Player2 extends Player {
 		else
 			x -= 6;
 	}
-	public void setBeAttacked(int xSkill, int ySkill) {
-		
-	}
 	public void setBeAttackedStatus(int dame) {
 		this.beAttacked = true;
 		this.setHp(this.getHp() - dame);
+		this.setPower(this.getPower()+10);
+		
+	}
+	public void setSuperBeAttackedStatus(int dame) {
+		this.superBeAttacked = true;
+		this.setHp(this.getHp() - dame);
+		System.out.println(this.getHp());
+		this.setPower(this.getPower()+50);
 	}
 	private void checkXY() {
 		

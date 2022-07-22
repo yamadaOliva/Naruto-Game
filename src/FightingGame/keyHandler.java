@@ -59,7 +59,6 @@ public class keyHandler implements KeyListener {
 					System.exit(0);
 				}
 			}
-			System.out.println(GamePanel.statusChoose);
 		}
 		//
 		if(GamePanel.statusGame == 1) {

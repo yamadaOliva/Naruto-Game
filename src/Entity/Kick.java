@@ -52,4 +52,10 @@ public class Kick implements Action{
 		g.fillRect(x, y, GamePanel.titleSize*2, GamePanel.titleSize/4);
 	}
 
+	@Override
+	public void draw(Graphics2D g) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
