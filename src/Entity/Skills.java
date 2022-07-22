@@ -8,11 +8,11 @@ import javax.imageio.ImageIO;
 
 import FightingGame.GamePanel;
 
-public class Skills extends entity implements Action {
+public abstract class Skills extends entity implements Action {
 	private int x;
 	private int y;
-	private int dame = 50;
-	private int speed=6;
+	private int dame;
+	private int speed;
 	public final long comingTime = 3000;
 	public boolean status;
 	public boolean coming=false;
@@ -22,6 +22,7 @@ public class Skills extends entity implements Action {
 	public int getCd() {
 		return cd;
 	}
+	
 	public void setCd(int cd) {
 		this.cd = cd;
 	}
@@ -44,6 +45,12 @@ public class Skills extends entity implements Action {
 	}
 	public void setDame(int dame) {
 		this.dame = dame;
+	}
+	public int getSpeed() {
+		return speed;
+	}
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 	public void setX(int x) {
 		this.x = x;
@@ -74,7 +81,14 @@ public class Skills extends entity implements Action {
 		if(x<MAX_RANGE) x+=speed;
 		else status = false;
 	}
-
+	public void update1() {
+		if(!GamePanel.mukouMigi) {
+			x+=speed;
+		}else {
+			x-=speed;
+		}
+		System.out.println(1);
+	}
 	@Override
 	public void coming() {
 		// TODO Auto-generated method stub

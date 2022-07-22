@@ -12,7 +12,7 @@ import FightingGame.GamePanel;
 public class Suriken extends Skills{
 	private BufferedImage[] SkillsImg = new BufferedImage[5];
 	private int x,y;
-	private int speed = 8;
+	private int speed = 10;
 	private int imgPos = 0;
 	
 	public boolean comingStatus = false;
@@ -51,6 +51,15 @@ public class Suriken extends Skills{
 		}else {
 			x-=speed;
 		}
+	
+	}
+	public void update1() {
+		if(!GamePanel.mukouMigi) {
+			x+=speed;
+		}else {
+			x-=speed;
+		}
+		
 	}
 	private void getKunaiImg() {
 		try {

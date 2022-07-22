@@ -29,12 +29,12 @@ public class keyHandler implements KeyListener {
 	public keyHandler() {
 		
 	}
-	public keyHandler(int up, int down, int right, int left, int kick) {
+	public keyHandler(int up, int down, int right, int left) {
 		this.upKey = up;
 		this.downKey = down;
 		this.rightkey = right;
 		this.leftKey = left;
-		this.kickKey = kick;
+	
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -76,16 +76,25 @@ public class keyHandler implements KeyListener {
 			}
 			if(code == KeyEvent.VK_9) {
 				DrawWindow.choosingStatus1 = true;
+				if(GamePanel.choosingOne==0) GamePanel.playMusicNoLoop(3);
+				if(GamePanel.choosingOne==1) GamePanel.playMusicNoLoop(5);
+				if(GamePanel.choosingOne==2) GamePanel.playMusicNoLoop(7);
+				DrawWindow.choosingStatus2 = true;
 			}
 			if(code == KeyEvent.VK_0) {
+				
+				if(GamePanel.choosingTwo==0) GamePanel.playMusicNoLoop(3);
+				if(GamePanel.choosingTwo==1) GamePanel.playMusicNoLoop(5);
+				if(GamePanel.choosingTwo==2) GamePanel.playMusicNoLoop(7);
 				DrawWindow.choosingStatus2 = true;
+			
 			}
 			if(DrawWindow.choosingStatus2&&DrawWindow.choosingStatus1) {
 				DrawWindow.selectionStatus = 1;
 			}
 			if(DrawWindow.selectionStatus == 1&&code == KeyEvent.VK_ENTER) {
 				GamePanel.statusGame = 2;
-				//GamePanel.playMusic(0);
+				GamePanel.playMusic(0);
 			}
 		}
 		//

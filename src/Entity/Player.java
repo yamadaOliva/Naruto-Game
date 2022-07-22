@@ -10,6 +10,16 @@ import javax.imageio.ImageIO;
 import FightingGame.*;
 
 public class Player extends entity {
+private int kunaiDame;
+	
+	public int getKunaiDame() {
+		return kunaiDame;
+	}
+
+	private int punchDame;
+	public int getPunchDame() {
+		return punchDame;
+	}
 	public final int heightDraw = GamePanel.titleSize*4;
 	public final int widthDraw = GamePanel.titleSize*2;
 	private boolean onTop = false;
@@ -35,9 +45,9 @@ public class Player extends entity {
 	private BufferedImage up1, down1, jump1, def1, skill, kick1;
 	private final int speed=4;
 	private int hp = 500;
-	public boolean skillStatus = false;
-	public boolean kickStatus = false;
-	public Skills skill1 = new Skills();
+	private boolean skillStatus = false;
+	private boolean kickStatus = false;
+	
 	public Kick kick = new Kick();
 	public int kickCount = 0;
 	keyHandler keyH;
@@ -238,6 +248,16 @@ public class Player extends entity {
 		this.setHp(this.getHp() - dame);
 	}
 	public void blockedCase(int dame) {
+		
+	}
+	@Override
+	public void coming() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void draw(Graphics2D g) {
+		// TODO Auto-generated method stub
 		
 	}
 	

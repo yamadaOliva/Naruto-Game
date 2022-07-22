@@ -33,7 +33,18 @@ public class Player1 extends Player {
 	public int frameCountSuriken = 0;
 	public int frameCountBeAttacked = 0;
 	public int frameCountUitlmate = 0;
+	//dame
+	private int kunaiDame;
 	
+	public int getKunaiDame() {
+		return kunaiDame;
+	}
+
+	private int punchDame;
+	public int getPunchDame() {
+		return punchDame;
+	}
+
 	private int x, y;
 	private String director;
 	public GamePanel gp;
@@ -49,12 +60,12 @@ public class Player1 extends Player {
 	private boolean ultimateStatus = false;
 	private int statusMukou;
 	private boolean specialCase = false;
-	
+	public boolean superBeAttacked = false;
 	private int checkLeft = 0; // check xem nhan vat quay mat ve ben nao, 0 la trai 1 la phai
 	public int getCheckLeft() {
 		return checkLeft;
 	}
-	private character char2;
+	
 
 	public void setEnemiesPos(int enemiesPos) {
 		this.enemiesPos = enemiesPos;
@@ -69,7 +80,7 @@ public class Player1 extends Player {
 	// Skills
 	public Skills skill;
 	private int enemiesPos;
-
+	private character char2;
 	public Player1(GamePanel gp, keyHandler keyH, int x, int y,int choose) { // thieu bien choose de chon nhan vat
 		super(gp, keyH, x, y);
 		this.gp = gp;
@@ -158,14 +169,20 @@ public class Player1 extends Player {
 		switch (choose) {
 			case 0: {
 				char2 = new Naruto();
+				kunaiDame = 20;
+				punchDame = 10;
 				break;
 			}
 			case 1: {
 				char2 = new Sasuke();
+				kunaiDame = 30;
+				punchDame = 8;
 				break;
 			}
 			case 2: {
 				char2 = new Sakura();
+				kunaiDame = 15;
+				punchDame = 10;
 				break;
 			}
 			default:
@@ -178,8 +195,8 @@ public class Player1 extends Player {
 	public void update() {
 		int speed = char2.getSpeed();
 		statusMukou =  GamePanel.mukouMigi?1:0;
-		if(beAttacked) {
-			
+		if (beAttacked||superBeAttacked) {
+			this.director = beAttacked?"beAttacked":"superBeAttacked";
 		}else if(ultimateStatus) {
 				this.director = "ultimate";
 			}else {
@@ -241,10 +258,12 @@ public class Player1 extends Player {
 			}
 			if (keyH1.kick && char2.getCdFlash() <= 0) {
 				this.director = "tele";
+				GamePanel.playMusicNoLoop(2);
 				char2.setCdFlash(char2.getCdFlashTime());
 			}
 			if (keyH1.skill1 && char2.getCdSkill1() <= 0) {
 				surikenStatus = true;
+				GamePanel.skill1Coming= true;
 				char2.setCdSkill1(char2.getCdSkill1Time());
 				skill = new Suriken(x, y + 10);
 				skill.coming = true;
@@ -256,7 +275,12 @@ public class Player1 extends Player {
 			if (surikenStatus)this.director = "skill1";
 			if (keyH1.until&&HPconfig.getPower1()>=200) {
 				ultimateStatus = true;
-				if(choose == 2) specialCase = true;
+				if(choose==0) GamePanel.playMusicNoLoop(4);
+				if(choose==1) GamePanel.playMusicNoLoop(6);
+				if(choose == 2) {
+					specialCase = true;
+					GamePanel.playMusicNoLoop(7);
+				}
 			}
 			
 		}
@@ -631,6 +655,7 @@ public class Player1 extends Player {
 				if (frameCountBeAttacked >= 30) {
 					frameCountBeAttacked = 0;
 					this.director = "stand";
+					beAttacked = false;
 				}
 				break;
 			}
@@ -738,8 +763,27 @@ public class Player1 extends Player {
 						specialCase = false;
 						
 					}
+					
 				}
-				
+				break;
+			}
+			case "superBeAttacked":{
+				if (frameCountBeAttacked >= 0 && frameCountBeAttacked < 20) img = char2.getIMGBeAttaced(0);
+				if (frameCountBeAttacked >= 20 && frameCountBeAttacked < 40) img = char2.getIMGBeAttaced(1);
+				if (frameCountBeAttacked >= 40 && frameCountBeAttacked < 60) img = char2.getIMGBeAttaced(2);
+				if (frameCountBeAttacked >= 60 && frameCountBeAttacked < 80) img = char2.getIMGBeAttaced(3);
+				if (frameCountBeAttacked >= 80 && frameCountBeAttacked < 100) img = char2.getIMGBeAttaced(4);
+				if (frameCountBeAttacked >= 100 && frameCountBeAttacked < 120) img = char2.getIMGBeAttaced(5);
+				if (frameCountBeAttacked >= 120 && frameCountBeAttacked < 140) img = char2.getIMGBeAttaced(6);
+				if (frameCountBeAttacked >= 140 && frameCountBeAttacked < 160) img = char2.getIMGBeAttaced(7);
+				if (frameCountBeAttacked >= 160 && frameCountBeAttacked < 180) img = char2.getIMGBeAttaced(8);
+				if (frameCountBeAttacked >= 180 && frameCountBeAttacked < 200) img = char2.getIMGBeAttaced(9);
+				if (frameCountBeAttacked >= 200) {
+					frameCountBeAttacked = 0;
+					this.superBeAttacked = false;
+					this.director = "stand";
+				}
+				break;
 			}
 		}
 			
@@ -753,7 +797,16 @@ public class Player1 extends Player {
 		else
 			x += 6;
 	}
-
+	public void setBeAttackedStatus(int dame) {
+		this.beAttacked = true;
+		this.setHp(this.getHp() - dame);
+		this.setPower(this.getPower()+10);
+		
+	}
+	public void setSuperBeAttackedStatus(int dame) {
+		this.superBeAttacked = true;
+		this.setHp(this.getHp() - dame);
+	}
 	public character getChar2() {
 		return char2;
 	}
@@ -761,7 +814,5 @@ public class Player1 extends Player {
 	public void setChar2(character char2) {
 		this.char2 = char2;
 	}
-	private void checkXY() {
-		
-	}
+	
 }

@@ -39,7 +39,8 @@ public class GamePanel extends JPanel implements Runnable {
 	private boolean kickStatus = false;
 	private DrawWindow dwd = new DrawWindow();
 	//UI
-	
+	public static boolean skill1Coming = false;
+	public static boolean skill2Coming = false;
 	//SOund
 	static Sound sound = new Sound();
 	//setup status of game
@@ -57,11 +58,10 @@ public class GamePanel extends JPanel implements Runnable {
 	final int screenHeight = 720;// 720px
 	//how to choose option
 	public static int statusChoose =0;
-	keyHandler keyH = new keyHandler(KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_D, KeyEvent.VK_A, 'k');
-	keyHandler keyH1 = new keyHandler(KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT,
-			KeyEvent.VK_L);
+	keyHandler keyH = new keyHandler(KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_D, KeyEvent.VK_A);
+	keyHandler keyH1 = new keyHandler(KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT);
 	Player1 player1 = new Player1(this, keyH, 200, 550,choosingOne);
-	Player2 player2 = new Player2(this, keyH1, screenWidth - 200, 550,choosingTwo);
+	Player2 player2 = new Player2(this, keyH1, screenWidth - 200, 550,choosingTwo-1);
 	Thread gameThread;
 	HPconfig hp = new HPconfig();
 
@@ -84,6 +84,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public void run() {
 		
 		playMusic(1);
+		keyH1.setKillKey(KeyEvent.VK_PAGE_DOWN, KeyEvent.VK_HOME, KeyEvent.VK_PAGE_UP);
+		keyH1.setPunchKickKey(KeyEvent.VK_DELETE,KeyEvent.VK_END);
 		keyH.setPunchKickKey(KeyEvent.VK_J, KeyEvent.VK_K);
 		keyH.setKillKey(KeyEvent.VK_L, KeyEvent.VK_I, KeyEvent.VK_O);
 		double drawInterval = 1000000000 / FPS;
@@ -106,10 +108,13 @@ public class GamePanel extends JPanel implements Runnable {
 				player1.update();
 				player2.update();
 				if(player1.getDirector().equals("punch")) checkPunch(player1, player2);
+				if(player2.getDirector().equals("punch")) checkPunch1(player2, player1);
 				if(player1.getDirector().equals("ultimate")) checkUltimate();
-			
+				if(player2.getDirector().equals("ultimate")) checkUltimate1();
+				 TestSkill1();
+				 TestSkill2();
 				setupStatus();
-				TestSkill();
+				
 				if(totalFame>0) totalFame --;
 				}
 				 
@@ -139,12 +144,6 @@ public class GamePanel extends JPanel implements Runnable {
 		if(statusGame==2) {
 		if(choosingMap==4) g2.drawImage(dwd.mapG.mapGif, 0, 0, null);
 		else g2.drawImage(dwd.mapG.map[choosingMap], 0, 0, null);
-		if (player1.skill1.status && !player1.skill1.coming)
-			player1.skill1.draw(g2);
-		if (player1.skill1.coming) {
-			player1.skill1.draw(g2, Color.blue);
-			player1.skill1.coming = false;
-		}
 		
 		minute = totalFame/3600;
 		second = (totalFame/60)%60;
@@ -152,6 +151,8 @@ public class GamePanel extends JPanel implements Runnable {
 		hp.draw1(g2);
 		if(player1.skill == null) player1.skill = new Suriken();
 		if(player1.skill.coming) player1.skill.draw(g2);
+		if(player2.skill == null) player2.skill = new Suriken();
+		if(player2.skill.coming) player2.skill.draw(g2);
 		player1.draw1(g2);
 		player2.draw1(g2);
 		
@@ -163,19 +164,40 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	
 	//test skill
-	private void TestSkill() {
+	private void TestSkill1() {
 		
 		if (player1.skill == null) {
 			 player1.skill = new Suriken();
 		}
 		if (player1.skill.coming) player1.skill.update();
 		if(player1.skill.getX() >= player2.getX()&&player1.skill.getX() <= player2.getX()+20&&checkYcollision(player1.skill.getY(),player2.getY())) {
-			player2.setBeAttackedStatus(player1.skill.getDame());
+			player2.setBeAttackedStatus(player1.getKunaiDame());
 			setconfig();
 			player1.skill =new Suriken();
+			skill2Coming = false;
 		}
 		if(player1.skill.getX()>=1200||player1.skill.getX()<=0) {
 			player1.skill = new Suriken();
+		}
+	}
+	private void TestSkill2() {
+		
+		if (player2.skill == null) {
+			 player2.skill = new Suriken();
+		}
+		if (player2.skill.coming) {
+			player2.skill.update1();
+			System.out.println(1);
+		}
+		if(player2.skill.getX() >= player1.getX()&&player2.skill.getX() <= player1.getX()+20&&checkYcollision(player2.skill.getY(),player1.getY())) {
+			player1.setBeAttackedStatus(player2.getKunaiDame());
+			setconfig1();
+			player2.skill =new Suriken();
+			skill2Coming = false;
+		}
+		if(player2.skill.getX()>=1200||player2.skill.getX()<=0) {
+			player2.skill = new Suriken();
+			skill2Coming = false;
 		}
 	}
 	private void checkUltimate() {
@@ -186,13 +208,13 @@ public class GamePanel extends JPanel implements Runnable {
 		if(player1.getChoose()==0) {
 			frameDamedMin = 320;
 			frameDameMax = 420;
-			frameGetDame = 2;
+			frameGetDame = 3;
 		} else if(player1.getChoose()==1) {
 			frameDamedMin = 240;
 			frameDameMax = 405;
 			frameGetDame = 2;
 		} else {
-			frameDamedMin = 20;
+			frameDamedMin = 100;
 			frameDameMax = 300;
 			frameGetDame = 1;
 		}
@@ -204,6 +226,30 @@ public class GamePanel extends JPanel implements Runnable {
 			
 		}
 	}
+	private void checkUltimate1() {
+		hp.setPower2(0);
+		int frameDamedMin = 0;
+		int frameDameMax = 0;
+		int frameGetDame = 0;
+		if(player2.getChoose()==0) {
+			frameDamedMin = 320;
+			frameDameMax = 420;
+			frameGetDame = 3;
+		} else if(player2.getChoose()==1) {
+			frameDamedMin = 240;
+			frameDameMax = 405;
+			frameGetDame = 2;
+		} else {
+			frameDamedMin = 100;
+			frameDameMax = 300;
+			frameGetDame = 1;
+		}
+		if(player1.getX()-player2.getX()<=100&&(player2.frameCountUitlmate<=frameDameMax&&player2.frameCountUitlmate>=frameDamedMin)) {
+			player1.setSuperBeAttackedStatus(frameGetDame);
+			setconfig1();
+		}
+		
+	}
 	// check skill
 	
 
@@ -214,62 +260,127 @@ public class GamePanel extends JPanel implements Runnable {
 		if(mukouMigi) {
 		if(((attacked.getX()-attack.getX())<(titleSize))&&checkY()) {
 			if(attack.getFrameCountPunch()==6) {
-				attacked.setHp(attacked.getHp()-10);
+				attacked.setHp(attacked.getHp()-attack.getPunchDame());
 				setconfig();
 			}
 			if(attack.getFrameCountPunch()==30) {
-				attacked.setHp(attacked.getHp()-10);
+				attacked.setHp(attacked.getHp()-attack.getPunchDame());
 				setconfig();
 			}
 			if(attack.getFrameCountPunch()==56) {
-				attacked.setHp(attacked.getHp()-10);
+				attacked.setHp(attacked.getHp()-attack.getPunchDame());
 				setconfig();
 			}
 			if(attack.getFrameCountPunch()==80) {
-				attacked.setHp(attacked.getHp()-10);
+				attacked.setHp(attacked.getHp()-attack.getPunchDame());
 				setconfig();
 			}
 			if(attack.getFrameCountPunch()==122) {
-				attacked.setHp(attacked.getHp()-10);
+				attacked.setHp(attacked.getHp()-attack.getPunchDame());
 				setconfig();
 			}
 			if(attack.getFrameCountPunch()==160) {
-				attacked.setHp(attacked.getHp()-10);
+				attacked.setHp(attacked.getHp()-attack.getPunchDame());
 				setconfig();
 			}
 			
 		}}else {
 			if(((attack.getX()-attacked.getX())<(titleSize))&&checkY()) {
 				if(attack.getFrameCountPunch()==6) {
-					attacked.setHp(attacked.getHp()-10);
+					attacked.setHp(attacked.getHp()-attack.getPunchDame());
 					
 					setconfig();
 				}
 				if(attack.getFrameCountPunch()==30) {
-					attacked.setHp(attacked.getHp()-10);
+					attacked.setHp(attacked.getHp()-attack.getPunchDame());
 					
 					setconfig();
 				}
 				if(attack.getFrameCountPunch()==56) {
-					attacked.setHp(attacked.getHp()-10);
+					attacked.setHp(attacked.getHp()-attack.getPunchDame());
 					
 					setconfig();
 				}
 				if(attack.getFrameCountPunch()==80) {
-					attacked.setHp(attacked.getHp()-10);
+					attacked.setHp(attacked.getHp()-attack.getPunchDame());
 					
 					attacked.blockedCase(10);
 					setconfig();
 				}
 				if(attack.getFrameCountPunch()==122) {
-					attacked.setHp(attacked.getHp()-10);
+					attacked.setHp(attacked.getHp()-attack.getPunchDame());
 					
 					setconfig();
 				}
 				if(attack.getFrameCountPunch()==160) {
-					attacked.setHp(attacked.getHp()-10);
+					attacked.setHp(attacked.getHp()-attack.getPunchDame());
 					
 					setconfig();
+				}
+				
+			}
+		}
+	}
+	private void checkPunch1(Player attack,Player attacked) {
+		if(mukouMigi) {
+		if(((attacked.getX()-attack.getX())<(titleSize))&&checkY()) {
+			if(attack.getFrameCountPunch()==6) {
+				attacked.setHp(attacked.getHp()-attack.getPunchDame());
+				setconfig1();
+			}
+			if(attack.getFrameCountPunch()==30) {
+				attacked.setHp(attacked.getHp()-attack.getPunchDame());
+				setconfig1();
+			}
+			if(attack.getFrameCountPunch()==56) {
+				attacked.setHp(attacked.getHp()-attack.getPunchDame());
+				setconfig1();
+			}
+			if(attack.getFrameCountPunch()==80) {
+				attacked.setHp(attacked.getHp()-attack.getPunchDame());
+				setconfig1();
+			}
+			if(attack.getFrameCountPunch()==122) {
+				attacked.setHp(attacked.getHp()-attack.getPunchDame());
+				setconfig1();
+			}
+			if(attack.getFrameCountPunch()==160) {
+				attacked.setHp(attacked.getHp()-attack.getPunchDame());
+				setconfig1();
+			}
+			
+		}}else {
+			if(((attack.getX()-attacked.getX())<(titleSize))&&checkY()) {
+				if(attack.getFrameCountPunch()==6) {
+					attacked.setHp(attacked.getHp()-attack.getPunchDame());
+					
+					setconfig1();
+				}
+				if(attack.getFrameCountPunch()==30) {
+					attacked.setHp(attacked.getHp()-attack.getPunchDame());
+					
+					setconfig1();
+				}
+				if(attack.getFrameCountPunch()==56) {
+					attacked.setHp(attacked.getHp()-attack.getPunchDame());
+					
+					setconfig1();
+				}
+				if(attack.getFrameCountPunch()==80) {
+					attacked.setHp(attacked.getHp()-attack.getPunchDame());
+					
+					attacked.blockedCase(10);
+					setconfig1();
+				}
+				if(attack.getFrameCountPunch()==122) {
+					attacked.setHp(attacked.getHp()-attack.getPunchDame());
+					
+					setconfig1();
+				}
+				if(attack.getFrameCountPunch()==160) {
+					attacked.setHp(attacked.getHp()-attack.getPunchDame());
+					
+					setconfig1();
 				}
 				
 			}
@@ -281,8 +392,14 @@ public class GamePanel extends JPanel implements Runnable {
 	private void setupStatus() {
 		if (kickStatus) player1.kickCount++;
 		//player2
-		player2.frameCountStand++;
+		if(player2.getChar2().getCdFlash()>0) player2.getChar2().setcdFlash();
+		if(player2.getChar2().getCdSkill1()>0) player2.getChar2().setCDTime1();
+		if(player2.getDirector().equals("punch"))player2.frameCountPunch++;
+		if(player2.getDirector().equals("stand"))player2.frameCountStand++;
 		player2.frameCountWalk++;
+		if(player2.getDirector().equals("tele"))player2.frameCountTele++;
+		if(player2.getDirector().equals("skill1")) player2.frameCountSuriken++;
+		if(player2.getDirector().equals("ultimate")) player2.frameCountUitlmate++;
 		if(player2.getDirector().equals("beAttacked")) player2.frameCountBeAttacked++;
 		if(player2.getDirector().equals("superBeAttacked")) player2.frameCountBeAttacked++;
 		//player1
@@ -294,14 +411,15 @@ public class GamePanel extends JPanel implements Runnable {
 		if(player1.getDirector().equals("tele"))player1.frameCountTele++;
 		if(player1.getDirector().equals("skill1")) player1.frameCountSuriken++;
 		if(player1.getDirector().equals("ultimate")) player1.frameCountUitlmate++;
-		if(player1.getDirector().equals("beAttacked")) player2.frameCountBeAttacked++;
-		if(player1.getDirector().equals("superBeAttacked")) player2.frameCountBeAttacked++;
+		if(player1.getDirector().equals("beAttacked")) player1.frameCountBeAttacked++;
+		if(player1.getDirector().equals("superBeAttacked")) player1.frameCountBeAttacked++;
 		if(statusGame==1) {
 			if(totalFame>0) {
 				totalFame--;
 			}
 			}
 		player1.setEnemiesPos(player2.getX());
+		player2.setEnemiesPos(player1.getX());
 		if(player1.getX()<player2.getX()) mukouMigi = true;
 		else mukouMigi = false;
 		if(mukouMigi) {
@@ -348,11 +466,15 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	//set config
 	private void setconfig() {
-		hp.setPower1(hp.getPower1()+50);
+		hp.setPower1(hp.getPower1()+10);
 		hp.setHp2(player2.getHp());
-		hp.setPower2(hp.getPower2()+5);
+		hp.setPower2(hp.getPower2()+20);
 	}
-
+	private void setconfig1() {
+		hp.setPower2(hp.getPower2()+10);
+		hp.setHp1(player1.getHp());
+		hp.setPower1(hp.getPower1()+20);
+	}
 	// get sound
 	public static void playMusic(int i ) {
 		sound.setFile(i);

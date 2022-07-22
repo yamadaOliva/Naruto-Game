@@ -2,7 +2,7 @@ package Entity;
 
 import java.awt.image.BufferedImage;
 
-public abstract class entity {
+public abstract class entity implements Action{
 	private int x,y;
 	private String director;
 	private BufferedImage up1, down1, jump1, def1;
