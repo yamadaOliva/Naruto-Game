@@ -257,6 +257,7 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	// check punch
 	private void checkPunch(Player attack,Player attacked) {
+		if(!player2.getDirector().equals("def")) {
 		if(mukouMigi) {
 		if(((attacked.getX()-attack.getX())<(titleSize))&&checkY()) {
 			if(attack.getFrameCountPunch()==6) {
@@ -320,8 +321,10 @@ public class GamePanel extends JPanel implements Runnable {
 				
 			}
 		}
+		}
 	}
 	private void checkPunch1(Player attack,Player attacked) {
+		if(!player1.getDirector().equals("def")) {
 		if(mukouMigi) {
 		if(((attacked.getX()-attack.getX())<(titleSize))&&checkY()) {
 			if(attack.getFrameCountPunch()==6) {
@@ -384,6 +387,7 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 				
 			}
+		}
 		}
 	}
 	// check win if timeup
