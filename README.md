@@ -1,2 +1,2 @@
 # ProjectOOP
-Game 2D with Java Swing.
+Game 2D with JavaAWT
