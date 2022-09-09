@@ -325,7 +325,7 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	private void checkPunch1(Player attack,Player attacked) {
 		if(!player1.getDirector().equals("def")) {
-		if(mukouMigi) {
+		if(!mukouMigi) {
 		if(((attacked.getX()-attack.getX())<(titleSize))&&checkY()) {
 			if(attack.getFrameCountPunch()==6) {
 				attacked.setHp(attacked.getHp()-attack.getPunchDame());

@@ -13,12 +13,12 @@ import javax.swing.ImageIcon;
 public class DrawWindow {
 	Image icon;
 	public MapG mapG= new MapG();;
-	BufferedImage[] iconSelector = new BufferedImage[4];
+	BufferedImage[] iconSelector = new BufferedImage[5];
 	BufferedImage bgDraw  ;
 	public static boolean right1 = false,left1 = false, right2 = false,left2 = false, choosingStatus1 = false, choosingStatus2 = false;
 	public static int selectionStatus = 0;
 	public DrawWindow() {
-		ImageIcon u = new ImageIcon("C:\\Users\\Admin\\Desktop\\ProjectOOP\\png\\png\\bgMenu.gif");
+		ImageIcon u = new ImageIcon("C:\\Users\\Admin\\Desktop\\New folder\\ProjectOOP\\png\\png\\bgMenu.gif");
 		icon = u.getImage();
 		try {
 			bgDraw = ImageIO.read(getClass().getResource("/png/bgDraw.png"));
@@ -26,12 +26,13 @@ public class DrawWindow {
 			iconSelector[1] = ImageIO.read(getClass().getResource("/png/Sakura.png"));
 			iconSelector[2] = ImageIO.read(getClass().getResource("/png/Sasuke.png"));
 			iconSelector[3] = ImageIO.read(getClass().getResource("/png/RockLee.png"));
+			iconSelector[4] = ImageIO.read(getClass().getResource("/skills/kunai/kunai_6.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	public void menuDraw(Graphics2D g2) {
-		String title = "GAME PRO VIP DANH NHAU DUNG DUNG";
+		String title = "NARUTO FIGHT GAME";
 		g2.setColor(new Color(74, 116, 53));
 		g2.drawImage(icon, 0, 0,1278,720,null);
 		//Shadow
@@ -45,26 +46,26 @@ public class DrawWindow {
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD,36));
 		if(GamePanel.statusChoose == 0) {
 			g2.setColor(Color.black);
-			g2.drawString("=>", 300, 250);
+			g2.drawImage(iconSelector[4], 300, 185,100,100,null);
 			g2.drawString("START GAME ", 400, 250);
 		}else {
-			g2.setColor(Color.white);
+			g2.setColor(Color.red);
 			g2.drawString("START GAME ", 400, 250);
 		}
 		if(GamePanel.statusChoose == 1) {
 			g2.setColor(Color.black);
-			g2.drawString("=>", 300, 350);
+			g2.drawImage(iconSelector[4], 300, 285,100,100,null);
 			g2.drawString("SETTINGS ", 400, 350);
 		}else {
-			g2.setColor(Color.white);
+			g2.setColor(Color.red);
 			g2.drawString("SETTINGS ", 400, 350);
 		}
 		if(GamePanel.statusChoose == 2) {
 			g2.setColor(Color.black);
-			g2.drawString("=>", 300, 450);
+			g2.drawImage(iconSelector[4], 300, 385,100,100,null);
 			g2.drawString("QUIT ", 400, 450);
 		}else {
-			g2.setColor(Color.white);
+			g2.setColor(Color.red);
 			g2.drawString("QUIT ", 400, 450);
 		}
 	}
@@ -125,6 +126,9 @@ public class DrawWindow {
 		g2.setFont(g2.getFont().deriveFont(Font.BOLD,12));
 		g2.setColor(beautiful);
 		g2.drawString(name, x, y);
+	}
+	public void drawSetting(Graphics2D g2) {
+		
 	}
 	
 }
