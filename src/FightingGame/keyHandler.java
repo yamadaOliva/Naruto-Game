@@ -55,6 +55,9 @@ public class keyHandler implements KeyListener {
 					GamePanel.statusGame = 1;
 					//GamePanel.playMusic(0);
 				}
+				if(GamePanel.statusChoose==1) {
+					GamePanel.statusGame = 3;
+				}
 				if(GamePanel.statusChoose==2) {
 					System.exit(0);
 				}
@@ -79,7 +82,6 @@ public class keyHandler implements KeyListener {
 				if(GamePanel.choosingOne==0) GamePanel.playMusicNoLoop(3);
 				if(GamePanel.choosingOne==1) GamePanel.playMusicNoLoop(5);
 				if(GamePanel.choosingOne==2) GamePanel.playMusicNoLoop(7);
-				DrawWindow.choosingStatus2 = true;
 			}
 			if(code == KeyEvent.VK_0) {
 				
@@ -89,12 +91,14 @@ public class keyHandler implements KeyListener {
 				DrawWindow.choosingStatus2 = true;
 			
 			}
-			if(DrawWindow.choosingStatus2&&DrawWindow.choosingStatus1) {
+			if(DrawWindow.choosingStatus2&&DrawWindow.choosingStatus1&&GamePanel.choosingOne!=3&&GamePanel.choosingTwo!=3) {
 				DrawWindow.selectionStatus = 1;
 			}
 			if(DrawWindow.selectionStatus == 1&&code == KeyEvent.VK_ENTER) {
 				GamePanel.statusGame = 2;
+				GamePanel.sound.stop();
 				GamePanel.playMusic(0);
+
 			}
 		}
 		//
@@ -137,6 +141,13 @@ public class keyHandler implements KeyListener {
 			rightStatus = false;
 			leftStatus = false;
 		}
+		
+		}
+		if(GamePanel.statusGame==3) {
+			if(code==KeyEvent.VK_SHIFT) {
+				GamePanel.statusGame=1;
+			}
+				
 		}
 	}
 

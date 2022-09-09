@@ -13,8 +13,6 @@ public class MapG {
 		getImgMap();
 	}
 	private void getImgMap() {
-		ImageIcon u = new ImageIcon("C:\\Users\\Admin\\Desktop\\ProjectOOP\\png\\png\\map2.gif");
-		mapGif = u.getImage();
 		System.out.println(mapGif);
 		try {
 			map[0] = ImageIO.read(getClass().getResource("/png/bg_Game.png"));

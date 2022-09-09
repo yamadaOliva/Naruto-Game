@@ -43,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public static boolean skill2Coming = false;
 	//SOund
 	static Sound sound = new Sound();
+	private boolean lock = true;
 	//setup status of game
 	public static int statusGame=0;
 	public static boolean mukouMigi;
@@ -119,11 +120,10 @@ public class GamePanel extends JPanel implements Runnable {
 				}
 				 
 				repaint();
-				if(player2.getHp()<=0||player1.getHp()<=0) {
-					if(player2.getHp()==0) JOptionPane.showMessageDialog(null, "player1 win"); 
-					else JOptionPane.showMessageDialog(null, "player2 Win");
-					gameThread = null;
-					System.exit(0);
+				if(player2.getHp()<=0||player1.getHp()<=0&&lock) {
+					sound.stop();
+					statusGame = 4;
+					lock = false;
 				}
 				delta--;
 			}
@@ -142,8 +142,8 @@ public class GamePanel extends JPanel implements Runnable {
 			dwd.slectChampDraw(g2);
 		}
 		if(statusGame==2) {
-		if(choosingMap==4) g2.drawImage(dwd.mapG.mapGif, 0, 0, null);
-		else g2.drawImage(dwd.mapG.map[choosingMap], 0, 0, null);
+		
+		g2.drawImage(dwd.mapG.map[choosingMap], 0, 0, null);
 		
 		minute = totalFame/3600;
 		second = (totalFame/60)%60;
@@ -158,6 +158,13 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		//win
 		g2.dispose();
+		}
+		if(statusGame==3) {
+			dwd.drawSetting(g2);
+		}
+		if(statusGame == 4) {
+			if(player2.getHp()<=0) dwd.drawWinner(1, g2);
+			else dwd.drawWinner(2, g2);
 		}
 	}
 	//draw menu
@@ -218,7 +225,7 @@ public class GamePanel extends JPanel implements Runnable {
 			frameDameMax = 300;
 			frameGetDame = 1;
 		}
-		if(player2.getX()-player1.getX()<=100&&(player1.frameCountUitlmate<=frameDameMax&&player1.frameCountUitlmate>=frameDamedMin)) {
+		if(player2.getX()-player1.getX()<=100&&(player1.frameCountUitlmate<=frameDameMax&&player1.frameCountUitlmate>=frameDamedMin)&&checkY()) {
 			player2.setSuperBeAttackedStatus(frameGetDame);
 			setconfig();
 		}
@@ -244,7 +251,7 @@ public class GamePanel extends JPanel implements Runnable {
 			frameDameMax = 300;
 			frameGetDame = 1;
 		}
-		if(player1.getX()-player2.getX()<=100&&(player2.frameCountUitlmate<=frameDameMax&&player2.frameCountUitlmate>=frameDamedMin)) {
+		if(player1.getX()-player2.getX()<=100&&(player2.frameCountUitlmate<=frameDameMax&&player2.frameCountUitlmate>=frameDamedMin)&&checkY()) {
 			player1.setSuperBeAttackedStatus(frameGetDame);
 			setconfig1();
 		}
