@@ -41,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
 	//UI
 	public static boolean skill1Coming = false;
 	public static boolean skill2Coming = false;
+	public static boolean replayStatus = false;
 	//SOund
 	static Sound sound = new Sound();
 	private boolean lock = true;
@@ -103,7 +104,30 @@ public class GamePanel extends JPanel implements Runnable {
 				player2 = new Player2(this, keyH1, screenWidth - 200, 550,choosingTwo);
 				clock = false;
 			}
+			if(statusGame==4) {
+				if(replayStatus) {
+					player1.setHp(500);
+					player2.setHp(500);
+					hp.setPower1(0);
+					hp.setPower2(0);
+					hp.setHp1(500);
+					hp.setHp2(500);
+					player1.setX(200);
+					DrawWindow.choosingStatus1 = false;
+					DrawWindow.choosingStatus2 = false;
+					DrawWindow.selectionStatus = 0;
+					player2.setX(screenWidth - 200);
+					player1.setY(550);
+					player2.setY(550);
+					statusGame = 0;
+					replayStatus = false;
+					lock = true;
+					totalFame = minuteGame*60*60;
+					sound.stop();
+				}
+			}
 			if (delta >= 1) {
+				
 				if(statusGame==2) {
  
 				player1.update();
@@ -112,19 +136,18 @@ public class GamePanel extends JPanel implements Runnable {
 				if(player2.getDirector().equals("punch")) checkPunch1(player2, player1);
 				if(player1.getDirector().equals("ultimate")) checkUltimate();
 				if(player2.getDirector().equals("ultimate")) checkUltimate1();
-				 TestSkill1();
-				 TestSkill2();
+				TestSkill1();
+				TestSkill2();
 				setupStatus();
 				
 				if(totalFame>0) totalFame --;
 				}
-				 
-				repaint();
-				if(player2.getHp()<=0||player1.getHp()<=0&&lock) {
+				if(player2.getHp()<=0||player1.getHp()<=0||totalFame<=0&&lock) {
 					sound.stop();
 					statusGame = 4;
 					lock = false;
 				}
+				repaint();
 				delta--;
 			}
 			
@@ -155,7 +178,6 @@ public class GamePanel extends JPanel implements Runnable {
 		if(player2.skill.coming) player2.skill.draw(g2);
 		player1.draw1(g2);
 		player2.draw1(g2);
-		
 		//win
 		g2.dispose();
 		}
@@ -163,12 +185,11 @@ public class GamePanel extends JPanel implements Runnable {
 			dwd.drawSetting(g2);
 		}
 		if(statusGame == 4) {
-			if(player2.getHp()<=0) dwd.drawWinner(1, g2);
+			if(player2.getHp()<=player1.getHp()) dwd.drawWinner(1, g2);
 			else dwd.drawWinner(2, g2);
 		}
 	}
 	//draw menu
-	
 	
 	//test skill
 	private void TestSkill1() {

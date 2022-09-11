@@ -145,9 +145,13 @@ public class keyHandler implements KeyListener {
 		}
 		if(GamePanel.statusGame==3) {
 			if(code==KeyEvent.VK_SHIFT) {
-				GamePanel.statusGame=1;
+				GamePanel.statusGame=0;
 			}
-				
+		}
+		if(GamePanel.statusGame==4) {
+			if(code==KeyEvent.VK_ENTER) {
+				GamePanel.replayStatus = true;
+			}
 		}
 	}
 

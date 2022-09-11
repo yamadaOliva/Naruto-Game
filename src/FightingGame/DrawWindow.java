@@ -256,9 +256,17 @@ public class DrawWindow {
 			e.printStackTrace();
 		}
 		g2.drawImage(ptr,200,200,null);
+		String tutorialText = "(press Enter to back)";
+		g2.setColor(Color.red);
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,32));
+		g2.drawString(tutorialText,325,675);
 	}
 	public void drawWinner(int check,Graphics2D g2 ) {
 		if(check == 1) g2.drawImage(winnerFont[0],0,0,1278,720,null);
 		else g2.drawImage(winnerFont[1],0,0,1278,720,null);
+		String tutorialText = "(press Enter to play again)";
+		g2.setColor(Color.red);
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,32));
+		g2.drawString(tutorialText,325,675);
 	}
 }
